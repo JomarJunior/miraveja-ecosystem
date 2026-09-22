@@ -25,7 +25,7 @@
 
 **Purpose**: create the library repository and make it publishable.
 
-- [ ] T001 Create the public repository `JomarJunior/miraveja-studiolink` (Apache-2.0) and clone it to `components/miraveja-studiolink/`. Requires the Visionary's go-ahead, since it is visible beyond this machine.
+- [x] T001 Create the public repository `JomarJunior/miraveja-studiolink` (Apache-2.0) and clone it to `components/miraveja-studiolink/`. Requires the Visionary's go-ahead, since it is visible beyond this machine.
 - [ ] T002 Add `pyproject.toml` for Python 3.12 with the package `miraveja_studiolink`, and a console entry point `miraveja-studiolink`
 - [ ] T003 [P] Add `README.md` headed **🔗 miraveja-studiolink**, stating that the contract itself lives in the hub and linking to `specs/001-studiolink-contract/`
 - [ ] T004 [P] Configure linting, formatting and type checking, and a `pytest` layout with `tests/schemas`, `tests/client`, `tests/standin`, `tests/conformance`
