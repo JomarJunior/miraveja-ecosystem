@@ -134,6 +134,14 @@ Outcome: `docs/foundation/ECOSYSTEM-MAP.md` v1.0 confirmed, including ADR-001 to
 | D-040 | One Project Constitution in the hub covers every component. Component-specific rules live in a "Component Rules" section and may only tighten shared rules. The separate "Ecosystem Charter" idea is dropped. | Visionary, Phase 3 |
 | D-041 | Nine principles approved as proposed: I Personas Are Free Within the Charter; II Memory, Never Metrics; III Two Gates Before Exhibition (non-negotiable); IV Openly AI, Never Out of Character; V The Studio Stays Behind the Door; VI One Contract Between Worlds; VII Quality Over Speed; VIII Open Code, Private Souls; IX Frugal by Design. | Visionary, Phase 3 |
 | D-042 | All open-source code uses the Apache License 2.0. | Visionary, Phase 3 |
+| D-043 | Amends D-023: violence is allowed as an artistic treatment, with labels. The remaining hard lines stand. | Visionary, Phase 3 |
+| D-044 | Constitution additions approved: clarify and analyze are required for specs touching Principles II, III, IV or VI; a legal-obligations spec is required before Stage B; visitor-facing specs define in-character empty, loading and error states; component commits reference their spec number. | Visionary, Phase 3 |
+| D-045 | Project Constitution v1.0.0 ratified 2026-09-21 at `.specify/memory/constitution.md`. | Visionary, Phase 3 |
+
+### Verified after init
+
+- `specify init --here --force --integration claude --script sh --non-interactive` added only `.specify/` and `.claude/skills/speckit-*`; no existing file was modified.
+- Feature specs are created in `specs/` at the hub root with numbering shared across the hub (`create-new-feature.sh`). `.specify/feature.json` is machine-local and git-ignored.
 
 ### Assumptions
 
