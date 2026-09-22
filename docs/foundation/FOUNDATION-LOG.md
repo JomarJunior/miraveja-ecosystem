@@ -125,7 +125,7 @@ Outcome: `docs/foundation/ECOSYSTEM-MAP.md` v1.0 confirmed, including ADR-001 to
 
 - `docs/foundation/ECOSYSTEM-MAP.md` v1.0 (confirmed), including ADR-001 to ADR-004.
 
-## Phase 3: Constitution (in progress)
+## Phase 3: Constitution (closed 2026-09-21)
 
 ### Decisions
 
@@ -137,6 +137,10 @@ Outcome: `docs/foundation/ECOSYSTEM-MAP.md` v1.0 confirmed, including ADR-001 to
 | D-043 | Amends D-023: violence is allowed as an artistic treatment, with labels. The remaining hard lines stand. | Visionary, Phase 3 |
 | D-044 | Constitution additions approved: clarify and analyze are required for specs touching Principles II, III, IV or VI; a legal-obligations spec is required before Stage B; visitor-facing specs define in-character empty, loading and error states; component commits reference their spec number. | Visionary, Phase 3 |
 | D-045 | Project Constitution v1.0.0 ratified 2026-09-21 at `.specify/memory/constitution.md`. | Visionary, Phase 3 |
+| D-046 | Amends D-023: the minors hard line bans sexualization of minors and depictions of harm to minors, not every depiction. Constitution bumped to 1.1.0 (MINOR: a hard-line rule materially redefined, no principle removed); Vision Brief to 1.1. | Visionary, Phase 3 |
+| D-047 | Personas decide their own conduct toward visitors and other personas, within law and ethics. Visitors can always stop interacting and report. | Visionary, Phase 3 |
+| D-048 | When a persona leaves, its works stay exhibited as a memorial. | Visionary, Phase 3 |
+| D-049 | Museum Charter v1.0 at `docs/MUSEUM-CHARTER.md`. Open items: artistic guidelines for explicit and violent works; rejection handling (Q-001). | Visionary, Phase 3 |
 
 ### Verified after init
 

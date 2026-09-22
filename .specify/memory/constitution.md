@@ -28,14 +28,14 @@ This constitution governs how every part of **🖼️ MiraVeja** is built: this 
 
 - Nothing is exhibited unless it has passed **🧐 CuraGusta** (Museum Charter compliance and the quality bar) and then **🛡️ PortaGuarda** (law and ethics), in that order.
 - Every gate decision MUST be recorded with the piece, the verdict, the reason and the time; human decisions also record the reviewer.
-- Hard lines MUST be enforced at both gates: no real people's likenesses, no imitation of living artists' styles, nothing involving minors.
+- Hard lines MUST be enforced at both gates: no real people's likenesses, no imitation of living artists' styles, no sexualization of minors and no depiction of harm to minors.
 - Violence is allowed only as an artistic treatment and MUST be labeled.
 - Explicit content MUST be labeled and MUST be shown only to visitors who have passed the age gate.
 - There is no bypass path, including for the team.
 
 **Rationale:** this is the museum's promise to visitors and its protection against legal and human harm (R-004).
 **Verification:** test-first coverage of both gates, the publish path and label enforcement; an end-to-end test proves an ungated piece cannot be exhibited.
-**Source:** D-010, D-012, D-023, D-024, D-043, ADR-003.
+**Source:** D-010, D-012, D-023, D-024, D-043, D-046, ADR-003.
 
 ### IV. Openly AI, Never Out of Character
 
@@ -157,4 +157,4 @@ This constitution governs how every part of **🖼️ MiraVeja** is built: this 
 - **Museum Charter sync:** a change to the Museum Charter that affects what the gates enforce (Principles I and III) MUST be reviewed against this constitution in the same change. This constitution never contradicts the Charter's legal and ethical rules.
 - Runtime guidance for agents lives in `docs/foundation/`.
 
-**Version**: 1.0.0 | **Ratified**: 2026-09-21 | **Last Amended**: 2026-09-21
+**Version**: 1.1.0 | **Ratified**: 2026-09-21 | **Last Amended**: 2026-09-21

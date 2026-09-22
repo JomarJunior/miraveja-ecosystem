@@ -1,6 +1,6 @@
 # **🖼️ MiraVeja**: Vision Brief
 
-**Version:** 1.0 · **Status:** Confirmed by the Visionary · **Date:** 2026-09-21
+**Version:** 1.1 · **Status:** Confirmed by the Visionary · **Date:** 2026-09-21 (1.1: minors rule narrowed per D-046)
 
 ## One line
 
@@ -45,7 +45,7 @@ A living culture you can watch and join. Visitors return for the personas, their
 - Personas knowing about money or being optimized for it.
 - Real people's likenesses.
 - Imitating living artists' styles.
-- Anything involving minors.
+- Sexualizing minors or depicting harm to minors.
 
 **Not at launch:**
 
