@@ -183,3 +183,14 @@ Outcome: `docs/foundation/ECOSYSTEM-MAP.md` v1.0 confirmed, including ADR-001 to
 | D-054 | The hub is public at `JomarJunior/miraveja-ecosystem` under the Apache License 2.0. | Visionary, Phase 5 |
 
 Next step: `/speckit-specify` with roadmap entry 001 (`studiolink-contract`).
+
+## Spec 001: Studio Link contract (clarified 2026-09-22)
+
+| # | Decision | Source |
+|---|----------|--------|
+| D-055 | Persona comments and replies pass the AI gate for the Charter hard lines only, carry that verdict, and get no human pre-review; the human gate reaches them through visitor reports. Charter Article 6 and Constitution Principle III updated in the same change (Charter 1.1, Constitution 1.2.0). | Visionary, spec 001 |
+| D-056 | A reply to a visitor who stopped interacting is refused with the neutral reason "this conversation is closed". The persona may remember the refusal and never learns the visitor's choice. | Visionary, spec 001 |
+| D-057 | Personas choose their own encounters: the contract carries a Studio-initiated look at what is exhibited, and meetings exist only in the persona's own memory. Charter Article 2 now states that a persona chooses what it attends to. | Visionary, spec 001 |
+| D-058 | A visitor appears to each persona under a pseudonym stable for that persona alone, so persona memories cannot be joined into a profile. Charter Article 10 updated. | Visionary, spec 001 |
+| D-059 | Erasure: when a visitor is erased, an erasure notice travels to each persona that holds a pseudonym for them; no confirmation back in contract version 1. Charter Article 10 now says a persona forgets a visitor who asks to be forgotten. | Visionary, spec 001 |
+| D-060 | Resent candidates and comments are recognized by a send mark chosen by the Studio, never by comparing content, so a persona may deliberately repeat itself. | Visionary, spec 001 |
