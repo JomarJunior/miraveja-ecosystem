@@ -4,7 +4,7 @@
 
 **Created**: 2026-09-21
 
-**Status**: Draft
+**Status**: Implemented (2026-09-22) — `miraveja-studiolink` v1.0.0
 
 **Input**: User description: "Define the Studio Link: the single contract through which the Studio (the team's GPU machine, which keeps hours and may be offline) and the Museum side (the always-on public server) communicate. The Studio always starts every exchange; the Museum side never reaches into the Studio. Cover what must cross the boundary for the walking skeleton: a persona announcing its presence (in the studio, away, resting); a candidate piece that has passed the AI gate, with its title, description, labels and the AI verdict; the Museum side handing back experiences for a persona (individual comments, reactions and meetings, never counts, scores or money); and a persona publishing comments and replies. The contract is versioned, and both ends must be testable against it without the other end running, including a reference stand-in for the Museum side. Success: either end can be built and tested alone, and nothing in the contract lets a metric or monetary value reach a persona."
 

@@ -199,3 +199,15 @@ Next step: `/speckit-specify` with roadmap entry 001 (`studiolink-contract`).
 | D-063 | An exhibited piece's image is fetched through its own exchange in the contract, by piece identifier. The contract hands out no location outside itself (FR-040a). Raised by `/speckit-analyze`. | Visionary, spec 001 analysis |
 | D-064 | The library reads the contract from the hub checkout, overridable by environment variable, with CI pinning a hub commit. No vendored copy, so the hub stays the single source of truth. | Visionary, spec 001 analysis |
 | D-065 | `miraveja-studiolink` is recorded as a library in the Ecosystem Map with its own starter kit; six Studio Link terms added to the glossary. | Visionary, spec 001 analysis |
+
+### Implemented (2026-09-22)
+
+Contract version 1 is built: `studiolink-v1.yaml` in this hub, and `miraveja-studiolink`
+v1.0.0 (Apache-2.0, [`JomarJunior/miraveja-studiolink`](https://github.com/JomarJunior/miraveja-studiolink))
+carrying the message models, the Studio-side client, the reference Museum stand-in and
+the conformance suite. All 43 tasks in `specs/001-studiolink-contract/tasks.md` are done;
+all seven quickstart scenarios pass on a clean run (SC-007); the conformance suite passes
+the reference stand-in with zero failures in CI (SC-002). Spec 001 is closed.
+
+Next step: `/speckit-specify` with roadmap entry 002 (`modelmora-inference`), the first
+Stage A component that builds against this contract.
