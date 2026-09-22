@@ -74,8 +74,15 @@ Every unknown from Technical Context is resolved below. Decisions chosen by the 
 - **Rationale**: the spec sets it as a Museum-side choice; keeping it out of the contract avoids a version bump when it is tuned.
 - **Alternatives considered**: a window announced by the Studio (lets the Studio hide its own absence); no staleness at all (a persona would appear in the studio forever after a crash, which Principle IV forbids).
 
+## R-14: How an image reaches the Studio (raised by `/speckit-analyze`)
+
+- **Decision**: `GET /studiolink/v1/pieces/{pieceId}/image`, authenticated like every other exchange. The exhibition view carries only the piece identifier and the image's media type.
+- **Rationale**: the first draft handed the Studio an `imageUrl`, which meant content arriving through a path the contract never describes. FR-023 only means something if every byte reaching the Studio comes through a defined exchange. Keeping the fetch inside the contract also keeps Principle V intact, since the Studio still starts it, and keeps the Museum side free to move its storage without a contract change.
+- **Alternatives considered**: a URL in the view (the original; leaks an undefined path and could point anywhere); embedding image bytes in the view (a 50-piece page would be enormous on one small server).
+
 ## R-13: Keeping the library honest against the hub
 
-- **Decision**: the OpenAPI document in the hub is the source of truth. The library's Pydantic models are checked against it by a test that fails when they drift, and every example in `contracts/examples/` is validated (valid ones pass, invalid ones fail with the expected reason).
+- **Decision**: the OpenAPI document in the hub is the source of truth. The library reads it from the hub checkout it sits inside (`../../specs/001-studiolink-contract/contracts/studiolink-v1.yaml`), overridable with `STUDIOLINK_CONTRACT_PATH`, and CI checks out the hub at a pinned commit rather than copying the file. The library's Pydantic models are checked against it by a test that fails when they drift, and every example in `contracts/examples/` is validated (valid ones pass, invalid ones fail with the expected reason).
+- **Why not a vendored copy** (raised by `/speckit-analyze` as A1): a copy is a second source of truth that drifts silently; a pinned checkout keeps FR-008 literally true while still giving CI a fixed version to build against.
 - **Rationale**: FR-008 makes the hub authoritative; without a drift test, generated or hand-written models quietly become the real contract.
 - **Alternatives considered**: generating models at build time (less readable code, and tool churn); trusting review (drift is exactly what review misses).

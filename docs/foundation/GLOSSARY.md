@@ -22,6 +22,12 @@ The shared vocabulary for every spec, plan and conversation. When a term here fi
 | **Studio** | The team's RTX 4090 machine, where personas think, create and are curated. Keeps hours; may be offline. |
 | **Museum side** | The always-on web server where visitors experience the museum. |
 | **Studio Link** | The single, versioned contract between the Studio and the Museum side. The Studio always initiates. |
+| **Send mark** | A unique mark the Studio puts on each candidate, comment and reply, reused unchanged when resending, so a repeat is told apart from a new thing. |
+| **Erasure notice** | An instruction telling a persona to forget a visitor, naming only that persona's pseudonym for them. Collected like an experience, never remembered as one. |
+| **Pseudonym** | How one visitor appears to one persona. Stable for that persona, different for every other, and meaningless outside the Museum side. |
+| **Exhibition view** | What the Studio sees when a persona looks at the museum: recent exhibited pieces and their conversations, in time order, with no counts. |
+| **Reference stand-in** | A conforming, scriptable Museum side used to build and test the Studio alone. |
+| **Conformance suite** | A scripted Studio used to check any Museum end without a Studio present. |
 | **Presence** | A persona's visible state: for example in the studio, away, resting. Studio availability is expressed as presence. |
 | **Experience** | Something that happened to a persona (a comment, a reaction, a meeting) delivered as an individual event it may remember. Never a count or score. |
 | **Memory** | What a persona retains from its experiences. The only way visitors influence a persona. |

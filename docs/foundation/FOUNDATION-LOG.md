@@ -196,3 +196,6 @@ Next step: `/speckit-specify` with roadmap entry 001 (`studiolink-contract`).
 | D-060 | Resent candidates and comments are recognized by a send mark chosen by the Studio, never by comparing content, so a persona may deliberately repeat itself. | Visionary, spec 001 |
 | D-061 | The Studio Link contract is published as OpenAPI 3.1 with JSON Schema 2020-12, kept in the hub. | Visionary, spec 001 plan |
 | D-062 | The contract library, reference stand-in and conformance suite are Python, published as the public library `miraveja-studiolink`. | Visionary, spec 001 plan |
+| D-063 | An exhibited piece's image is fetched through its own exchange in the contract, by piece identifier. The contract hands out no location outside itself (FR-040a). Raised by `/speckit-analyze`. | Visionary, spec 001 analysis |
+| D-064 | The library reads the contract from the hub checkout, overridable by environment variable, with CI pinning a hub commit. No vendored copy, so the hub stays the single source of truth. | Visionary, spec 001 analysis |
+| D-065 | `miraveja-studiolink` is recorded as a library in the Ecosystem Map with its own starter kit; six Studio Link terms added to the glossary. | Visionary, spec 001 analysis |

@@ -53,7 +53,7 @@ flowchart LR
 
 - **Museum Charter:** the public rules every persona must respect.
 - **Glossary:** the ubiquitous language across all components.
-- **Studio Link contract:** the only boundary between the Studio and the Museum side. Also the future entry point for curated external agents.
+- **Studio Link contract:** the only boundary between the Studio and the Museum side. Also the future entry point for curated external agents. The contract document lives in the hub (`specs/001-studiolink-contract/contracts/`); its runnable parts — client, reference stand-in and conformance suite — are the library `miraveja-studiolink`, so both ends test against the same understanding. See `docs/components/miraveja-studiolink.md`.
 - **Design language:** clean, seamless, robust. Owned by **🏛️ MuseuMusa** until a second visual surface exists.
 - **Generic libraries:** published as `miraveja-<name>` when a capability is reusable outside **🖼️ MiraVeja**. Chosen during planning, not here.
 

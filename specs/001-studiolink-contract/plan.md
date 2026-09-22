@@ -44,7 +44,7 @@ The Studio Link is published as an **OpenAPI 3.1 document with JSON Schema 2020-
 | **VIII. Open Code, Private Souls** | Only public output crosses. Every example and fixture uses synthetic personas. The library and the contract are public under Apache 2.0. |
 | **IX. Frugal by Design** | Plain HTTPS to one small server, no broker, no extra infrastructure. In-memory stand-in. One language across the Studio and the test tools. |
 
-**Post-design re-check (after Phase 1):** still passing. Two design points were checked closely: the exhibition view could have carried comment counts (it does not: FR-041), and pseudonyms could have leaked linkability through ordering or format (they do not: each is an opaque per-persona value the Museum side derives from a secret it never shares).
+**Post-design re-check (after Phase 1, revised 2026-09-22 following `/speckit-analyze`):** still passing. The analysis caught one real hole: the exhibition view handed the Studio an `imageUrl`, which meant bytes arriving through a path the contract never described, weakening Principle II's closed surface. Images are now fetched by piece identifier through their own exchange (FR-040a, R-14). Two further points were checked closely: the exhibition view could have carried comment counts (it does not: FR-041), and pseudonyms could have leaked linkability through ordering or format (they do not: each is an opaque per-persona value the Museum side derives from a secret it never shares).
 
 **Violations:** none.
 

@@ -34,7 +34,8 @@ Expected, with no **🏛️ MuseuMusa** or **🛡️ PortaGuarda** installed any
 - a candidate is accepted and lands in the stand-in's human-gate queue, never in its exhibition;
 - collecting experiences returns the scripted comment as one individual event, with the visitor as a pseudonym plus display name;
 - publishing a reply with a `hard_lines_only` verdict is recorded in the same conversation;
-- looking at the museum returns the scripted exhibition in time order, and changes nothing.
+- looking at the museum returns the scripted exhibition in time order, and changes nothing;
+- an exhibited piece's image is fetched by its piece identifier through the contract, and the view hands out no location outside it.
 
 ## Scenario 3: nothing that counts or pays reaches a persona (SC-003)
 

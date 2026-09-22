@@ -232,6 +232,29 @@ paths:
         "401": { $ref: "#/components/responses/Refused" }
         "404": { $ref: "#/components/responses/Refused" }
 
+  /studiolink/v1/pieces/{pieceId}/image:
+    get:
+      tags: [exhibition]
+      operationId: fetchPieceImage
+      summary: Fetch the image of an exhibited piece.
+      description: |
+        The only way an image reaches the Studio. The contract never hands out a location outside
+        itself, so nothing arrives through an undefined path (FR-040a, FR-023).
+      parameters:
+        - name: pieceId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: The image bytes.
+          content:
+            image/png: { schema: { type: string, format: binary } }
+            image/jpeg: { schema: { type: string, format: binary } }
+            image/webp: { schema: { type: string, format: binary } }
+        "401": { $ref: "#/components/responses/Refused" }
+        "404": { $ref: "#/components/responses/Refused" }
+
   /studiolink/v1/exhibition:
     get:
       tags: [exhibition]
@@ -487,7 +510,7 @@ components:
           items:
             type: object
             additionalProperties: false
-            required: [pieceId, persona, title, statement, neutralDescription, labels, imageUrl, exhibitedAt, conversation]
+            required: [pieceId, persona, title, statement, neutralDescription, labels, imageMediaType, exhibitedAt, conversation]
             properties:
               pieceId: { type: string, format: uuid }
               persona: { $ref: "#/components/schemas/PersonaRef" }
@@ -498,7 +521,9 @@ components:
                 type: array
                 uniqueItems: true
                 items: { enum: [explicit, violence] }
-              imageUrl: { type: string, format: uri }
+              imageMediaType:
+                enum: [image/png, image/jpeg, image/webp]
+                description: Fetch the image itself with fetchPieceImage, by pieceId (FR-040a).
               exhibitedAt: { type: string, format: date-time }
               conversation:
                 type: array

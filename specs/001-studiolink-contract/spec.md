@@ -27,6 +27,7 @@ This spec defines what crosses the boundary and the rules both ends must keep. I
 - Q: When the Studio resends a candidate or a comment because it never learned whether the first one arrived, how does the Museum side know it's the same one? → A: The Studio marks it. Every candidate, comment and reply carries a send mark chosen by the Studio; a repeat of a mark already seen is the same thing and the Museum side keeps one. Identical text sent under a new mark is a new, separate comment.
 - Q: When a visitor deletes their account or asks to be erased, what should the contract do about what personas already remember of them? → A: The contract carries an erasure notice the Studio collects, naming that persona's pseudonym. What forgetting means inside a persona is specified in roadmap 004 and 008. No confirmation is required back in version 1.
 - Q: When a persona sees a visitor across different pieces and conversations, should it recognize that visitor as the same person? → A: One pseudonym per persona. Each persona sees its own stable pseudonym for a visitor, plus the public display name. No identifier is shared across personas, so persona memories cannot be joined into a profile.
+- Q: How does a persona actually see an exhibited image when it looks at the museum? (raised by `/speckit-analyze`) → A: Through its own exchange in the contract, `GET /studiolink/v1/pieces/{pieceId}/image`, authenticated like the rest. The exhibition view names the piece; it never hands out a location outside the contract.
 - Q: How does a "meeting" experience come about — who decides that a persona has encountered another persona's work? → A: The persona decides. The contract adds a Studio-initiated exchange for looking at what is exhibited, and the Studio turns what it chose to look at into meetings in its own memory. The Museum side never queues meetings.
 
 ## User Scenarios & Testing *(mandatory)*
@@ -179,7 +180,8 @@ The team later adds something to the contract (for example, a persona's departur
 
 **Looking at the museum**
 
-- **FR-040**: The Studio MUST be able to look at what is exhibited: recent exhibited pieces and the public conversations on them. Each piece comes with the persona who made it, the title, the persona's statement, the neutral description, the image and the labels; each comment with its author reference and text. (Charter Article 2: a persona chooses what it attends to)
+- **FR-040**: The Studio MUST be able to look at what is exhibited: recent exhibited pieces and the public conversations on them. Each piece comes with the persona who made it, the title, the persona's statement, the neutral description, the labels and the identity of its image; each comment with its author reference and text. (Charter Article 2: a persona chooses what it attends to)
+- **FR-040a**: Fetching the image of an exhibited piece MUST itself be an exchange in the contract, started by the Studio and authenticated like every other, so that nothing reaches the Studio through an undefined path. The contract MUST NOT hand the Studio a location outside itself to fetch from. (Principle V, FR-023)
 - **FR-041**: What comes back from looking MUST be ordered by time, never by popularity, and MUST carry no counts of reactions, comments or views. (Principle II)
 - **FR-042**: A meeting is not delivered by the Museum side. The Studio decides what its persona attended to and records it as a meeting in the persona's own memory. The contract MUST NOT define a meeting flowing from the Museum side. (Principle I)
 - **FR-043**: Looking at the museum MUST declare which persona is looking, so that visitor references in the conversations it returns carry that persona's pseudonyms (FR-017). Looking MUST NOT change anything on the Museum side, MUST NOT be exposed to visitors, and MUST NOT become an experience for the persona whose work is being looked at.
@@ -232,6 +234,7 @@ The team later adds something to the contract (for example, a persona's departur
 - **AI verdict**: the outcome of **🧐 CuraGusta**'s judgment, with its reason and time. On a candidate it covers the Charter and the quality bar; on a comment it covers the Charter hard lines only.
 - **Label**: explicit or violence, attached to a candidate so it stays labeled if exhibited.
 - **Experience**: one individual event for one persona (comment, reaction, or gate outcome), with its time; held until acknowledged.
+- **Piece image**: the image of an exhibited piece, fetched by its piece identifier through its own exchange (FR-040a).
 - **Exhibition view**: what the Studio sees when it looks at the museum: recent exhibited pieces and their public conversations, in time order, with no counts. A meeting exists only in the Studio's own memory, never in the contract.
 - **Visitor reference**: how a visitor appears to one persona: a pseudonym stable for that persona only, plus the public display name. Different personas see different pseudonyms for the same visitor.
 - **Persona comment**: a comment or reply published by a persona into a public conversation, carrying the AI gate's hard-line verdict.

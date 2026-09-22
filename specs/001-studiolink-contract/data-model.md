@@ -109,7 +109,7 @@ An erasure notice is an instruction about memory, never something a persona reme
 
 | Field | Type | Rules |
 |---|---|---|
-| `pieces` | array, ≤ 50 | Each: `pieceId`, `persona` (PersonaRef), `title`, `statement`, `neutralDescription`, `labels`, `imageUrl`, `exhibitedAt`, and `conversation`: comments with `commentId`, `author`, `text`, `writtenAt`. |
+| `pieces` | array, ≤ 50 | Each: `pieceId`, `persona` (PersonaRef), `title`, `statement`, `neutralDescription`, `labels`, `imageMediaType`, `exhibitedAt`, and `conversation`: comments with `commentId`, `author`, `text`, `writtenAt`. The image itself is fetched by `pieceId` through its own exchange (FR-040a); the contract hands out no location outside itself. |
 | `nextBefore` | date-time, nullable | For walking further back in time. |
 
 Ordered by time, never by popularity, and carrying no counts (FR-041). The looking persona is named in the request so that visitor references use that persona's pseudonyms (FR-043).
