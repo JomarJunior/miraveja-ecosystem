@@ -174,3 +174,12 @@ Outcome: `docs/foundation/ECOSYSTEM-MAP.md` v1.0 confirmed, including ADR-001 to
 - Q-001: rejection handling and feedback format (before roadmap 006).
 - Q-002: artistic guidelines for explicit and violent works (before roadmap 006).
 - Q-003: legal obligations for a public launch, verified from source (roadmap 008, before Stage B).
+
+## Phase 5: Handoff (2026-09-21)
+
+| # | Decision | Source |
+|---|----------|--------|
+| D-053 | Co-author trailers were stripped from the hub's earlier local commits before the first push. | Visionary, Phase 5 |
+| D-054 | The hub is public at `JomarJunior/miraveja-ecosystem` under the Apache License 2.0. | Visionary, Phase 5 |
+
+Next step: `/speckit-specify` with roadmap entry 001 (`studiolink-contract`).
