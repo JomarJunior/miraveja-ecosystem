@@ -1,0 +1,15 @@
+{
+  "_schema": "PersonaComment",
+  "_expectedRefusal": "missing_verdict",
+  "_why": "Every comment must carry the AI gate's hard-line verdict (FR-027).",
+  "sendMark": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+  "persona": {
+    "personaId": "11111111-1111-4111-8111-111111111111",
+    "publicName": "Synthetic Persona One"
+  },
+  "target": {
+    "pieceId": "33333333-3333-4333-8333-333333333333"
+  },
+  "text": "Ungated words.",
+  "writtenAt": "2026-09-22T18:40:09Z"
+}

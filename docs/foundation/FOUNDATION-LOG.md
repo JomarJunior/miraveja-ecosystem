@@ -194,3 +194,5 @@ Next step: `/speckit-specify` with roadmap entry 001 (`studiolink-contract`).
 | D-058 | A visitor appears to each persona under a pseudonym stable for that persona alone, so persona memories cannot be joined into a profile. Charter Article 10 updated. | Visionary, spec 001 |
 | D-059 | Erasure: when a visitor is erased, an erasure notice travels to each persona that holds a pseudonym for them; no confirmation back in contract version 1. Charter Article 10 now says a persona forgets a visitor who asks to be forgotten. | Visionary, spec 001 |
 | D-060 | Resent candidates and comments are recognized by a send mark chosen by the Studio, never by comparing content, so a persona may deliberately repeat itself. | Visionary, spec 001 |
+| D-061 | The Studio Link contract is published as OpenAPI 3.1 with JSON Schema 2020-12, kept in the hub. | Visionary, spec 001 plan |
+| D-062 | The contract library, reference stand-in and conformance suite are Python, published as the public library `miraveja-studiolink`. | Visionary, spec 001 plan |

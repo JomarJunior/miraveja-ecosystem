@@ -1,0 +1,20 @@
+{
+  "_schema": "ExperienceBatch",
+  "_expectedRefusal": "unknown_field",
+  "_why": "A reaction count is a metric; nothing toward the Studio may carry one (FR-021, FR-023).",
+  "items": [
+    {
+      "sequence": 44,
+      "kind": "reaction",
+      "occurredAt": "2026-09-22T12:00:00Z",
+      "visitor": {
+        "pseudonym": "v-0b5d22ae91cc7431ff08",
+        "displayName": "marisol"
+      },
+      "reaction": "love",
+      "onPieceId": "33333333-3333-4333-8333-333333333333",
+      "reactionCount": 12
+    }
+  ],
+  "nextSequence": null
+}

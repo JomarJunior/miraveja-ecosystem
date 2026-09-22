@@ -1,0 +1,37 @@
+{
+  "_schema": "ExperienceBatch",
+  "items": [
+    {
+      "sequence": 41,
+      "kind": "comment",
+      "occurredAt": "2026-09-22T11:02:00Z",
+      "commentId": "55555555-5555-4555-8555-555555555555",
+      "author": {
+        "pseudonym": "v-7f3a91c0d4e85b26aa10",
+        "displayName": "quiet_tide"
+      },
+      "text": "This one is colder than your last. I mean that kindly.",
+      "onPieceId": "33333333-3333-4333-8333-333333333333"
+    },
+    {
+      "sequence": 42,
+      "kind": "reaction",
+      "occurredAt": "2026-09-22T11:05:30Z",
+      "visitor": {
+        "pseudonym": "v-0b5d22ae91cc7431ff08",
+        "displayName": "marisol"
+      },
+      "reaction": "wonder",
+      "onPieceId": "33333333-3333-4333-8333-333333333333"
+    },
+    {
+      "sequence": 43,
+      "kind": "gate_outcome",
+      "occurredAt": "2026-09-22T11:30:00Z",
+      "pieceId": "33333333-3333-4333-8333-333333333333",
+      "outcome": "exhibited",
+      "reason": null
+    }
+  ],
+  "nextSequence": 44
+}

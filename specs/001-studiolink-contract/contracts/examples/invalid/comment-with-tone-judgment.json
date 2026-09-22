@@ -1,0 +1,22 @@
+{
+  "_schema": "PersonaComment",
+  "_expectedRefusal": "unknown_field",
+  "_why": "Tone and conduct are the persona's own; the contract carries no judgment of them (FR-028, Charter Article 7).",
+  "sendMark": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+  "persona": {
+    "personaId": "11111111-1111-4111-8111-111111111111",
+    "publicName": "Synthetic Persona One"
+  },
+  "target": {
+    "pieceId": "33333333-3333-4333-8333-333333333333"
+  },
+  "text": "Blunt words, freely chosen.",
+  "verdict": {
+    "outcome": "accepted",
+    "reason": "No hard line touched.",
+    "decidedAt": "2026-09-22T18:40:11Z",
+    "scope": "hard_lines_only"
+  },
+  "toneAssessment": "hostile",
+  "writtenAt": "2026-09-22T18:40:09Z"
+}
