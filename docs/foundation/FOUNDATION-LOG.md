@@ -212,3 +212,4 @@ the reference stand-in with zero failures in CI (SC-002). Spec 001 is closed.
 Next step: `/speckit-specify` with roadmap entry 002 (`modelmora-inference`), the first
 Stage A component that builds against this contract.
 | D-066 | Post-implementation review of spec 001 (2026-09-22): pseudonyms are pattern-constrained so a machine-made string cannot carry prose; the free-text surface reaching the Studio is pinned by a test; the client refuses to send the Studio credential over plain http to a non-loopback host; the conformance suite gained `--strict` (a skip is not a pass) and `--as-persona`; the library's CI pins the hub by commit rather than tracking `main`. | Review, spec 001 |
+| D-067 | `miraveja-studiolink` v1.1.0 released with the review fixes; the library's CI pins hub commit `da1c39a`. All 46 spec-001 issues closed and their project items marked Done. | Review, spec 001 |
