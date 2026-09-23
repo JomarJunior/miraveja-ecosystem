@@ -21,6 +21,7 @@ Two kinds of state: **durable** (the SQLite registry, which outlives every reque
 | `added_at` | timestamp | |
 | `license_confirmed_by` | text | The team member who read the license (FR-021). |
 | `license_confirmed_at` | timestamp | |
+| `filter_disclosure` | text | `none`, `disclosed` or `undisclosable`. An `undisclosable` model is never servable: **🧠 ModelMora** must be able to say when a built-in filter changed an output (FR-008), and explicit work is allowed in the museum when labeled. The team member judges this, as with the license. |
 
 A record is **complete** only with a license name, a license source and a confirmation. Anything less is never served (FR-021).
 
@@ -36,7 +37,7 @@ A record is **complete** only with a license name, a license source and a confir
 
 | Field | Type | Rules |
 |---|---|---|
-| `slot` | text | `text`, `text_with_images` or `image` (FR-003, FR-024). |
+| `slot` | text | `text`, `text_with_images` or `image` (FR-003, FR-024). The contract spells the middle one `textWithImages`; same slot, each layer's own convention. |
 | `model_id` | integer | Must point at a complete, in-service record. |
 
 **Cannot be represented:** a hosted model. There is no field for an endpoint, and every record requires local weights with a digest (FR-026).

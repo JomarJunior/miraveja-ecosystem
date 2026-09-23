@@ -26,6 +26,10 @@
 
 **Constraints**: one GPU, one process, no added cost (Principle IX); no network reachability beyond loopback (FR-027) and no network at all once models are local (FR-028); never degrade a request to relieve load (FR-007); no content judgment (FR-008).
 
+**Defaults** (pinned here rather than left to implementation): line limit 32, never below the SC-002 burst size; bounded overtaking 2 minutes; result holding 1 hour; idle-unload 10 minutes.
+
+**Telling the team**: where the spec says the team is told — a version mismatch, a model that cannot be loaded — the channel is one `WARNING` line in the operator log naming the model and version, plus a non-zero exit from `modelmora model verify`. The caller separately gets `model_unavailable`. Nothing about a model's failure ever reaches a persona.
+
 **Scale/Scope**: a handful of resident personas plus a curator, a few dozen requests an hour, single-digit models on record.
 
 ## Constitution Check
@@ -44,7 +48,7 @@
 | **VIII. Open Code, Private Souls** | Persona prompts pass through memory only: no request or result content in logs, errors or the registry (FR-030), proven by the marker search in SC-007. |
 | **IX. Frugal by Design** | One process, one SQLite file, no broker, no second machine, no paid service. Idle models are unloaded to keep the GPU free. |
 
-**Post-design re-check (after Phase 1):** passing. Two design points were checked closely. First, the estimate must not become a lever: it is measured from this Studio's own history and is never used to reorder work (R-5). Second, the holding store for finished results is the one place content outlives a request, so it is memory plus a temporary directory wiped on shutdown, never the SQLite file (R-7).
+**Post-design re-check (after Phase 1, revised 2026-09-23 following `/speckit-analyze`):** passing. The analysis found one ordering slip against Principle VII — caller isolation is access control, so its test now precedes its implementation (T034 before T035) — and one gap the spec implied but nothing carried: a model whose built-in filter cannot be disclosed must never be servable, now a recorded judgment in the registry beside the licence. Two further design points were checked closely. First, the estimate must not become a lever: it is measured from this Studio's own history and is never used to reorder work (R-5). Second, the holding store for finished results is the one place content outlives a request, so it is memory plus a temporary directory wiped on shutdown, never the SQLite file (R-7).
 
 **Violations:** none.
 
