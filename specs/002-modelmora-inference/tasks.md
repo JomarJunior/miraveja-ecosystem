@@ -24,12 +24,12 @@
 
 **Purpose**: make the component repository publishable and able to read the contract.
 
-- [ ] T001 Add `pyproject.toml` in `components/modelmora/` for Python 3.12, package `modelmora`, console entry point `modelmora`, with dependency groups separating GPU extras (`torch`, `transformers`, `diffusers`) from the base install so CI can run with no GPU
-- [ ] T002 [P] Add `README.md` in `components/modelmora/` headed **🧠 ModelMora**, stating that it is Studio-only, never part of the Studio Link, and linking to `specs/002-modelmora-inference/`
-- [ ] T003 [P] Configure ruff, ruff-format and mypy (over `src`, `tests` and `scripts`) in `components/modelmora/pyproject.toml`, plus a `pytest` layout with `tests/api`, `tests/queue`, `tests/registry`, `tests/worker` and `tests/privacy`
-- [ ] T004 [P] Add `components/modelmora/scripts/guard_public_repo.py`: fail on secret patterns and on any non-synthetic persona name in tests and fixtures (Principle VIII, FR-031)
-- [ ] T005 Implement `components/modelmora/src/modelmora/contract.py`: load `modelmora-v1.yaml` from the hub checkout, overridable with `MODELMORA_CONTRACT_PATH`, mirroring how `miraveja-studiolink` does it
-- [ ] T006 Add `.github/workflows/ci.yml` in `components/modelmora/`: guard, lint, format, mypy, and the GPU-free test suite, checking the hub out at a pinned commit (not `main`) for the contract
+- [X] T001 Add `pyproject.toml` in `components/modelmora/` for Python 3.12, package `modelmora`, console entry point `modelmora`, with dependency groups separating GPU extras (`torch`, `transformers`, `diffusers`) from the base install so CI can run with no GPU
+- [X] T002 [P] Add `README.md` in `components/modelmora/` headed **🧠 ModelMora**, stating that it is Studio-only, never part of the Studio Link, and linking to `specs/002-modelmora-inference/`
+- [X] T003 [P] Configure ruff, ruff-format and mypy (over `src`, `tests` and `scripts`) in `components/modelmora/pyproject.toml`, plus a `pytest` layout with `tests/api`, `tests/queue`, `tests/registry`, `tests/worker` and `tests/privacy`
+- [X] T004 [P] Add `components/modelmora/scripts/guard_public_repo.py`: fail on secret patterns and on any non-synthetic persona name in tests and fixtures (Principle VIII, FR-031)
+- [X] T005 Implement `components/modelmora/src/modelmora/contract.py`: load `modelmora-v1.yaml` from the hub checkout, overridable with `MODELMORA_CONTRACT_PATH`, mirroring how `miraveja-studiolink` does it
+- [X] T006 Add `.github/workflows/ci.yml` in `components/modelmora/`: guard, lint, format, mypy, and the GPU-free test suite, checking the hub out at a pinned commit (not `main`) for the contract
 
 **Checkpoint**: an empty but publishable component that can read its contract.
 
@@ -39,14 +39,14 @@
 
 **Purpose**: the message models, the stand-in runners and the service skeleton every story needs. No user story can start before this is done.
 
-- [ ] T007 Implement `components/modelmora/src/modelmora/messages.py` as Pydantic v2 models for TextRequest, ImageRequest, Accepted, RequestStatus, Result, ServableModel, Availability and Refusal, all forbidding extra fields, with the contract's bounds: instructions 1–200000 chars, conversation ≤ 200 turns, images ≤ 8 of `image/png|image/jpeg|image/webp`, description 1–20000, width and height 64–4096, steps 1–200, guidance 0–30, maxLength 1–32000, temperature 0–2
-- [ ] T008 Write `components/modelmora/tests/api/test_contract_drift.py`: the models' generated schemas match the hub's `modelmora-v1.yaml`, failing when either side changes alone
-- [ ] T009 [P] Implement `components/modelmora/src/modelmora/refusals.py`: the closed reason set `busy`, `starting`, `stopping`, `unknown_model`, `model_unavailable`, `invalid_request`, `cannot_be_served_on_this_studio`, `failed_during_generation` (FR-011), each with whether it carries `retryAfterSeconds`, and a refusal exception whose `detail` can never hold request or result content (FR-030)
-- [ ] T010 [P] Implement `components/modelmora/src/modelmora/config.py`: line limit (default 32, never below the SC-002 burst size of 20, so that criterion measures results rather than `busy` refusals), bounded overtaking time (default 2 minutes, FR-019), result holding time (default 1 hour, FR-032), idle-unload timeout (default 10 minutes), bind host fixed to `127.0.0.1`, port default 8431, and caller tokens
-- [ ] T011 Implement the runner interface and test-mode stand-ins in `components/modelmora/src/modelmora/runners/`: `base.py` (generate text, generate image, declared memory footprint, load and unload), `standin.py` returning deterministic text and a tiny PNG with configurable fake load time and fake footprint (FR-033, R-10)
-- [ ] T012 Write `components/modelmora/tests/worker/test_standin_runners.py`: stand-ins honor seeds, report their fake footprint, and simulate load time, so the queue tests can rely on them
-- [ ] T013 Implement the service skeleton in `components/modelmora/src/modelmora/api/app.py`: all five paths from the contract, bound to loopback only, with bearer caller tokens naming the calling component (R-9) and a `--test-mode` switch selecting the stand-in runners
-- [ ] T014 Write `components/modelmora/tests/api/test_loopback_only.py`: the service binds `127.0.0.1` and refuses to start when configured with any other interface (FR-027), and works with no network reachable (FR-028)
+- [X] T007 Implement `components/modelmora/src/modelmora/messages.py` as Pydantic v2 models for TextRequest, ImageRequest, Accepted, RequestStatus, Result, ServableModel, Availability and Refusal, all forbidding extra fields, with the contract's bounds: instructions 1–200000 chars, conversation ≤ 200 turns, images ≤ 8 of `image/png|image/jpeg|image/webp`, description 1–20000, width and height 64–4096, steps 1–200, guidance 0–30, maxLength 1–32000, temperature 0–2
+- [X] T008 Write `components/modelmora/tests/api/test_contract_drift.py`: the models' generated schemas match the hub's `modelmora-v1.yaml`, failing when either side changes alone
+- [X] T009 [P] Implement `components/modelmora/src/modelmora/refusals.py`: the closed reason set `busy`, `starting`, `stopping`, `unknown_model`, `model_unavailable`, `invalid_request`, `cannot_be_served_on_this_studio`, `failed_during_generation` (FR-011), each with whether it carries `retryAfterSeconds`, and a refusal exception whose `detail` can never hold request or result content (FR-030)
+- [X] T010 [P] Implement `components/modelmora/src/modelmora/config.py`: line limit (default 32, never below the SC-002 burst size of 20, so that criterion measures results rather than `busy` refusals), bounded overtaking time (default 2 minutes, FR-019), result holding time (default 1 hour, FR-032), idle-unload timeout (default 10 minutes), bind host fixed to `127.0.0.1`, port default 8431, and caller tokens
+- [X] T011 Implement the runner interface and test-mode stand-ins in `components/modelmora/src/modelmora/runners/`: `base.py` (generate text, generate image, declared memory footprint, load and unload), `standin.py` returning deterministic text and a tiny PNG with configurable fake load time and fake footprint (FR-033, R-10)
+- [X] T012 Write `components/modelmora/tests/worker/test_standin_runners.py`: stand-ins honor seeds, report their fake footprint, and simulate load time, so the queue tests can rely on them
+- [X] T013 Implement the service skeleton in `components/modelmora/src/modelmora/api/app.py`: all five paths from the contract, bound to loopback only, with bearer caller tokens naming the calling component (R-9) and a `--test-mode` switch selecting the stand-in runners
+- [X] T014 Write `components/modelmora/tests/api/test_loopback_only.py`: the service binds `127.0.0.1` and refuses to start when configured with any other interface (FR-027), and works with no network reachable (FR-028)
 
 **Checkpoint**: a service that answers every path with stand-in models, provably local.
 
@@ -58,13 +58,13 @@
 
 **Independent test**: with one text model on record and nothing loaded, a test caller receives generated text naming the model and version (spec US1 independent test).
 
-- [ ] T015 [US1] Write `components/modelmora/tests/api/test_text_requests.py` first, covering US1 acceptance scenarios 1 to 6 and SC-001 (a caller obtains results while naming at most a model, with zero caller code touching model loading): default model resolution, a named model, `unknown_model` with no substitute, images read by a capable model, `invalid_request` when no model on record reads images, and identical output for the same model, version, seed and length limit
-- [ ] T016 [US1] Implement text generation in `components/modelmora/src/modelmora/runners/text.py` using `transformers`, honoring seed, maxLength and temperature, and reporting the model name and version that produced the text
-- [ ] T017 [US1] Implement default-model resolution in `components/modelmora/src/modelmora/registry/defaults.py` for the slots `text`, `text_with_images` and `image`; a request with images defaults to the `text_with_images` slot (FR-003)
-- [ ] T018 [US1] Implement request validation in `components/modelmora/src/modelmora/api/validate.py`: refuse `unknown_model` for a model not on record, and `invalid_request` when a request carries images and the chosen or default model cannot read them, naming that in the detail (FR-003)
-- [ ] T019 [US1] Implement the submit path for text in `components/modelmora/src/modelmora/api/requests.py`, returning `Accepted` with `requestId`, `position`, `estimatedWaitSeconds` and the resolved `model` (FR-010)
-- [ ] T020 [US1] Implement result assembly in `components/modelmora/src/modelmora/worker/results.py`: every result carries the model name and version and the settings actually used, plus `filterNote` when a model's own built-in filter changed the output (FR-008)
-- [ ] T021 [US1] Write `components/modelmora/tests/worker/test_filter_disclosure.py` first, then make it pass in T020: a stand-in configured to filter its output produces a result whose `filterNote` says so, and **🧠 ModelMora** adds no judgment of its own (FR-008)
+- [X] T015 [US1] Write `components/modelmora/tests/api/test_text_requests.py` first, covering US1 acceptance scenarios 1 to 6 and SC-001 (a caller obtains results while naming at most a model, with zero caller code touching model loading): default model resolution, a named model, `unknown_model` with no substitute, images read by a capable model, `invalid_request` when no model on record reads images, and identical output for the same model, version, seed and length limit
+- [X] T016 [US1] Implement text generation in `components/modelmora/src/modelmora/runners/text.py` using `transformers`, honoring seed, maxLength and temperature, and reporting the model name and version that produced the text
+- [X] T017 [US1] Implement default-model resolution in `components/modelmora/src/modelmora/registry/defaults.py` for the slots `text`, `text_with_images` and `image`; a request with images defaults to the `text_with_images` slot (FR-003)
+- [X] T018 [US1] Implement request validation in `components/modelmora/src/modelmora/api/validate.py`: refuse `unknown_model` for a model not on record, and `invalid_request` when a request carries images and the chosen or default model cannot read them, naming that in the detail (FR-003)
+- [X] T019 [US1] Implement the submit path for text in `components/modelmora/src/modelmora/api/requests.py`, returning `Accepted` with `requestId`, `position`, `estimatedWaitSeconds` and the resolved `model` (FR-010)
+- [X] T020 [US1] Implement result assembly in `components/modelmora/src/modelmora/worker/results.py`: every result carries the model name and version and the settings actually used, plus `filterNote` when a model's own built-in filter changed the output (FR-008)
+- [X] T021 [US1] Write `components/modelmora/tests/worker/test_filter_disclosure.py` first, then make it pass in T020: a stand-in configured to filter its output produces a result whose `filterNote` says so, and **🧠 ModelMora** adds no judgment of its own (FR-008)
 
 **Checkpoint**: personas can think and speak, and the AI gate can reason. Roadmap 004 can start against test mode.
 
@@ -174,6 +174,8 @@
 ## Amendments
 
 2026-09-23, after `/speckit-analyze`: T034 and T035 swapped so caller isolation is tested before it is implemented; T010, T015, T021, T022, T036, T038, T040, T041, T042, T044 reworded; T028a (SC-002 burst), T029a (no deduplication), T033a (SC-004 estimate accuracy) and T037a (filter-disclosure gate) added. 57 tasks in total.
+
+2026-09-23, after `/speckit-implement MVP` (T001-T021): T019's submit path runs generation synchronously inside the request rather than through a real queue, since the line (T030-T033) and worker (T032) do not exist yet — a request still passes through exactly the `waiting -> running -> done/failed` states FR-014 requires, and `Accepted` still carries a position and an estimate (both 0 for now), so FR-010 is satisfied without pretending Phase 5 is built. `withdrawRequest` and `fetchResultImage` exist as contract-complete paths in the T013 skeleton but have nothing to withdraw before completion or hold as images yet; they will gain real behavior in Phase 4 (images) and Phase 5 (the queue). Phase 4 and 5 tasks are unaffected: T030-T036 replace this loop's internals without changing `submit_text_request`'s signature or return type.
 
 ## Implementation strategy
 
