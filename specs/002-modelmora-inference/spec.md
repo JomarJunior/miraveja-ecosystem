@@ -20,6 +20,13 @@ The GPU cannot hold every model at once. Callers must not need to know this. The
 
 This spec defines what **🧠 ModelMora** offers its callers and its operators. It does not choose models, formats, or how requests are carried; those are decided in `/speckit-plan`. It is not part of the Studio Link: **🧠 ModelMora** is reachable only inside the Studio.
 
+## Clarifications
+
+### Session 2026-09-23
+
+- Q: Is image understanding (an image plus a question in, text out) in scope, for **💬 DescriDiva** and **🧐 CuraGusta**? → A: Yes. A text request may include images, and the registry records which text models can read them.
+- Q: How are waiting requests ordered, given that loading a model takes real time? → A: Mostly first come, first served. A request for a model already on the GPU may run ahead of older requests for other models, but no request may be overtaken for longer than a bounded time. No caller or persona is favored.
+
 ## User Scenarios & Testing *(mandatory)*
 
 The users of **🧠 ModelMora** are the Studio components that call it (**🎭 SonaVida**, **🧐 CuraGusta**, **💬 DescriDiva**), the team members who decide which models the Studio may run, and the reviewers who must be able to prove every model's license is on record.
@@ -37,7 +44,9 @@ A team member building **🎭 SonaVida** has a synthetic persona that wants to w
 1. **Given** a text model is on record and nothing is loaded, **When** a caller asks for text without naming a model, **Then** **🧠 ModelMora** loads the default text model on its own, generates the text, and returns it with the model's name and version.
 2. **Given** several text models are on record, **When** a caller names one of them, **Then** the text comes from that model, and the result says so.
 3. **Given** a caller names a model that is not on record, **When** it asks for text, **Then** the request is refused with the reason "unknown model", and no other model is used in its place.
-4. **Given** a caller asks for text with a limit on its length and a seed, **When** it sends the same request twice to the same model and version, **Then** it receives the same text both times.
+4. **Given** a text model on record that can read images, **When** a caller sends an image with a question (for example, "describe what this shows"), **Then** it receives text about that image, with the model's name and version.
+5. **Given** the only text models on record cannot read images, **When** a caller sends an image in a text request, **Then** the request is refused with the reason "invalid request", naming that no model on record can read images.
+6. **Given** a caller asks for text with a limit on its length and a seed, **When** it sends the same request twice to the same model and version, **Then** it receives the same text both times.
 
 ---
 
@@ -71,7 +80,7 @@ Three synthetic personas are awake, and **🧐 CuraGusta** is judging a candidat
 2. **Given** a caller holds an accepted request, **When** it asks about it, **Then** it learns the request's current state (waiting, running, done, failed, withdrawn), its position if waiting, and an updated estimate.
 3. **Given** a request is waiting, **When** its caller withdraws it (for example because the persona went to rest), **Then** it leaves the line, is never run, and the caller is told it was withdrawn.
 4. **Given** the line is full, **When** another request arrives, **Then** it is refused as "busy", with an estimate of when to try again. It is never accepted and then dropped.
-5. **Given** requests are waiting for several models, **When** **🧠 ModelMora** chooses what to run next, **Then** it follows the ordering rule in FR-019, and no waiting request is overtaken without limit.
+5. **Given** an older request waits for a model that is not loaded and newer requests arrive for the model on the GPU, **When** **🧠 ModelMora** chooses what to run next, **Then** the newer requests may run first only until the older one has been overtaken for the bounded time (FR-019); after that, the older one runs next.
 6. **Given** any request, **When** its result is returned, **Then** it was produced by the model and settings the request asked for or was told about on acceptance. Quality, size, steps or model are never lowered to relieve load.
 
 ---
@@ -131,7 +140,7 @@ The Studio is switched on in the morning. A persona wakes before its models are 
 
 - **FR-001**: **🧠 ModelMora** MUST generate text from a caller's instructions and prior conversation, and return the text with the name and version of the model that produced it.
 - **FR-002**: **🧠 ModelMora** MUST generate an image from a caller's description, size and optional settings (such as a seed or things to avoid), and return the image with the model's name and version and the seed and settings actually used.
-- **FR-003**: **🧠 ModelMora** MUST [NEEDS CLARIFICATION: is image understanding (an image plus a question in, text out) in scope for this spec, for **💬 DescriDiva** (roadmap 005) and **🧐 CuraGusta** (roadmap 006)?]
+- **FR-003**: A text request MAY include one or more images, and **🧠 ModelMora** MUST then generate text about them with a text model that can read images, so **💬 DescriDiva** (roadmap 005) and **🧐 CuraGusta** (roadmap 006) can see. A request with images for a model that cannot read them MUST be refused as *invalid request*; the default model for such a request is the default image-reading text model.
 - **FR-004**: A caller MAY name a model on record, or name only the kind of result (text or image) and get the default model for that kind. A persona's choice of model belongs to the persona (Principle I); **🧠 ModelMora** MUST NOT override it.
 - **FR-005**: Callers MUST NOT need to load, unload, place or otherwise manage models. **🧠 ModelMora** alone decides what is on the GPU.
 - **FR-006**: Given the same model and version, the same request and the same seed, **🧠 ModelMora** MUST return the same result where the model allows it, so pieces and gate decisions can be reproduced.
@@ -150,11 +159,11 @@ The Studio is switched on in the morning. A persona wakes before its models are 
 - **FR-016**: **🧠 ModelMora** MUST NOT apply quotas, rate limits or priorities to one persona or caller over another beyond FR-019. The Studio's limits reach personas only as the honest answers above, which **🎭 SonaVida** turns into persona behavior. (Principle I)
 - **FR-017**: A caller MUST see only its own requests. Nothing it can ask reveals another caller's requests or their content, beyond the length of the line.
 - **FR-018**: Estimates MUST be honest: based on how long similar work actually took on this Studio, including any model loading, and updated as the line moves.
-- **FR-019**: When choosing the next request to run, **🧠 ModelMora** MUST follow [NEEDS CLARIFICATION: ordering rule. Strictly first come, first served? Group requests for a model already on the GPU, with a limit on how long any request can be overtaken? Or let certain callers (for example the AI gate) go first?]. Whatever the rule, no waiting request MAY be overtaken without limit.
+- **FR-019**: **🧠 ModelMora** MUST run waiting requests first come, first served, with one exception: a request for a model already on the GPU MAY run ahead of older requests for models that are not, to avoid needless loading. No request MAY be overtaken for longer than a bounded time (default 2 minutes, tuned in the plan); once it has been, it MUST run next. Ordering MUST NOT depend on the caller or the persona. (Principle I)
 
 **The registry**
 
-- **FR-020**: **🧠 ModelMora** MUST keep a registry of models. Each record holds: name, version, kind (text or image), license name, where the license terms were read, the source the model came from, a way to confirm the files on the Studio are that exact version, the team member who added it, and when it was added.
+- **FR-020**: **🧠 ModelMora** MUST keep a registry of models. Each record holds: name, version, kind (text or image), for a text model whether it can read images, license name, where the license terms were read, the source the model came from, a way to confirm the files on the Studio are that exact version, the team member who added it, and when it was added.
 - **FR-021**: A model MUST NOT be served unless its record is complete and a team member has confirmed that its license is open-weight and allows its outputs to be exhibited in a public museum. (Principle V; component rule)
 - **FR-022**: **🧠 ModelMora** MUST refuse to load a model whose files do not match its recorded version, and MUST tell the team.
 - **FR-023**: Retiring a model MUST stop it from being served but MUST keep its record, with the dates it was in service, so every past result can be traced to its license.
@@ -181,10 +190,10 @@ The Studio is switched on in the morning. A persona wakes before its models are 
 
 ### Key Entities
 
-- **Model record**: one model the Studio may serve, identified by name and version, with its kind, license, source, license confirmation, file check, who added it, when, and its service dates. Kept after retirement.
+- **Model record**: one model the Studio may serve, identified by name and version, with its kind (and, for a text model, whether it can read images), license, source, license confirmation, file check, who added it, when, and its service dates. Kept after retirement.
 - **License**: the terms under which a model is used: its name, where its terms were read, and the team member's confirmation that it is open-weight and allows public exhibition of outputs.
-- **Default model**: the model on record that serves a kind (text or image) when a caller names no model.
-- **Request**: one caller's ask for one result: the kind, the model if named, the inputs, the settings and the caller. Its content lives only as long as the request (FR-030).
+- **Default model**: the model on record that serves a kind when a caller names no model: one for text, one for text about images, one for images.
+- **Request**: one caller's ask for one result: the kind, the model if named, the inputs (including any images to read), the settings and the caller. Its content lives only as long as the request (FR-030).
 - **Request state**: waiting (with position and estimate), running, done, failed, withdrawn or stopped before completion.
 - **Result**: generated text or an image, with the model name and version and the settings and seed actually used, and a note if a model's built-in filter changed it.
 - **Refusal**: the immediate answer to a request that will not be accepted, with one of the distinct reasons in FR-011.
@@ -194,7 +203,7 @@ The Studio is switched on in the morning. A persona wakes before its models are 
 
 ### Measurable Outcomes
 
-- **SC-001**: A test caller acting as **🎭 SonaVida** and another acting as **🧐 CuraGusta** both obtain text and images while naming at most a model and never loading or placing one; zero caller code deals with model loading.
+- **SC-001**: A test caller acting as **🎭 SonaVida** and another acting as **🧐 CuraGusta** both obtain text, images and text about a given image while naming at most a model and never loading or placing one; zero caller code deals with model loading.
 - **SC-002**: In a burst of 20 mixed text and image requests from 4 callers, for more models than fit on the GPU together, 100% of requests end with a result or an explained answer, and none is lost, duplicated or left open.
 - **SC-003**: Every request receives its first answer (accepted with position and estimate, or refused with a reason) within 1 second, even while the GPU is fully busy.
 - **SC-004**: Once each model has been used at least once, 90% of requests start within 50% of the wait estimated when they were accepted.
@@ -203,6 +212,7 @@ The Studio is switched on in the morning. A persona wakes before its models are 
 - **SC-007**: After a test run with synthetic persona requests carrying a unique marker phrase, a search of every log and record **🧠 ModelMora** keeps finds the marker zero times.
 - **SC-008**: Across a test run, zero results were produced with a model, size, length or quality setting different from the request or its acceptance answer.
 - **SC-009**: Stopping **🧠 ModelMora** with requests open leaves zero requests without a final answer.
+- **SC-010**: In a burst mixing requests for loaded and unloaded models, no request is overtaken for longer than the bounded time, and requests from different callers with the same model and arrival order run in arrival order.
 
 ## Assumptions
 
@@ -211,8 +221,8 @@ The Studio is switched on in the morning. A persona wakes before its models are 
 - Explicit and violent work is allowed in the museum when labeled (Principle III), so **🧠 ModelMora** does not filter content. Hard lines are enforced by the two gates, not by the model layer.
 - "Honest about busy" means callers always get a clear state and an estimate they can wait on. It does not mean guaranteed times. The estimate is best effort, measured by SC-004.
 - Requests live only in memory. If the Studio loses power, open requests are lost; callers see that **🧠 ModelMora** is unavailable and ask again when it returns. Callers keep what they need to resend.
-- The size of the line (FR-015), how long a finished result is held (FR-032, default 1 hour) and how long the Studio waits before unloading an idle model are tuned in the plan within Principle IX.
+- The size of the line (FR-015), the bounded overtaking time (FR-019, default 2 minutes), how long a finished result is held (FR-032, default 1 hour) and how long the Studio waits before unloading an idle model are tuned in the plan within Principle IX.
 - Which models are chosen, how many fit on the GPU together, how requests are carried between components and how callers on the Studio machine are identified are decided in `/speckit-plan`. The plan must fit one RTX 4090 at no added cost (Principle IX).
 - "Open-weight" means the model's weights can be downloaded and run on team hardware. Whether a license's terms allow public exhibition of outputs is judged and confirmed by a team member when adding the model; **🧠 ModelMora** records the judgment and does not make it.
 - A model downloaded once is used offline from then on. Fetching models is a team action, not something callers can trigger.
-- **Out of scope**: video (a later spec, per the Ecosystem Map), fine-tuning or training, per-persona model adapters, editing an existing image (only generation from a description), streaming partial text, and any use of hosted model APIs (forbidden by Principle V).
+- **Out of scope**: video (a later spec, per the Ecosystem Map), fine-tuning or training, per-persona model adapters, editing an existing image or generating an image from an image (only generation from a description; reading images is in scope as text generation, FR-003), streaming partial text, and any use of hosted model APIs (forbidden by Principle V).
