@@ -211,3 +211,4 @@ the reference stand-in with zero failures in CI (SC-002). Spec 001 is closed.
 
 Next step: `/speckit-specify` with roadmap entry 002 (`modelmora-inference`), the first
 Stage A component that builds against this contract.
+| D-066 | Post-implementation review of spec 001 (2026-09-22): pseudonyms are pattern-constrained so a machine-made string cannot carry prose; the free-text surface reaching the Studio is pinned by a test; the client refuses to send the Studio credential over plain http to a non-loopback host; the conformance suite gained `--strict` (a skip is not a pass) and `--as-persona`; the library's CI pins the hub by commit rather than tracking `main`. | Review, spec 001 |

@@ -325,7 +325,11 @@ components:
           type: string
           minLength: 16
           maxLength: 128
-          description: Stable for this persona only; different for every other persona (FR-017).
+          pattern: "^[A-Za-z0-9_-]+$"
+          description: |
+            Stable for this persona only; different for every other persona (FR-017). Opaque
+            and machine-generated: the pattern keeps it from carrying prose, and so from
+            becoming a place a metric could hide (FR-021).
         displayName:
           type: [string, "null"]
           minLength: 1
@@ -495,7 +499,11 @@ components:
             required: [sequence, pseudonym, issuedAt]
             properties:
               sequence: { type: integer, minimum: 1 }
-              pseudonym: { type: string, minLength: 16, maxLength: 128 }
+              pseudonym:
+                type: string
+                minLength: 16
+                maxLength: 128
+                pattern: "^[A-Za-z0-9_-]+$"
               issuedAt: { type: string, format: date-time }
         nextSequence: { type: [integer, "null"], minimum: 1 }
 
