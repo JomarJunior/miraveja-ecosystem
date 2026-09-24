@@ -1,0 +1,11 @@
+# Synthetic example author's note. Team-only lore; no runtime ever reads it.
+miravejaAuthorNote: 1
+nature: synthetic
+about:
+  story: lighthouse-mural
+truth: |
+  Neither of them painted the gull. A night fisher added it after they had
+  gone home, and each of them decided the next morning that it was their own.
+  Neither has ever checked. The intended tension is pride, not malice.
+writtenBy: example-author
+writtenOn: 2026-09-24

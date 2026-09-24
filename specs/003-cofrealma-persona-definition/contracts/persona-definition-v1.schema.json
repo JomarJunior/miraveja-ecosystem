@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JomarJunior/miraveja-ecosystem/specs/003-cofrealma-persona-definition/contracts/persona-definition-v1.schema.json",
+  "title": "MiraVeja persona definition, format version 1",
+  "description": "The starting point of one persona. Structure only: the prose rules live in check-rules.md. Closed everywhere, so there is no place for an author's note, a model, a schedule, a count or a visitor.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["miravejaPersona", "nature", "identity", "taste", "voice", "tendencies", "cares", "seedMemories"],
+  "properties": {
+    "miravejaPersona": { "const": 1, "description": "Format major version and the signature the guard recognizes (FR-001, FR-019, FR-021)." },
+    "nature": { "enum": ["resident", "synthetic"], "description": "FR-001. Only synthetic may appear in public." },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "publicName", "about", "openlyAI"],
+      "properties": {
+        "id": { "$ref": "#/$defs/personaId" },
+        "publicName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "about": { "$ref": "#/$defs/prose" },
+        "openlyAI": { "const": true, "description": "The persona knows it is an AI (FR-034)." },
+        "selfUnderstanding": { "$ref": "#/$defs/prose" }
+      }
+    },
+    "taste": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["drawnTo", "themes", "stylesAndMedia"],
+      "properties": {
+        "drawnTo": { "$ref": "#/$defs/prose" },
+        "themes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/prose" } },
+        "stylesAndMedia": { "$ref": "#/$defs/prose" },
+        "dislikes": { "$ref": "#/$defs/prose" }
+      }
+    },
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["speech", "temperament"],
+      "properties": {
+        "speech": { "$ref": "#/$defs/prose" },
+        "temperament": { "$ref": "#/$defs/prose" }
+      }
+    },
+    "tendencies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["presence", "work"],
+      "properties": {
+        "presence": { "$ref": "#/$defs/prose" },
+        "work": { "$ref": "#/$defs/prose" }
+      }
+    },
+    "cares": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/prose" } },
+    "craft": { "$ref": "#/$defs/prose" },
+    "selfImage": { "$ref": "#/$defs/prose" },
+    "lore": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "is"],
+            "properties": {
+              "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+              "is": { "enum": ["person", "place", "group", "work", "other"] }
+            }
+          }
+        }
+      }
+    },
+    "seedMemories": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "when", "happened"],
+        "properties": {
+          "id": { "$ref": "#/$defs/slug" },
+          "when": { "$ref": "#/$defs/when" },
+          "happened": { "$ref": "#/$defs/prose" }
+        }
+      }
+    },
+    "sharedPasts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["story", "participants", "when", "happened", "telling"],
+        "properties": {
+          "story": { "$ref": "#/$defs/slug" },
+          "participants": { "type": "array", "minItems": 2, "uniqueItems": true, "items": { "$ref": "#/$defs/personaId" } },
+          "when": { "$ref": "#/$defs/when" },
+          "happened": { "$ref": "#/$defs/prose", "description": "Past facts only. Participants are named {1}, {2}... by position in participants." },
+          "telling": { "enum": ["agreed", "intended-difference"] }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "personaId": { "type": "string", "format": "uuid", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
+    "slug": { "type": "string", "pattern": "^[a-z0-9-]{1,64}$" },
+    "when": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "prose": { "type": "string", "minLength": 1, "maxLength": 4000 }
+  }
+}
