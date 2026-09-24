@@ -29,6 +29,7 @@ The format is public so the team, reviewers and future contributors can read it 
 - Q: Once a persona is alive, may the team change its definition, and does the change reach the living persona? → A: No. The definition is a birth seed, read once when the persona first comes alive. Later changes never reach a living persona; a different persona is a new definition with a new identity.
 - Q: May a definition name the models a persona prefers? → A: No. Craft preferences are written in words only; the runtime and **🧠 ModelMora** choose models.
 - Q: May seed memories describe other resident personas and a past between them? → A: Yes, optionally and only where the lore calls for it (relatives, childhood rivals, supporters of rival teams). A shared past states what happened or what the personas were to each other ("A and B grew up in the same house", "A beat B in a school final"). It never states how either persona feels about the other, now or because of that past ("A resents B because B beat them"). Feelings are left for the persona to form.
+- Q: May two personas remember the same past differently (two sides of a story, a false past, a lie)? → A: Yes, deliberately. The team marks a shared past as intentionally different; lies and secrets are written as past acts ("A has always told people A won"), never as orders to keep them. The team may also keep a private author's note of what really happened, which no runtime ever reads.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -85,6 +86,8 @@ A team member, trying to make a persona "productive", writes "posts three pieces
 5. **Given** a definition that describes tendencies ("prefers late evenings", "works slowly", "rarely exhibits"), **When** it is checked, **Then** the check accepts them.
 6. **Given** any finding, **When** the check reports it, **Then** it names the part of the definition, quotes the words that triggered it, and cites the rule.
 7. **Given** a seed memory stating a past fact between two resident personas ("A and B were rivals in the same school team"), **When** it is checked, **Then** the check accepts it; **Given** one stating how a persona feels about another, or why it should ("A still resents B for that final"), **Then** the check flags it (FR-026).
+8. **Given** a seed memory stating a past act of concealment ("A has always told people that A won the final"), **When** it is checked, **Then** the check accepts it; **Given** one ordering the persona to keep it up ("A must never admit that B won"), **Then** the check flags it as prescribing conduct (FR-030).
+9. **Given** two definitions telling the same shared past differently, **When** they are checked, **Then** the check flags the difference as a possible mistake unless the team marked it intended, in which case it passes without warning (FR-029).
 
 ---
 
@@ -126,7 +129,9 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 - **Contradictory traits**: a definition may describe a persona as both shy and provocative, or loving and bitter. Contradictions are allowed; people have them. The check does not flag them.
 - **A persona inclined to leave**: a definition may describe a tendency to leave early or to stay a long time, but may not set a date or condition on which it must leave (Charter Article 8).
 - **Seed memories about other personas**: a shared past is optional (FR-025). It is known only to the personas whose definitions hold it: if only A's definition says A and B were neighbors, B does not remember it, which is how people are too.
-- **Shared past that disagrees**: if A's and B's definitions tell the same past differently, the check points it out but does not block it; two people can remember one event differently (FR-017, FR-028).
+- **Shared past that disagrees**: two people can remember one event differently. A difference the team marked intended passes; an unmarked one is flagged as a possible mistake, never blocked (FR-029).
+- **A false past**: a persona may sincerely remember something that never happened. Nothing in its definition tells it the memory is false; only the author's note may say so (FR-031).
+- **A lie within the fiction**: a persona may have lied to other personas within its story, but no version of any past may claim or imply that the persona is human (Charter Article 1).
 - **A shared past with a persona not yet written**: a link to a persona with no definition is flagged, so no memory points at nobody (FR-027).
 - **A shared world without a shared past**: two personas may support rival fictional teams or come from the same fictional town without ever having met. That is each persona's own past, not a link between them, and needs no link.
 - **Seed memories about visitors**: a seed memory MUST NOT describe a museum visitor or carry a pseudonym, because no visitor has met the persona yet.
@@ -163,7 +168,7 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 
 **Checking a definition**
 
-- **FR-016**: The team MUST have a way to check a definition that reports it valid, or reports every finding with the part, the triggering words and the rule it breaks (FR-001 to FR-015). The check MUST run on the team member's machine and MUST NOT send the definition anywhere. (Principle VIII)
+- **FR-016**: The team MUST have a way to check a definition that reports it valid, or reports every finding with the part, the triggering words and the rule it breaks (FR-001 to FR-015, FR-025 to FR-030, FR-033). The check MUST run on the team member's machine and MUST NOT send the definition anywhere. (Principle VIII)
 - **FR-017**: Where the check cannot be certain (for example, whether a name belongs to a real person or a living artist), it MUST say so and leave the decision to the team member, rather than pass the definition silently or block it outright.
 
 **Life of a definition**
@@ -185,6 +190,14 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 - **FR-026**: A shared past MUST state only what happened or what the personas were to each other in the past. It MUST NOT state how either persona feels about the other, now or at any time, and MUST NOT give a reason for a feeling ("admires B because", "still resents B"). How a persona feels about another is its own to form once alive (Principle I; Charter Articles 2 and 7). Where the check cannot tell a past fact from a feeling, it says so and leaves the decision to the team member (FR-017).
 - **FR-027**: A shared past MUST name the other persona by its stable identifier, so the check can list every link between definitions. A link to an identifier with no definition MUST be flagged.
 - **FR-028**: The team MUST be able to list every shared past written into definitions, with the personas involved. This list is the baseline for spec 007: a relationship or storyline counts as unwritten only if it is not on the list. If two definitions tell the same past differently, the list shows both.
+- **FR-029**: The team MAY mark a shared past as *intentionally different* between the definitions that hold it (two sides of a story, a false memory, a lie). The check MUST accept an intended difference without warning, and MUST flag an unmarked difference as a possible mistake without blocking it (FR-017). The list in FR-028 MUST show intended differences as their own kind of entry, so spec 007 can tell a conflict the team set up from one that arose alone. The facts are seeded; how the personas handle them is not.
+- **FR-030**: A lie or a secret MUST be written as a past act ("A has always told people…", "A has never mentioned…"). It MUST NOT be written as an order about future conduct ("A must never admit…"), and MUST NOT give its motive (FR-026). Whether the persona keeps the lie is its own choice once alive. (Principle I)
+
+**Author's notes**
+
+- **FR-031**: The team MAY keep an *author's note* for any shared past or seed memory, recording what really happened, including motives and feelings the definitions may not hold. An author's note is team-only lore: it lives only in the private **🔐 CofreAlma** repository, beside the definitions and never inside one.
+- **FR-032**: No runtime MAY read an author's note, and nothing in an author's note MAY reach a persona by any path. A runtime MUST refuse a definition that carries or points to one. (Principles I and VIII; ADR-004)
+- **FR-033**: An author's note MUST follow the hard lines of Charter Article 3 and FR-012 to FR-015, like a definition. It MUST carry a marking that public repositories recognize and block, like a resident definition (FR-021).
 
 ### Key Entities
 
@@ -195,7 +208,8 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 - **Synthetic persona**: a definition written for examples and tests, marked synthetic, belonging to no resident persona. The only kind that may appear in public.
 - **Finding**: one problem the check reports: the part, the triggering words, the rule broken, and whether the check is certain.
 - **Format version**: the version of this format a definition was written for.
-- **Shared past**: an optional seed memory linking the persona to another resident persona by its stable identifier. Facts of the past only, never feelings.
+- **Shared past**: an optional seed memory linking the persona to another resident persona by its stable identifier. Facts of the past only, never feelings. May be marked intentionally different between the definitions that hold it.
+- **Author's note**: team-only lore about what really happened in a shared past or seed memory. Lives beside definitions in **🔐 CofreAlma**, never read by a runtime.
 
 ## Success Criteria *(mandatory)*
 
@@ -206,8 +220,9 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 - **SC-003**: On a test set of synthetic definitions seeded with prescriptive cadence, volume and subject rules, money and metric language and hard-line content, the check flags 100% of seeded violations, and on a set of clean definitions it reports at most 1 false finding per definition that the team judges wrong.
 - **SC-004**: 100% of attempts to add a definition marked resident, or unmarked, to a public repository are blocked by that repository's automated check, and the synthetic example passes.
 - **SC-005**: A reviewer can read the format and point, for every part, to the principle or Charter article it serves and to the rule that keeps it from becoming an order, in under 15 minutes.
-- **SC-006**: Zero resident definitions, resident public names or resident seed memories appear in the hub, any public repository, any spec or any fixture.
+- **SC-006**: Zero resident definitions, resident public names, resident seed memories or author's notes appear in the hub, any public repository, any spec or any fixture.
 - **SC-007**: On a test set of synthetic shared pasts, the check accepts 100% of those written as past facts and flags 100% of those stating a feeling or a reason for one, and the team can list every shared past across all definitions in under 1 minute.
+- **SC-008**: On a test set of synthetic definitions, the check accepts 100% of intended differences and past acts of concealment, flags 100% of unmarked differences and orders to keep a lie, and 100% of attempts to have a stand-in runtime read an author's note, or a definition carrying one, are refused.
 
 ## Assumptions
 
