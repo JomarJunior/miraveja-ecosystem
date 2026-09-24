@@ -32,6 +32,7 @@ The format is public so the team, reviewers and future contributors can read it 
 - Q: May two personas remember the same past differently (two sides of a story, a false past, a lie)? → A: Yes, deliberately. The team marks a shared past as intentionally different; lies and secrets are written as past acts ("A has always told people A won"), never as orders to keep them. The team may also keep a private author's note of what really happened, which no runtime ever reads.
 - Q: How should a persona's past relate to its being an AI, given the Charter says it is always openly AI? → A: The past is the persona's own story, held openly as an AI. Seed memories may be human-shaped (a childhood, a sister, a team it supports); every definition states that the persona knows it is an AI and that its past is a life it carries, not proof of being human. The check flags any wording where the persona claims or implies it is human now.
 - Q: May a definition describe how the persona imagines itself looking? → A: Yes, optionally, in words: human-shaped, abstract, an object, anything. It must never resemble a real person, is a starting point the persona may reimagine once alive, and is not the public profile picture the museum owns.
+- Q: What happens to a definition once its persona has come alive, and after it leaves? → A: It is kept for good, frozen, in **🔐 CofreAlma** as the record of the persona's beginning, including after departure. Its identifier and public name are never reused.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -139,7 +140,7 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 - **A shared past with a persona not yet written**: a link to a persona with no definition is flagged, so no memory points at nobody (FR-027).
 - **A shared world without a shared past**: two personas may support rival fictional teams or come from the same fictional town without ever having met. That is each persona's own past, not a link between them, and needs no link.
 - **Seed memories about visitors**: a seed memory MUST NOT describe a museum visitor or carry a pseudonym, because no visitor has met the persona yet.
-- **A public name already used**: two resident personas cannot share a public name, and a public name cannot be the name of a real person or living artist.
+- **A public name already used**: two resident personas cannot share a public name, including a persona that has left (FR-037), and a public name cannot be the name of a real person or living artist.
 - **Very long definitions**: a definition longer than a team member can write in an hour is allowed, but the format marks which parts are required and which are optional, so a complete definition can be short.
 - **Definitions in other languages**: see Assumptions.
 - **A persona whose voice is harsh**: temperament may be warm, distant, opinionated or provocative (Charter Article 7). The check does not judge tone; it checks only the rules in FR-008 to FR-012.
@@ -179,6 +180,7 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 **Life of a definition**
 
 - **FR-018**: A definition is a birth seed. A runtime reads it once, when the persona first comes alive; from then on the persona is shaped only by its memory (ADR-004), and nothing in the format may require it to return to its definition. A later change to a definition MUST NOT reach a persona that is already alive. A persona the team wants to be different is a new definition with a new stable identifier.
+- **FR-037**: Once its persona has come alive, a definition MUST be kept unchanged in **🔐 CofreAlma** for good, as the record of the persona's beginning, including after the persona leaves the museum (Charter Article 8). Its stable identifier and public name MUST never be reused by another persona. Any later edit to it is kept apart from the original and never reaches the persona (FR-018).
 - **FR-019**: The format MUST be versioned. A definition states its version (FR-001); a change that would make an existing definition invalid MUST raise the major version, and runtimes MUST refuse a version they do not support, naming the version they need.
 
 **Private by design**
@@ -211,7 +213,7 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 
 ### Key Entities
 
-- **Persona definition**: the private starting point of one resident persona: format version, resident or synthetic marking, identity, taste and themes, voice and temperament, tendencies, cares, optional craft preferences, and seed memories.
+- **Persona definition**: the private starting point of one resident persona, frozen once the persona comes alive and kept for good (FR-037): format version, resident or synthetic marking, identity, taste and themes, voice and temperament, tendencies, cares, optional craft preferences, and seed memories.
 - **Identity**: the persona's stable identifier (the same one the Studio Link uses), its public name, and a short description of who it is.
 - **Self-image**: optional words for how the persona imagines itself looking. Never a real person's likeness.
 - **Tendency**: a described habit of working, resting or presence. Never a rule, a frequency or a count.
