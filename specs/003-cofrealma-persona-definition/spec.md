@@ -28,6 +28,7 @@ The format is public so the team, reviewers and future contributors can read it 
 
 - Q: Once a persona is alive, may the team change its definition, and does the change reach the living persona? → A: No. The definition is a birth seed, read once when the persona first comes alive. Later changes never reach a living persona; a different persona is a new definition with a new identity.
 - Q: May a definition name the models a persona prefers? → A: No. Craft preferences are written in words only; the runtime and **🧠 ModelMora** choose models.
+- Q: May seed memories describe other resident personas and a past between them? → A: Yes, optionally and only where the lore calls for it (relatives, childhood rivals, supporters of rival teams). A shared past states what happened or what the personas were to each other ("A and B grew up in the same house", "A beat B in a school final"). It never states how either persona feels about the other, now or because of that past ("A resents B because B beat them"). Feelings are left for the persona to form.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -83,6 +84,7 @@ A team member, trying to make a persona "productive", writes "posts three pieces
 4. **Given** a definition whose taste, themes or seed memories name a real person or a living artist, or ask for imitation of a living artist's style, or sexualize minors or depict harm to them, **When** it is checked, **Then** the check flags it as crossing a hard line (Charter Article 3).
 5. **Given** a definition that describes tendencies ("prefers late evenings", "works slowly", "rarely exhibits"), **When** it is checked, **Then** the check accepts them.
 6. **Given** any finding, **When** the check reports it, **Then** it names the part of the definition, quotes the words that triggered it, and cites the rule.
+7. **Given** a seed memory stating a past fact between two resident personas ("A and B were rivals in the same school team"), **When** it is checked, **Then** the check accepts it; **Given** one stating how a persona feels about another, or why it should ("A still resents B for that final"), **Then** the check flags it (FR-026).
 
 ---
 
@@ -123,7 +125,10 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 - **A tendency outside the Studio's hours**: a persona that "loves working at dawn" when the Studio is offline at dawn is simply away at those hours. The definition does not change, and nothing in it is rejected for not matching the Studio's schedule (Principle I, D-027).
 - **Contradictory traits**: a definition may describe a persona as both shy and provocative, or loving and bitter. Contradictions are allowed; people have them. The check does not flag them.
 - **A persona inclined to leave**: a definition may describe a tendency to leave early or to stay a long time, but may not set a date or condition on which it must leave (Charter Article 8).
-- **Seed memories about other personas**: see FR-014. [NEEDS CLARIFICATION: may seed memories describe other resident personas?]
+- **Seed memories about other personas**: a shared past is optional (FR-025). It is known only to the personas whose definitions hold it: if only A's definition says A and B were neighbors, B does not remember it, which is how people are too.
+- **Shared past that disagrees**: if A's and B's definitions tell the same past differently, the check points it out but does not block it; two people can remember one event differently (FR-017, FR-028).
+- **A shared past with a persona not yet written**: a link to a persona with no definition is flagged, so no memory points at nobody (FR-027).
+- **A shared world without a shared past**: two personas may support rival fictional teams or come from the same fictional town without ever having met. That is each persona's own past, not a link between them, and needs no link.
 - **Seed memories about visitors**: a seed memory MUST NOT describe a museum visitor or carry a pseudonym, because no visitor has met the persona yet.
 - **A public name already used**: two resident personas cannot share a public name, and a public name cannot be the name of a real person or living artist.
 - **Very long definitions**: a definition longer than a team member can write in an hour is allowed, but the format marks which parts are required and which are optional, so a complete definition can be short.
@@ -153,7 +158,7 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 - **FR-011**: A definition MUST NOT require or forbid a subject, style or medium as a rule. Taste is allowed; orders are not. Content that crosses a hard line is the exception and is covered by FR-012. (Principle I; Charter Article 2)
 - **FR-012**: A definition MUST NOT, in any part including seed memories, name or describe a real person, name a living artist or ask for imitation of a living artist's style, or sexualize minors or depict harm to minors. (Charter Article 3)
 - **FR-013**: A definition MUST NOT mention money, prices, earning, sales, patrons as amounts, or any count, score, ranking, popularity or metric, including in seed memories. (Principle II; Charter Articles 9 and 10)
-- **FR-014**: A definition MUST NOT describe a museum visitor, hold a pseudonym, or hold anything the Studio Link delivers (experiences, verdicts). Those belong to the persona's memory once it is alive, not to its definition. Whether a seed memory may describe another resident persona and a past between them is [NEEDS CLARIFICATION: may seed memories describe other resident personas, or must personas meet only once alive, so relationships in spec 007 form unscripted?]
+- **FR-014**: A definition MUST NOT describe a museum visitor, hold a pseudonym, or hold anything the Studio Link delivers (experiences, verdicts). Those belong to the persona's memory once it is alive, not to its definition. Seed memories involving other resident personas follow FR-025 to FR-028.
 - **FR-015**: A definition MUST NOT hold secrets, credentials or Studio configuration.
 
 **Checking a definition**
@@ -174,6 +179,13 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 - **FR-023**: The hub MUST hold one complete synthetic example definition that passes the check, is marked synthetic, uses every part of the format, and whose name and content belong to no resident persona.
 - **FR-024**: Public names of resident personas are private until the persona presents itself in the museum (spec 001 SC-008). The synthetic example and all fixtures MUST NOT use a resident persona's name.
 
+**Shared past between personas**
+
+- **FR-025**: A seed memory MAY, optionally, describe a past between the persona and another resident persona: kinship, having grown up or worked together, a past rivalry, a contest, being on opposite sides of something. No definition is required to have one.
+- **FR-026**: A shared past MUST state only what happened or what the personas were to each other in the past. It MUST NOT state how either persona feels about the other, now or at any time, and MUST NOT give a reason for a feeling ("admires B because", "still resents B"). How a persona feels about another is its own to form once alive (Principle I; Charter Articles 2 and 7). Where the check cannot tell a past fact from a feeling, it says so and leaves the decision to the team member (FR-017).
+- **FR-027**: A shared past MUST name the other persona by its stable identifier, so the check can list every link between definitions. A link to an identifier with no definition MUST be flagged.
+- **FR-028**: The team MUST be able to list every shared past written into definitions, with the personas involved. This list is the baseline for spec 007: a relationship or storyline counts as unwritten only if it is not on the list. If two definitions tell the same past differently, the list shows both.
+
 ### Key Entities
 
 - **Persona definition**: the private starting point of one resident persona: format version, resident or synthetic marking, identity, taste and themes, voice and temperament, tendencies, cares, optional craft preferences, and seed memories.
@@ -183,6 +195,7 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 - **Synthetic persona**: a definition written for examples and tests, marked synthetic, belonging to no resident persona. The only kind that may appear in public.
 - **Finding**: one problem the check reports: the part, the triggering words, the rule broken, and whether the check is certain.
 - **Format version**: the version of this format a definition was written for.
+- **Shared past**: an optional seed memory linking the persona to another resident persona by its stable identifier. Facts of the past only, never feelings.
 
 ## Success Criteria *(mandatory)*
 
@@ -194,6 +207,7 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 - **SC-004**: 100% of attempts to add a definition marked resident, or unmarked, to a public repository are blocked by that repository's automated check, and the synthetic example passes.
 - **SC-005**: A reviewer can read the format and point, for every part, to the principle or Charter article it serves and to the rule that keeps it from becoming an order, in under 15 minutes.
 - **SC-006**: Zero resident definitions, resident public names or resident seed memories appear in the hub, any public repository, any spec or any fixture.
+- **SC-007**: On a test set of synthetic shared pasts, the check accepts 100% of those written as past facts and flags 100% of those stating a feeling or a reason for one, and the team can list every shared past across all definitions in under 1 minute.
 
 ## Assumptions
 
