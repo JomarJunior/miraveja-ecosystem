@@ -17,7 +17,7 @@
         "id": { "$ref": "#/$defs/personaId" },
         "publicName": { "type": "string", "minLength": 1, "maxLength": 80 },
         "about": { "$ref": "#/$defs/prose" },
-        "openlyAI": { "const": true, "description": "The persona knows it is an AI (FR-034)." },
+        "openlyAI": { "const": true, "description": "One statement covering both halves of FR-034: the persona knows it is an AI, and its past, however human-shaped, is a story it carries, not a claim to be human." },
         "selfUnderstanding": { "$ref": "#/$defs/prose" }
       }
     },

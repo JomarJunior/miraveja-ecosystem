@@ -44,9 +44,9 @@
 - [ ] T008 Implement `components/miraveja-persona/src/miraveja_persona/yamlio.py`: read exactly one YAML 1.2 document in safe mode, keeping line numbers per node; refuse duplicate keys, anchors, aliases, custom tags and multiple documents; keep every scalar a string except integers and booleans the schema needs (so `writtenOn` and `when` stay strings)
 - [ ] T009 [P] Write `components/miraveja-persona/tests/test_yamlio.py`: each refusal in T008 yields a `structure.yaml` finding with a line number; a date-shaped value stays a string
 - [ ] T010 Implement `components/miraveja-persona/src/miraveja_persona/model.py`: frozen pydantic v2 models `Definition`, `Identity`, `Taste`, `Voice`, `Tendencies`, `LoreName`, `SeedMemory`, `SharedPast` and `AuthorNote` mirroring the schemas, with `extra="forbid"` and the bounds verbatim from data-model.md: `publicName` "string, 1–80"; `when` "prose, 1–200"; prose max 4000 chars; `truth` max 8000; slug `^[a-z0-9-]{1,64}$`; UUID pattern; `participants` "list of UUID, 2+", unique; `themes`, `cares`, `seedMemories` 1+; `openlyAI` constant `true`; `telling` in `agreed | intended-difference`; `nature` in `resident | synthetic`
-- [ ] T011 [P] Implement `components/miraveja-persona/src/miraveja_persona/findings.py`: the `Finding` record (`rule`, `part` as JSON Pointer, `line`, `quote`, `cites`, `certainty` certain|uncertain, `decided`), the fingerprint `<rule>:<part>:<first 8 hex of SHA-256 of quote>`, and text and JSON renderers matching `contracts/cli.md`
+- [ ] T011 [P] Implement `components/miraveja-persona/src/miraveja_persona/findings.py`: the `Finding` record (`rule`, `part` as JSON Pointer, `line`, `quote`, `cites`, `certainty` certain|uncertain, `decided`), a stable part key that addresses list items by their `id` or `story`, never by position (e.g. `/sharedPasts[junior-regatta]/happened`), the fingerprint `<rule>:<key>:<first 8 hex of SHA-256 of quote>`, and text and JSON renderers matching `contracts/cli.md`
 - [ ] T012 Implement `components/miraveja-persona/src/miraveja_persona/validate.py`: schema validation with the bundled Draft 2020-12 schemas, one `structure.schema` finding per error with its JSON Pointer and line, plus `structure.version` (naming supported versions), `structure.ids`, `structure.self-in-participants` and `structure.placeholder` from `contracts/check-rules.md`
-- [ ] T013 [P] Write `components/miraveja-persona/tests/test_validate.py`: the hub's three examples produce no finding; a missing required part, an unknown field (including an `authorNote` field inside a definition), `openlyAI: false`, a 81-character `publicName`, a duplicate seed memory id, a shared past without the persona's own id, and `{3}` with two participants each produce exactly the expected rule
+- [ ] T013 [P] Write `components/miraveja-persona/tests/test_validate.py`: the hub's three examples produce no finding; a missing required part, an unknown field (including an `authorNote` field inside a definition), `openlyAI: false`, a 81-character `publicName`, a duplicate seed memory id, a shared past without the persona's own id, and `{3}` with two participants each produce exactly the expected rule; `pellam-quist.persona.yaml` holds every required and optional part of the schema, so the hub has one example that uses the whole format (FR-023)
 
 **Checkpoint**: any file can be read safely and checked for structure; findings print as the interface says.
 
@@ -109,7 +109,7 @@
 
 - [ ] T036 [P] [US3] Implement `components/miraveja-persona/src/miraveja_persona/rules/orders.py` with pattern files for the `order.*` rules, scoped to the fields the catalog names
 - [ ] T037 [P] [US3] Implement `components/miraveja-persona/src/miraveja_persona/rules/metrics.py` with pattern files for the `metric.*` rules
-- [ ] T038 [P] [US3] Implement `components/miraveja-persona/src/miraveja_persona/rules/hardlines.py`: proper-name detection per R-5 (capitalized runs not at a sentence start, not in a common-word list including months and weekdays, not a declared lore name, not the persona's own public name), plus the style, likeness and minors rules
+- [ ] T038 [P] [US3] Implement `components/miraveja-persona/src/miraveja_persona/rules/hardlines.py`: proper-name detection per R-5 (capitalized runs not at a sentence start, not in a common-word list including "I", "AI", months and weekdays, not a declared lore name, not the persona's own public name), plus the style, likeness and minors rules
 - [ ] T039 [P] [US3] Implement `components/miraveja-persona/src/miraveja_persona/rules/openly_ai.py` for `ai.human-claim`
 - [ ] T040 [P] [US3] Implement `components/miraveja-persona/src/miraveja_persona/rules/pasts.py` for `past.feeling`, `past.motive` and `past.feeling-ambiguous` on shared pasts and on seed memories naming another persona's identifier
 - [ ] T041 [P] [US3] Implement `components/miraveja-persona/src/miraveja_persona/rules/forbidden.py` for `forbidden.visitor`, `forbidden.model` and `forbidden.secret`
@@ -118,9 +118,9 @@
 
 ### Decisions and the shared-past listing
 
-- [ ] T044 [P] [US3] Write `components/miraveja-persona/tests/cli/test_decide.py`: `decide` records `finding`, `decision` (`accepted` | `not-an-issue`), `by`, `on` in the `decisions.yaml` beside the definition; refuses certain findings; a decided finding is reported as decided and `check` exits 0; a decision matching no current finding is reported stale (FR-017, R-6)
+- [ ] T044 [P] [US3] Write `components/miraveja-persona/tests/cli/test_decide.py`: `decide` records `finding`, `decision` (`accepted` | `not-an-issue`), `by`, `on` in the `decisions.yaml` beside the definition; refuses certain findings; a decided finding is reported as decided and `check` exits 0; a decision matching no current finding is reported stale; reordering shared pasts or seed memories keeps every decision valid (FR-017, R-6)
 - [ ] T045 [US3] Implement `components/miraveja-persona/src/miraveja_persona/decisions.py` and the `decide` command
-- [ ] T046 [P] [US3] Write `components/miraveja-persona/tests/cli/test_pasts.py`: over a scratch vault holding both hub examples, `pasts` lists `junior-regatta` as agreed with one version and `lighthouse-mural` as an intended difference with both versions, in text and JSON, in under one second (FR-028, SC-007)
+- [ ] T046 [P] [US3] Write `components/miraveja-persona/tests/cli/test_pasts.py`: over a scratch vault holding both hub examples, `pasts` lists `junior-regatta` as agreed with one version and `lighthouse-mural` as an intended difference with both versions, each participant shown by UUID and public name, in text and JSON, in under one second (FR-028, SC-007)
 - [ ] T047 [US3] Implement `components/miraveja-persona/src/miraveja_persona/pasts.py` and the `pasts ROOT` command
 
 **Checkpoint**: the full rule catalog, measured; the spec 007 baseline can be listed.
@@ -140,6 +140,11 @@
 - [ ] T052 [P] [US4] Add `miraveja-persona guard` to `components/miraveja-persona/.github/workflows/ci.yml`, so the library guards itself
 - [ ] T053 [P] [US4] Add a `miraveja-persona guard` step beside the existing guard in `components/modelmora/.github/workflows/ci.yml` (spec 002 T006), pinned to a library commit; commit in `modelmora` referencing spec 003
 - [ ] T054 [P] [US4] Add a `miraveja-persona guard` step beside the existing guard in `components/miraveja-studiolink/.github/workflows/ci.yml` (spec 001 T005), pinned to a library commit; commit in `miraveja-studiolink` referencing spec 003
+- [ ] T054a [P] [US4] Add `.github/workflows/guard.yml` running `miraveja-persona guard` (pinned to a library commit) to `components/museumusa/`; commit in `museumusa` referencing spec 003 (FR-021, SC-004)
+- [ ] T054b [P] [US4] Add the same guard workflow to `components/portaguarda/`; commit referencing spec 003
+- [ ] T054c [P] [US4] Add the same guard workflow to `components/curagusta/`; commit referencing spec 003
+- [ ] T054d [P] [US4] Add the same guard workflow to `components/sonavida/`; commit referencing spec 003
+- [ ] T054e [P] [US4] Add the same guard workflow to `components/descridiva/`; commit referencing spec 003
 - [ ] T055 [US4] Document the private vault in `docs/components/cofrealma.md`: layout (`.cofrealma` marker, `personas/<slug>/definition.persona.yaml`, `decisions.yaml`, `*.note.yaml`, `ledger/births.yaml`), a CI workflow that installs the library and runs `check --tree .`, and the rule that the vault is never checked out under a public tree. Writing the vault's own files is done in the private repository, not by these tasks
 
 **Checkpoint**: a resident definition cannot enter any public repository unnoticed.
@@ -153,7 +158,7 @@
 **Independent test**: a reviewer confirms every part of the format is described as a starting point, and the library offers no way to re-apply a definition to a living persona (spec US5).
 
 - [ ] T056 [P] [US5] Write `components/miraveja-persona/tests/loader/test_no_reapply.py`: `Definition` is frozen and exposes no update, merge, diff-against-memory or reload method; the public API (`miraveja_persona.__all__`) contains nothing that compares a persona to its definition
-- [ ] T057 [US5] Review the `description` of every part in both hub schemas and every scaffold guidance line so each reads as who the persona is at the start, never a rule it must keep; fix wording in `specs/003-cofrealma-persona-definition/contracts/*.schema.json` and `scaffold.py`, then re-copy the schemas (T004) so T005 passes
+- [ ] T057 [US5] Review the `description` of every part in both hub schemas and every scaffold guidance line so each reads as who the persona is at the start, never a rule it must keep, and cites the requirement and the principle or Charter article it serves, so a reviewer can trace every part in under 15 minutes (SC-005); fix wording in `specs/003-cofrealma-persona-definition/contracts/*.schema.json` and `scaffold.py`, then re-copy the schemas (T004) so T005 passes
 
 **Checkpoint**: all five stories done.
 
@@ -182,7 +187,7 @@ Phase 1 Setup ──► Phase 2 Foundational ──► US1 (MVP) ──► US2 �
 
 - US1 builds `check` and the rule registry that US3 fills.
 - US2's `vault.py` is needed by US3's cross-definition checks (T043) and `pasts` (T047), and by `freeze`'s pre-check.
-- US4's guard is independent of the rules and can start right after Phase 2; its CI tasks (T051 to T054) need the library pushed.
+- US4's guard is independent of the rules and can start right after Phase 2; its CI tasks (T051 to T054e) need the library pushed and each target repository attached to the session.
 - US5 needs the loader (US2) and the scaffold (US1).
 
 ## Parallel examples
@@ -190,7 +195,7 @@ Phase 1 Setup ──► Phase 2 Foundational ──► US1 (MVP) ──► US2 �
 - **Phase 2**: T009, T011 and T013 together once T008 and T010 are in.
 - **US2**: T019, T020, T021, T023 and T025 (all tests) together, before T022, T024 and T026.
 - **US3**: the corpus tasks T029 to T034 together; then the rule modules T036 to T041 together.
-- **US4**: T048 and T049 together before T050; then T052, T053 and T054 together.
+- **US4**: T048 and T049 together before T050; then T052 to T054e together.
 - **Polish**: T058 to T061 together.
 
 ## Implementation strategy
@@ -201,4 +206,4 @@ Phase 1 Setup ──► Phase 2 Foundational ──► US1 (MVP) ──► US2 �
 4. **Leak-proof**: add US4 and roll the guard out to every public repository.
 5. **Freedom check and polish**: US5, then Phase 8, then converge.
 
-Commits in `components/miraveja-persona/` (and `modelmora`, `miraveja-studiolink` for T053 and T054) reference spec 003. Pushing to `miraveja-persona` needs the Claude GitHub App installed on that repository.
+Commits in `components/miraveja-persona/` (and in `modelmora`, `miraveja-studiolink`, `museumusa`, `portaguarda`, `curagusta`, `sonavida` and `descridiva` for T053 to T054e) reference spec 003. Pushing to `miraveja-persona` needs the Claude GitHub App installed on that repository.

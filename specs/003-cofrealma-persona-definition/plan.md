@@ -97,7 +97,8 @@ Hub changes (this repository):
 └── .github/workflows/guard.yml                  the hub runs the guard on itself
 
 Existing public repositories:
-└── modelmora, miraveja-studiolink: add `miraveja-persona guard` to CI beside their current guards (FR-021)
+├── modelmora, miraveja-studiolink: add `miraveja-persona guard` to CI beside their current guards (FR-021)
+└── museumusa, portaguarda, curagusta, sonavida, descridiva: add a guard workflow now, before their first feature (FR-021, SC-004)
 ```
 
 **Structure Decision**: one new library repository, `JomarJunior/miraveja-persona`, checked out at `components/miraveja-persona/`. Creating it needs the Visionary's go-ahead and is the first task. The split follows the spec's seams: loading for the runtime, the rule catalog for writers, the vault checks for **🔐 CofreAlma**, and the guard for public repositories, so each requirement has one home. **🔐 CofreAlma** gets no code, only the layout above and a CI workflow that installs the library and runs `check --tree`.
@@ -106,7 +107,8 @@ Existing public repositories:
 
 - **004 `sonavida-persona-life`**: load residents only through `load_resident`, once, at birth; never log definition content; render shared pasts from the persona's point of view; never read author's notes, decisions or the ledger beyond what the loader does.
 - **007 `sonavida-persona-society`**: use `miraveja-persona pasts` as the baseline of written relationships and storylines.
-- **Every future public component repository**: run `miraveja-persona guard` in CI from its first feature.
+- **Every public repository created after this spec**: run `miraveja-persona guard` in CI from its first commit.
+- **Existing per-repository guards** (spec 001 T005, spec 002 T004): stay in place. They are the only check against resident public names in fixtures (FR-024), which this format cannot recognize.
 
 ## Complexity Tracking
 

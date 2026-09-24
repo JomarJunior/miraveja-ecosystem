@@ -11,7 +11,7 @@ The authoritative shapes are the schemas in [contracts/](./contracts/). This pag
 | `identity.id` | UUID string | yes | Stable identifier, the same value as `personaId` in the Studio Link (spec 001). Never reused (FR-037). |
 | `identity.publicName` | string, 1–80 | yes | Unique across all definitions and the birth ledger, departed personas included (FR-037). Not a real person or living artist (FR-012). |
 | `identity.about` | prose | yes | Who the persona is, in the team's words (FR-002). |
-| `identity.openlyAI` | `true` (constant) | yes | The persona knows it is an AI (FR-034). A definition without it is incomplete. |
+| `identity.openlyAI` | `true` (constant) | yes | One statement covering both halves of FR-034: the persona knows it is an AI, and its past is a story it carries, not a claim to be human. A definition without it is incomplete. |
 | `identity.selfUnderstanding` | prose | no | How the persona holds its past as its own story while knowing it is an AI (FR-034). |
 | `taste.drawnTo` | prose | yes | FR-003. |
 | `taste.themes` | list of prose, 1+ | yes | Subjects and moods it keeps returning to. Inclinations, never rules (FR-011). |
@@ -97,7 +97,7 @@ At least one of `about.persona` or `about.story` is required. Hard-line, money, 
 
 | Field | Type | Rules |
 |---|---|---|
-| `finding` | fingerprint: rule id, part path, SHA-256 of the triggering words | Identifies one uncertain finding (R-6). |
+| `finding` | fingerprint: rule id, stable part key, SHA-256 of the triggering words | Identifies one uncertain finding (R-6). The stable part key addresses list items by their `id` or `story` (for example `/sharedPasts[junior-regatta]/happened`), never by position, so reordering entries keeps decisions valid. |
 | `decision` | `accepted` \| `not-an-issue` | `accepted` means the writer judged the words fine as written. |
 | `by` | string | Team member. |
 | `on` | date | |
@@ -110,6 +110,7 @@ Only uncertain findings can be decided. A decision whose fingerprint no longer m
 |---|---|
 | `rule` | Rule id from the catalog, e.g. `order.cadence`. |
 | `part` | JSON Pointer to the field, e.g. `/sharedPasts/0/happened`. |
+| `key` | Stable part key, e.g. `/sharedPasts[junior-regatta]/happened`, used in the fingerprint. |
 | `line` | Line in the file. |
 | `quote` | The triggering words. Printed by `check`, never by `guard`. |
 | `cites` | The requirement and Charter article or principle broken. |

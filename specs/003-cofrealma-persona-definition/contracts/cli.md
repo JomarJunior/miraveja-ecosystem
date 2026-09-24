@@ -9,7 +9,7 @@ The public surface of the library: a CLI for people and CI, and a Python API for
 | `miraveja-persona new --name "<public name>" [--synthetic] [-o PATH]` | Write a scaffold with a fresh UUID, every part, and a guidance comment for each (R-11). `--synthetic` sets `nature: synthetic`. Refuses to overwrite. | 0 written · 2 usage |
 | `miraveja-persona check PATH... [--tree ROOT] [--format text\|json]` | Check definitions and author's notes against the schema and [check-rules.md](./check-rules.md). With `--tree`, also runs the vault-wide and cross-definition rules over the **🔐 CofreAlma** checkout at `ROOT`, reading `decisions.yaml` and `ledger/births.yaml`. | 0 valid (only decided findings) · 1 a certain finding · 3 undecided uncertain findings only · 2 usage or unreadable file |
 | `miraveja-persona decide FINGERPRINT --as accepted\|not-an-issue --by NAME [--tree ROOT]` | Record a decision on an uncertain finding in the `decisions.yaml` beside its definition (R-6). Refuses certain findings. | 0 recorded · 1 refused · 2 usage |
-| `miraveja-persona pasts ROOT [--format text\|json]` | List every shared past in the vault: story, participants, telling, and each definition's version (FR-028). The baseline for spec 007. | 0 · 2 usage |
+| `miraveja-persona pasts ROOT [--format text\|json]` | List every shared past in the vault: story, participants (UUID and public name), telling, and each definition's version (FR-028). Public names are shown because the listing only ever runs against the private vault. The baseline for spec 007. | 0 · 2 usage |
 | `miraveja-persona freeze PATH --tree ROOT` | Record a ready definition's birth in `ledger/births.yaml`: identifier, public name, path, SHA-256, date (R-8). Refuses a definition that does not pass `check --tree`, a synthetic one, or one already frozen. | 0 frozen · 1 refused · 2 usage |
 | `miraveja-persona guard [PATH...]` | For public repositories: block any definition, author's note or vault marker not marked synthetic (R-9). Defaults to every file tracked by git in the working directory. Prints file, line and reason only, **never content**. | 0 clean · 1 blocked · 2 usage |
 
@@ -18,7 +18,7 @@ The public surface of the library: a CLI for people and CI, and a Python API for
 ```text
 <file>:<line>  <certainty>  <rule>  <part>
     "<triggering words>"
-    breaks <cites>   fingerprint <rule>:<part>:<hash8>
+    breaks <cites>   fingerprint <rule>:<key>:<hash8>
 ```
 
 `--format json` prints a list of Finding objects (see [data-model.md](../data-model.md)).

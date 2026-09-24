@@ -35,7 +35,7 @@ Decisions behind the plan. Those marked *(Visionary)* were chosen directly.
 
 ## R-6: Recording the writer's decisions on uncertain findings
 
-- **Decision**: uncertain findings do not fail the check by themselves, but they are listed and the command exits with a distinct code until each one is decided. A team member records a decision in `decisions.yaml` beside the definition in **🔐 CofreAlma**: the finding's fingerprint (rule, part, and a hash of the triggering words), *accepted* or *not an issue*, who decided, and when. A decided finding is then reported as decided, never silently dropped. Certain findings cannot be decided away; the definition must change.
+- **Decision**: uncertain findings do not fail the check by themselves, but they are listed and the command exits with a distinct code until each one is decided. A team member records a decision in `decisions.yaml` beside the definition in **🔐 CofreAlma**: the finding's fingerprint (rule, a stable part key that names list items by `id` or `story` rather than position, and a hash of the triggering words), *accepted* or *not an issue*, who decided, and when. A decided finding is then reported as decided, never silently dropped. Certain findings cannot be decided away; the definition must change.
 - **Rationale**: FR-017 forbids both passing silently and blocking outright. A durable decision keeps CI reproducible and leaves a trail a reviewer can read.
 - **Alternatives considered**: inline markers in the definition (would mix review state into the persona's own file, which a runtime reads); warnings only (would pass silently in CI).
 
@@ -43,7 +43,7 @@ Decisions behind the plan. Those marked *(Visionary)* were chosen directly.
 
 - **Decision**: a shared past has a **story** key shared by every definition that tells it, a **participants** list of stable identifiers (including the persona's own), a rough **when**, the **happened** text, and a **telling**: `agreed` or `intended-difference`. The text names participants by position (`{1}`, `{2}`), never by name or point of view, so two definitions that agree can hold identical text; the runtime renders it from each persona's point of view.
 - **Difference detection**: for one story, entries marked `agreed` in every definition must match exactly (participants, when, text). A mismatch is an *uncertain* finding, "possible mistake" (FR-029). Entries marked `intended-difference` in every definition pass with no warning. Mixed markings are a certain finding, since the team disagrees with itself. A story told in one definition only is a one-sided past and needs no counterpart.
-- **Listing (FR-028)**: `miraveja-persona pasts <cofrealma-root>` prints every story with its participants, its telling, and every version, as the baseline for spec 007.
+- **Listing (FR-028)**: `miraveja-persona pasts <cofrealma-root>` prints every story with its participants (UUID and public name), its telling, and every version, as the baseline for spec 007.
 - **Rationale**: exact comparison is the only deterministic way to tell "the same account" from "a different one" without reading meaning. Position placeholders make agreement expressible as identical text, so agreeing is cheap and differing is always a deliberate mark.
 - **Alternatives considered**: free first-person text per definition (every pair would differ, so every story would need a mark or a warning); a single shared-story file referenced by definitions (a definition would no longer be self-sufficient, against User Story 2).
 
@@ -64,7 +64,8 @@ Decisions behind the plan. Those marked *(Visionary)* were chosen directly.
 
 - **Decision**: the loader has two entry points. `load_resident(path, cofrealma_root)` requires `nature: resident`, a path inside a directory that carries the `.cofrealma` marker, and a matching birth ledger entry; it refuses everything else. `load_synthetic(path)` requires `nature: synthetic` and is for tests and examples. Both refuse author's notes and any unknown field.
 - **Rationale**: the only place a `.cofrealma` marker legitimately exists is the private checkout on the Studio (the guard blocks it anywhere public), so "inside a marked **🔐 CofreAlma** checkout" is a practical stand-in for "on the Studio". Two entry points make it impossible to bring a synthetic persona to life as a resident by passing a flag.
-- **Alternatives considered**: an environment variable declaring the Studio (trivially set anywhere); checking the git remote (the Studio should not need git to load a persona).
+- **Known limit**: a copy of the vault checkout on another team machine would also pass `load_resident`. Keeping the vault on the Studio alone is a team practice, recorded in the spec's Assumptions; the guard still keeps it out of every public repository.
+- **Alternatives considered**: an environment variable declaring the Studio (trivially set anywhere); a Studio-only config file (the same weakness, one more file to keep private); checking the git remote (the Studio should not need git to load a persona).
 
 ## R-11: Writing a definition in under an hour (SC-001)
 

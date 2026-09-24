@@ -38,7 +38,7 @@ The catalog `miraveja-persona check` applies (R-4). Every finding names its rule
 | Rule | Certainty | Fires when | Cites |
 |---|---|---|---|
 | `hardline.living-artist-style` | certain | "in the style of", "imitates", "like the work of", "channels" followed by a proper name not declared in `lore.names`. | FR-012 |
-| `hardline.real-name` | uncertain | A proper name in prose that is not a declared lore name, not the persona's own public name and not a common word (R-5). Asks: "is this a real person or a living artist?" | FR-012 |
+| `hardline.real-name` | uncertain | A proper name in prose that is not a declared lore name, not the persona's own public name and not a common word (R-5). The common-word list includes "I", "AI", months and weekdays. Asks: "is this a real person or a living artist?" | FR-012 |
 | `hardline.likeness` | certain | `selfImage` or any prose saying the persona or a figure looks like a named person not declared in `lore.names`: "looks like", "resembles", "the face of". | FR-012, FR-036 |
 | `hardline.minors` | certain | Sexual or harmful content involving minors: sexual terms within the same sentence as child, minor, teen, schoolgirl, underage and similar; harm terms directed at them. | FR-012 |
 
@@ -66,7 +66,7 @@ Applied to `sharedPasts[*].happened`, and the feeling rule also to seed memories
 | Rule | Certainty | Fires when | Cites |
 |---|---|---|---|
 | `forbidden.visitor` | certain | Visitors, pseudonyms, experiences or verdicts: "a visitor", "the audience said", "curator rejected", strings shaped like a Studio Link pseudonym. | FR-014 |
-| `forbidden.model` | certain | A model or Studio internal: known model-family words, "checkpoint", "LoRA", "sampler", "steps", "CFG", "prompt:" and version-like tokens after them. | FR-007 |
+| `forbidden.model` | certain | A model or Studio internal: known model-family words, "checkpoint", "LoRA", "CFG", "prompt:", and version-like tokens after them. Everyday words such as "steps" or "sampler" fire only next to a number or a colon ("30 steps", "sampler:"). | FR-007 |
 | `forbidden.secret` | certain | Secret-shaped strings: keys, tokens, private key blocks, URLs with credentials. | FR-015 |
 
 ## Vault-wide checks (`check --tree <cofrealma-root>`)
