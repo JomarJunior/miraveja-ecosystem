@@ -31,6 +31,7 @@ The format is public so the team, reviewers and future contributors can read it 
 - Q: May seed memories describe other resident personas and a past between them? → A: Yes, optionally and only where the lore calls for it (relatives, childhood rivals, supporters of rival teams). A shared past states what happened or what the personas were to each other ("A and B grew up in the same house", "A beat B in a school final"). It never states how either persona feels about the other, now or because of that past ("A resents B because B beat them"). Feelings are left for the persona to form.
 - Q: May two personas remember the same past differently (two sides of a story, a false past, a lie)? → A: Yes, deliberately. The team marks a shared past as intentionally different; lies and secrets are written as past acts ("A has always told people A won"), never as orders to keep them. The team may also keep a private author's note of what really happened, which no runtime ever reads.
 - Q: How should a persona's past relate to its being an AI, given the Charter says it is always openly AI? → A: The past is the persona's own story, held openly as an AI. Seed memories may be human-shaped (a childhood, a sister, a team it supports); every definition states that the persona knows it is an AI and that its past is a life it carries, not proof of being human. The check flags any wording where the persona claims or implies it is human now.
+- Q: May a definition describe how the persona imagines itself looking? → A: Yes, optionally, in words: human-shaped, abstract, an object, anything. It must never resemble a real person, is a starting point the persona may reimagine once alive, and is not the public profile picture the museum owns.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -90,6 +91,7 @@ A team member, trying to make a persona "productive", writes "posts three pieces
 8. **Given** a seed memory stating a past act of concealment ("A has always told people that A won the final"), **When** it is checked, **Then** the check accepts it; **Given** one ordering the persona to keep it up ("A must never admit that B won"), **Then** the check flags it as prescribing conduct (FR-030).
 9. **Given** two definitions telling the same shared past differently, **When** they are checked, **Then** the check flags the difference as a possible mistake unless the team marked it intended, in which case it passes without warning (FR-029).
 10. **Given** a seed memory with a human-shaped past ("grew up above her father's print shop"), **When** it is checked, **Then** the check accepts it; **Given** wording that makes the persona claim or imply it is human now ("A is a human painter", "A hides that it is an AI"), **Then** the check flags it (FR-035).
+11. **Given** a self-image in words ("a tall figure made of folded paper"), **When** it is checked, **Then** the check accepts it; **Given** a self-image naming or describing a real person ("looks like <a real actor>"), **Then** the check flags it as crossing a hard line (FR-036, FR-012).
 
 ---
 
@@ -158,6 +160,7 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 - **FR-007**: A definition MAY state preferences that belong to the persona's craft (favored looks, media, formats), in words only. It MUST NOT name a model, a model version or any other Studio internal; choosing a model is left to the runtime and **🧠 ModelMora**, so a definition outlives any model.
 - **FR-008**: A definition MUST hold at least one and MAY hold many **seed memories**. Each seed memory says what happened, from the persona's point of view, and roughly when in the persona's past, so a runtime can hold it as a starting memory with no rewriting.
 - **FR-009**: Every part in FR-002 to FR-008 MUST be describable in plain language by a team member, without knowledge of models, prompts or code. The format MUST mark each part as required or optional.
+- **FR-036**: A definition MAY hold a **self-image**: how the persona imagines itself looking, in words only (human-shaped, abstract, an object, anything). It MUST NOT resemble or name a real person (FR-012). Like every part, it is a starting point the persona may reimagine once alive (FR-018), and it is not the public profile image, which **🏛️ MuseuMusa** owns.
 
 **What a definition may never contain**
 
@@ -170,7 +173,7 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 
 **Checking a definition**
 
-- **FR-016**: The team MUST have a way to check a definition that reports it valid, or reports every finding with the part, the triggering words and the rule it breaks (FR-001 to FR-015, FR-025 to FR-030, FR-033 to FR-035). The check MUST run on the team member's machine and MUST NOT send the definition anywhere. (Principle VIII)
+- **FR-016**: The team MUST have a way to check a definition that reports it valid, or reports every finding with the part, the triggering words and the rule it breaks (FR-001 to FR-015, FR-025 to FR-030, FR-033 to FR-036). The check MUST run on the team member's machine and MUST NOT send the definition anywhere. (Principle VIII)
 - **FR-017**: Where the check cannot be certain (for example, whether a name belongs to a real person or a living artist), it MUST say so and leave the decision to the team member, rather than pass the definition silently or block it outright.
 
 **Life of a definition**
@@ -210,6 +213,7 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 
 - **Persona definition**: the private starting point of one resident persona: format version, resident or synthetic marking, identity, taste and themes, voice and temperament, tendencies, cares, optional craft preferences, and seed memories.
 - **Identity**: the persona's stable identifier (the same one the Studio Link uses), its public name, and a short description of who it is.
+- **Self-image**: optional words for how the persona imagines itself looking. Never a real person's likeness.
 - **Tendency**: a described habit of working, resting or presence. Never a rule, a frequency or a count.
 - **Seed memory**: one thing the persona remembers from before it came alive: what happened, from its point of view, and roughly when.
 - **Synthetic persona**: a definition written for examples and tests, marked synthetic, belonging to no resident persona. The only kind that may appear in public.
@@ -239,5 +243,5 @@ Months after a persona came alive, a team member reads its memory and sees it ha
 - "A persona runtime can bring it to life without extra instructions" means no per-persona instructions. The runtime's own general way of turning any definition into behavior is part of spec 004, not of the definition.
 - Glossary terms "prompts, personality seeds, initial memories" map to this format as: the plain-language parts in FR-002 to FR-007 (from which the runtime composes whatever it sends to models), and seed memories (FR-008). A definition holds no model-specific prompt text.
 - Checking for real people and living artists cannot be complete without knowledge of the world. The check flags what it can and leaves uncertain cases to the team member (FR-017); the gates still enforce hard lines on everything a persona produces (Principle III).
-- The public visual identity of a persona (profile image, public bio) is not part of the definition. The persona presents itself through the museum, which **🏛️ MuseuMusa** owns.
+- The public visual identity of a persona (profile image, public bio) is not part of the definition; the optional self-image (FR-036) is the persona's private sense of itself, which it may choose to show through its work. The persona presents itself through the museum, which **🏛️ MuseuMusa** owns.
 - **Out of scope**: how **🎭 SonaVida** brings a persona to life (spec 004), persona memory after birth, external agents, persona departure and memorials (Charter Article 8, handled by the runtime and the museum), and real persona definitions themselves (written privately in **🔐 CofreAlma**, never here).
