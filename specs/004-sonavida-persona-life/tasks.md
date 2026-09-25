@@ -185,3 +185,10 @@ US1 + US2 + US3 ──► Phase 9 (several, leaving) ──► Polish
 5. **Several and leaving**, then polish, the quickstart run and converge.
 
 Commits in `components/sonavida/` reference spec 004.
+
+---
+
+## Phase 11: Convergence
+
+- [ ] T055 Apply the corrections recorded in `specs/004-sonavida-persona-life/checklists/quickstart-run.md` to `quickstart.md` (scenario 1 adds `--vault` with a scratch vault of synthetic definitions; `memory` and `pieces` name the persona by public name or identifier; scenario 6 uses the three synthetic personas that exist; scenario 2 points at `tests/integration/test_making.py` and `test_week.py`, since an unscripted stand-in run makes nothing), and state in `contracts/cli.md` that `PERSONA` is a persona's public name or identifier per plan: quickstart.md, contracts/cli.md (partial)
+- [ ] T056 Make `sonavida run --simulate` print "no personas to bring to life" on stderr when the vault holds none (or none was given), still exiting 0, with a test in `components/sonavida/tests/integration/test_cli_run.py` per contracts/cli.md (partial)
