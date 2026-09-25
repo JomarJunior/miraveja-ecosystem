@@ -4,7 +4,7 @@
 
 **Created**: 2026-09-25
 
-**Status**: Draft
+**Status**: Implemented (2026-09-25) — `sonavida` on `main`
 
 **Input**: User description: "Bring one resident persona to life in the Studio. It wakes and rests on its own tendencies, shows its presence, forms an intention for a piece, creates it, gives it a title and a short statement in its own voice, decides whether to submit it for exhibition, and remembers what it made and what happened to it. When the Studio is unavailable, the persona is simply away. A persona never receives counts, scores or money, only experiences it may remember. Success: over a week, the persona produces work on its own rhythm, and a team member reading its memory can tell what it has been doing and why."
 
