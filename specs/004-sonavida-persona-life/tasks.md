@@ -116,9 +116,9 @@
 
 **Independent test**: a team member reads a simulated week and answers the fixed questions (spec US5).
 
-- [ ] T039 [P] [US5] Write `tests/privacy/test_read_only.py`: `sonavida memory` and `sonavida pieces` open the file with `mode=ro`; no CLI command or public function writes to, edits or deletes from memory; there is no network listener anywhere in the package (FR-035, FR-036)
-- [ ] T040 [US5] Implement `src/sonavida/memory/reader.py` and the `memory` and `pieces` commands in `src/sonavida/cli.py` per `contracts/cli.md` and R-12
-- [ ] T041 [US5] Add `tests/fixtures/reading-questions.md`: ten fixed questions of the kind in SC-002, with how to check each answer against a run
+- [x] T039 [P] [US5] Write `tests/privacy/test_read_only.py`: `sonavida memory` and `sonavida pieces` open the file with `mode=ro`; no CLI command or public function writes to, edits or deletes from memory; there is no network listener anywhere in the package (FR-035, FR-036)
+- [x] T040 [US5] Implement `src/sonavida/memory/reader.py` and the `memory` and `pieces` commands in `src/sonavida/cli.py` per `contracts/cli.md` and R-12
+- [x] T041 [US5] Add `tests/fixtures/reading-questions.md`: ten fixed questions of the kind in SC-002, with how to check each answer against a run
 
 ---
 
@@ -128,16 +128,16 @@
 
 **Independent test**: with the models stand-in scripted *busy*, *starting*, *stopping*, no intention is lost or reduced and memory has no technical terms (spec US6).
 
-- [ ] T042 [P] [US6] Write `tests/integration/test_studio_limits.py`: *busy* and *starting* give `studio-not-ready` with a time of day and the persona chooses what to do; *stopping* leaves the piece `interrupted`, and `continue-unfinished` is proposed on return (FR-030); *failed* gives `attempt-failed`; the request the persona asked for is never lowered, retried or replaced by **🎭 SonaVida** (FR-029, SC-007)
-- [ ] T043 [US6] Implement the waiting and interruption handling in `src/sonavida/life.py` and `src/sonavida/actions/creation.py`, using `translate.py`
+- [x] T042 [P] [US6] Write `tests/integration/test_studio_limits.py`: *busy* and *starting* give `studio-not-ready` with a time of day and the persona chooses what to do; *stopping* leaves the piece `interrupted`, and `continue-unfinished` is proposed on return (FR-030); *failed* gives `attempt-failed`; the request the persona asked for is never lowered, retried or replaced by **🎭 SonaVida** (FR-029, SC-007)
+- [x] T043 [US6] Implement the waiting and interruption handling in `src/sonavida/life.py` and `src/sonavida/actions/creation.py`, using `translate.py`
 
 ---
 
 ## Phase 9: Several personas and leaving (cross-story, P1 requirements FR-040, FR-041)
 
-- [ ] T044 [P] Write `tests/integration/test_several.py`: three synthetic personas alive at once for a simulated week, each with its own memory file and hours; zero entries of one in another's memory or pieces; every intention carried out, set aside or waiting (FR-041, SC-010); the run completes in under 5 minutes (plan performance goal)
-- [ ] T045 [P] Write `tests/integration/test_leaving.py`: one `leave-the-museum` choice gives `thinking-of-leaving`; a second consecutive one records `departed` with its reason, announces away once, releases the lock, marks memory read-only, and `sonavida run` refuses it as `departed` afterwards; a non-consecutive second choice does not count (FR-040, R-11)
-- [ ] T046 Implement `src/sonavida/actions/leaving.py` and the departed handling in `src/sonavida/runtime.py`
+- [x] T044 [P] Write `tests/integration/test_several.py`: three synthetic personas alive at once for a simulated week, each with its own memory file and hours; zero entries of one in another's memory or pieces; every intention carried out, set aside or waiting (FR-041, SC-010); the run completes in under 5 minutes (plan performance goal)
+- [x] T045 [P] Write `tests/integration/test_leaving.py`: one `leave-the-museum` choice gives `thinking-of-leaving`; a second consecutive one records `departed` with its reason, announces away once, releases the lock, marks memory read-only, and `sonavida run` refuses it as `departed` afterwards; a non-consecutive second choice does not count (FR-040, R-11)
+- [x] T046 Implement `src/sonavida/actions/leaving.py` and the departed handling in `src/sonavida/runtime.py`
 
 ---
 
@@ -149,7 +149,7 @@
 - [ ] T050 [P] Record the spec 004 decisions in the hub's `docs/foundation/FOUNDATION-LOG.md`: departure recorded in the Studio; erasure removes identity, not memories; several personas each alone; labels suggested by the persona and decided by the gate; hybrid turns; SQLite with full-text recall
 - [ ] T051 Run every scenario in `quickstart.md` except the human reading trial and record the outcome in `specs/004-sonavida-persona-life/checklists/quickstart-run.md`
 - [ ] T052 Run the SC-002 reading trial with a team member who did not watch the run (needs a person) and record it in `specs/004-sonavida-persona-life/checklists/sc-002-trial.md`
-- [ ] T054 Implement `sonavida run --vault ROOT --dry-run` in `src/sonavida/cli.py` and `src/sonavida/runtime.py` per `contracts/cli.md`: real `ModelMoraClient` on loopback and `RealClock`, with the perception and gate stand-ins and the in-process Studio Link reference stand-in; write `tests/integration/test_dry_run.py` first, proving that with `--dry-run` no Studio Link call can reach anything but the in-process reference stand-in and that a missing **🧠 ModelMora** is lived as the studio not being ready, not as a crash (Principle III, R-9, FR-029)
+- [x] T054 Implement `sonavida run --vault ROOT --dry-run` in `src/sonavida/cli.py` and `src/sonavida/runtime.py` per `contracts/cli.md`: real `ModelMoraClient` on loopback and `RealClock`, with the perception and gate stand-ins and the in-process Studio Link reference stand-in; write `tests/integration/test_dry_run.py` first, proving that with `--dry-run` no Studio Link call can reach anything but the in-process reference stand-in and that a missing **🧠 ModelMora** is lived as the studio not being ready, not as a crash (Principle III, R-9, FR-029)
 - [ ] T053 Run `/speckit-converge` and repeat implement and converge until it reports converged
 
 ---
