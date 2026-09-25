@@ -22,8 +22,10 @@ Two kinds of state: **durable** (the SQLite registry, which outlives every reque
 | `license_confirmed_by` | text | The team member who read the license (FR-021). |
 | `license_confirmed_at` | timestamp | |
 | `filter_disclosure` | text | `none`, `disclosed` or `undisclosable`. An `undisclosable` model is never servable: **🧠 ModelMora** must be able to say when a built-in filter changed an output (FR-008), and explicit work is allowed in the museum when labeled. The team member judges this, as with the license. |
+| `local_path` | text, nullable | Where the model's files sit on this Studio: a single file or a directory (amended 2026-09-26). `null` for a record with no runner attached yet. |
+| `companion_paths` | text (JSON object) | A file a runner needs beside the main weights, by role (`{"mmproj": "...", "vae": "..."}`); `{}` when none are needed (amended 2026-09-26). |
 
-A record is **complete** only with a license name, a license source and a confirmation. Anything less is never served (FR-021).
+A record is **complete** only with a license name, a license source and a confirmation. Anything less is never served (FR-021). `local_path` and `companion_paths` are independent of completeness: a complete, in-service record with no `local_path` is still listed and licence-tracked, just never attached to a runner (`model_unavailable`).
 
 ### `service_period`
 

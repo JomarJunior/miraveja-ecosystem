@@ -27,6 +27,10 @@ This spec defines what **🧠 ModelMora** offers its callers and its operators. 
 - Q: Is image understanding (an image plus a question in, text out) in scope, for **💬 DescriDiva** and **🧐 CuraGusta**? → A: Yes. A text request may include images, and the registry records which text models can read them.
 - Q: How are waiting requests ordered, given that loading a model takes real time? → A: Mostly first come, first served. A request for a model already on the GPU may run ahead of older requests for other models, but no request may be overtaken for longer than a bounded time. No caller or persona is favored.
 
+### Session 2026-09-26 (amendment)
+
+- Q: The Studio's models are the team's own existing collection (`/data/models`), not ones **🧠 ModelMora** fetches itself. How does the registry point a runner at files that already sit on the Studio, sometimes needing a second file beside them (a vision projector, a VAE)? → A: FR-020 is amended: each record also holds where its files sit on the Studio (a local path, naming a single file or a directory) and any companion files a runner needs beside them, so `serve` can build a real runner from a record instead of leaving it unattached.
+
 ## User Scenarios & Testing *(mandatory)*
 
 The users of **🧠 ModelMora** are the Studio components that call it (**🎭 SonaVida**, **🧐 CuraGusta**, **💬 DescriDiva**), the team members who decide which models the Studio may run, and the reviewers who must be able to prove every model's license is on record.
@@ -163,7 +167,7 @@ The Studio is switched on in the morning. A persona wakes before its models are 
 
 **The registry**
 
-- **FR-020**: **🧠 ModelMora** MUST keep a registry of models. Each record holds: name, version, kind (text or image), for a text model whether it can read images, license name, where the license terms were read, the source the model came from, a way to confirm the files on the Studio are that exact version, the team member who added it, and when it was added.
+- **FR-020**: **🧠 ModelMora** MUST keep a registry of models. Each record holds: name, version, kind (text or image), for a text model whether it can read images, license name, where the license terms were read, the source the model came from, a way to confirm the files on the Studio are that exact version, the team member who added it, when it was added, **where its files sit on the Studio (a local path, naming a single file or a directory), and any companion files a runner needs beside them (a vision projector, a VAE) (amended 2026-09-26)**.
 - **FR-021**: A model MUST NOT be served unless its record is complete and a team member has confirmed that its license is open-weight and allows its outputs to be exhibited in a public museum. (Principle V; component rule)
 - **FR-022**: **🧠 ModelMora** MUST refuse to load a model whose files do not match its recorded version, and MUST tell the team.
 - **FR-023**: Retiring a model MUST stop it from being served but MUST keep its record, with the dates it was in service, so every past result can be traced to its license.
@@ -190,7 +194,7 @@ The Studio is switched on in the morning. A persona wakes before its models are 
 
 ### Key Entities
 
-- **Model record**: one model the Studio may serve, identified by name and version, with its kind (and, for a text model, whether it can read images), license, source, license confirmation, file check, who added it, when, and its service dates. Kept after retirement.
+- **Model record**: one model the Studio may serve, identified by name and version, with its kind (and, for a text model, whether it can read images), license, source, license confirmation, file check, who added it, when, its service dates, and where its files (and any companion files) sit on the Studio (amended 2026-09-26). Kept after retirement.
 - **License**: the terms under which a model is used: its name, where its terms were read, and the team member's confirmation that it is open-weight and allows public exhibition of outputs.
 - **Default model**: the model on record that serves a kind when a caller names no model: one for text, one for text about images, one for images.
 - **Request**: one caller's ask for one result: the kind, the model if named, the inputs (including any images to read), the settings and the caller. Its content lives only as long as the request (FR-030).

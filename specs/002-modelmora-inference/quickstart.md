@@ -6,7 +6,7 @@ Runnable checks behind the spec's success criteria. Scenarios 1 to 6 need no GPU
 
 - Python 3.12 and `uv`.
 - `components/modelmora/` checked out.
-- For Scenario 7 only: the Studio machine, its GPU, the `gpu` extra installed (`uv sync --extra gpu`), and a local, downloaded copy of a small open-weight text model and image model (`MODELMORA_SMOKE_TEXT_MODEL_PATH` and `MODELMORA_SMOKE_IMAGE_MODEL_PATH`; see `checks/studio_smoke.py`'s own docstring for the defaults it falls back to).
+- For Scenario 7 only: the Studio machine, its GPU, the `gpu` extra installed (`uv sync --extra gpu`), a `llama-server` binary for the Studio's `.gguf` text model (see `docs/usage.md`), and the Studio's own model collection registered (`modelmora model add`, `docs/usage.md`) -- **🧠 ModelMora** never downloads models on its own.
 
 ## Scenario 1: a caller asks for text and an image, knowing nothing about models
 
@@ -77,15 +77,17 @@ Expected: test callers send requests containing a unique marker phrase; afterwar
 
 Not part of CI. Run by hand on the Studio machine.
 
+First register the Studio's own collection (its files already sit on the Studio; see `docs/usage.md`), then:
+
 ```bash
 uv run python -m modelmora.checks.studio_smoke
 ```
 
-No separate `modelmora serve` process: the check builds its own service in-process, the same way the test suite does, with real `TextRunner`/`ImageRunner` instances wired directly to the two model paths above -- `modelmora serve`'s own registry-to-runner wiring for the CLI is a deliberate seam (see the comment in `cli.py`), not yet closed by any task, so this is how a real model is exercised end to end today.
+This runs the real `modelmora serve` as its own subprocess and talks to it over loopback HTTP, exactly as a Studio component would -- no in-process shortcut. It needs a `llama-server` binary (`MODELMORA_LLAMA_SERVER_BIN`, `MODELMORA_LLAMA_CUDART_LIB_DIR`) for a `.gguf` text model; see `checks/studio_smoke.py`'s own docstring for the defaults it falls back to.
 
-Expected: a text model and an image model both serve real results; asking for both in turn forces an eviction and the caller sees only a longer wait, never a memory error; availability reads `starting`, then `running`; a request left open when the check stops ends `stopped_before_completion`.
+Expected: a text model and an image model both serve real results; asking for both in turn lets the real GPU capacity decide whether the text model must be evicted to make room -- nothing reduced by hand -- and the caller sees only a longer wait, never a memory error; the text model reloads correctly afterward; a clean shutdown (the same signal an operator's Ctrl+C sends) exits 0 and returns the GPU to its idle baseline.
 
-Run on the Studio (RTX 4090) with a small open text model (text, Apache-2.0) and a small open image model (image, an open model licence): text in ~3.8s, image (384x384, 20 steps) in ~0.8s, the text model correctly evicted to fit the image model under a reduced capacity, and a clean exit 0, twice in a row.
+Run on the Studio (RTX 4090, driver 595.84) against the team's own registered collection: a text request to the GGUF model in ~4.0-4.2s; an image request to an SDXL checkpoint (832x1216, 24 steps) in ~15.8-20.6s, naturally evicting the text model (GPU ~19.2GB while it was resident, down to ~15.2GB with only the image model); a second text request reloading correctly (~8.6-32.3s including the reload); a clean shutdown, exit 0, GPU back to its ~450MiB baseline. Confirmed twice.
 
 ## What "done" looks like
 
