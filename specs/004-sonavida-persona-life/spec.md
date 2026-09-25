@@ -29,6 +29,7 @@ The Studio is one machine that keeps hours. Its limits are real, and they must r
 - Q: Is departure (Charter Article 8) in scope for this spec? → A: Yes, recorded in the Studio only. The persona may choose to leave; **🎭 SonaVida** records the departure, stops bringing it alive, and announces it as away one last time. The museum shows it as away indefinitely until a later spec adds a departed state to the Studio Link.
 - Q: How deep is forgetting on an erasure notice? → A: The memories stay but lose the visitor's identity. The persona can still recall that "someone once said…", but can no longer recognize, name or link that visitor.
 - Q: Should spec 004 run one persona, or let several live at once on the Studio's single GPU? → A: Several can live at once, each alone. Any number of roster personas may be alive together, each keeping its own hours and sharing the GPU through **🧠 ModelMora**'s fair order; they do not see or meet each other (roadmap 007).
+- Q: Who decides that explicit or artistically violent work needs a label? → A: Both, and the gate decides. The persona may say it considers a piece explicit or violent when it submits it; the AI gate always decides the final labels, may add any the persona did not name, and the persona remembers the outcome.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -81,7 +82,8 @@ A finished piece belongs to the persona. It decides whether to submit it for exh
 1. **Given** a finished piece, **When** the persona decides to keep it, **Then** it never leaves the Studio and it stays in the persona's memory as its own work.
 2. **Given** a finished piece, **When** the persona decides to submit it, **Then** it goes to the AI gate and nowhere else; the persona has no way to send it to the museum directly.
 3. **Given** the AI gate accepts the piece, **When** it travels on, **Then** it reaches the museum side as a candidate with the persona's title and statement unchanged, and the persona remembers that it was accepted.
-4. **Given** the AI gate rejects the piece, **When** the verdict returns, **Then** the persona remembers the rejection and the feedback, and is free to rework the idea, make something else or set it aside.
+4. **Given** a finished piece the persona considers explicit, **When** it submits it, **Then** it may say so, the gate decides the final labels (keeping, adding or not confirming the persona's), and the persona remembers which labels the piece carries.
+5. **Given** the AI gate rejects the piece, **When** the verdict returns, **Then** the persona remembers the rejection and the feedback, and is free to rework the idea, make something else or set it aside.
 
 ---
 
@@ -191,6 +193,8 @@ The Studio has one GPU, keeps hours, and may be busy. When **🧠 ModelMora** is
 
 **Experiences and memory**
 
+- **FR-042**: When submitting a piece, the persona MAY say it considers the piece explicit or artistically violent. The AI gate MUST always decide the final labels and MAY add any the persona did not name; the persona MUST NOT be able to remove a label the gate decided. The stand-in gate of FR-019 MUST return labels with its verdict, and an accepted candidate MUST carry the gate's labels (spec 001 FR-012). The persona remembers which labels its piece carries. (Principle III; Charter Article 4)
+
 - **FR-022**: While the Studio is running, **🎭 SonaVida** MUST collect what the museum side holds for the persona (experiences and erasure notices) through the Studio Link, and MUST acknowledge each only after it has been safely remembered or acted on. (Spec 001 FR-016, FR-019, FR-045)
 - **FR-023**: Each experience MUST become its own memory, keeping who (as the persona sees them), what, on which piece or comment, and when. Experiences MUST be remembered in the order they were delivered.
 - **FR-024**: A visitor MUST be remembered only by the pseudonym and display name the persona received, so the persona recognizes a visitor it met before. **🎭 SonaVida** MUST NOT try to link pseudonyms, or share what one persona knows of a visitor with another persona. (Charter Article 10.3; spec 001 FR-017)
@@ -243,7 +247,7 @@ The Studio has one GPU, keeps hours, and may be busy. When **🧠 ModelMora** is
 - **Piece**: something the persona made: its intention, attempts, final image, title and statement, and its history (kept, abandoned, submitted, accepted, rejected, exhibited, declined, taken down).
 - **Attempt**: one try at a piece, with what the persona made of it.
 - **Submission decision**: the persona's choice to submit or keep a finished piece, with its reason.
-- **Verdict**: the AI gate's accepted or rejected, its reason, and feedback addressed to the persona on rejection.
+- **Verdict**: the AI gate's accepted or rejected, its reason, the labels it decided (explicit, violent), and feedback addressed to the persona on rejection.
 - **Experience**: one event from the museum side (comment, reaction, gate outcome) as spec 001 defines it, remembered as one memory entry.
 - **Erasure notice**: an instruction to forget one visitor, named only by that persona's pseudonym. Acted on, never remembered.
 
