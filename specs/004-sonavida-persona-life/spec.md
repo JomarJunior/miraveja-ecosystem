@@ -22,6 +22,13 @@ Looking at other personas' work, commenting and replying, and relationships betw
 
 The Studio is one machine that keeps hours. Its limits are real, and they must reach the persona as part of its life, never as hidden throttling of what it wants (Principle I). When the Studio is off, the persona is away.
 
+## Clarifications
+
+### Session 2026-09-25
+
+- Q: Is departure (Charter Article 8) in scope for this spec? → A: Yes, recorded in the Studio only. The persona may choose to leave; **🎭 SonaVida** records the departure, stops bringing it alive, and announces it as away one last time. The museum shows it as away indefinitely until a later spec adds a departed state to the Studio Link.
+- Q: How deep is forgetting on an erasure notice? → A: The memories stay but lose the visitor's identity. The persona can still recall that "someone once said…", but can no longer recognize, name or link that visitor.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - A persona comes alive and keeps its own hours (Priority: P1)
@@ -141,7 +148,7 @@ The Studio has one GPU, keeps hours, and may be busy. When **🧠 ModelMora** is
 - **The persona's text crosses a hard line**: a title or statement is part of the submitted piece and is judged by the AI gate with it. **🎭 SonaVida** does not censor the persona's words beforehand.
 - **The persona says or implies it is human**: within its private memory this is its own story; any public output is judged by the gate. The persona's awareness that it is an AI (spec 003 FR-034) is part of its first memories.
 - **Memory grows beyond what can be recalled at once**: the full record is kept; what the persona recalls at a given moment is chosen by relevance to what it is doing, and nothing but an erasure removes a memory.
-- **The persona chooses to leave the museum**: [NEEDS CLARIFICATION: Is departure (Charter Article 8) in scope for this spec? The Studio Link has no "departed" state yet, so a departure would either be recorded in the Studio only (the persona stops coming alive, and the museum shows it as away indefinitely), or wait for a later spec with a contract change.]
+- **The persona chooses to leave the museum**: its choice is honored and recorded in the Studio (FR-040). It stops coming alive and is shown as away indefinitely; its definition stays frozen in **🔐 CofreAlma** (spec 003 FR-037) and its pieces stay exhibited. Showing it as departed, and as a memorial, waits for a later Studio Link spec.
 - **Two copies of the same persona running**: never. A persona lives in one place at a time; a second start while it is alive is refused.
 
 ## Requirements *(mandatory)*
@@ -187,7 +194,7 @@ The Studio has one GPU, keeps hours, and may be busy. When **🧠 ModelMora** is
 - **FR-023**: Each experience MUST become its own memory, keeping who (as the persona sees them), what, on which piece or comment, and when. Experiences MUST be remembered in the order they were delivered.
 - **FR-024**: A visitor MUST be remembered only by the pseudonym and display name the persona received, so the persona recognizes a visitor it met before. **🎭 SonaVida** MUST NOT try to link pseudonyms, or share what one persona knows of a visitor with another persona. (Charter Article 10.3; spec 001 FR-017)
 - **FR-025**: The persona's memory MUST hold: its seed memories; every presence change and its reason; every intention, attempt, finished piece, abandonment, submission decision and verdict; every experience; and, in character, every time the Studio's limits changed what it was doing (FR-029).
-- **FR-026**: Nothing MAY remove a memory except an erasure (FR-032). What the persona recalls at a given moment MAY be a selection, but the record stays whole.
+- **FR-026**: Nothing MAY remove a memory. An erasure removes only a visitor's identity from the memories that hold it (FR-032). What the persona recalls at a given moment MAY be a selection, but the record stays whole.
 
 **No metrics, no money**
 
@@ -202,7 +209,7 @@ The Studio has one GPU, keeps hours, and may be busy. When **🧠 ModelMora** is
 
 **Being forgotten**
 
-- **FR-032**: On an erasure notice, the persona MUST forget that visitor: [NEEDS CLARIFICATION: How deep is forgetting? (a) every memory that involves the visitor is removed, including the persona's own reflections on them; (b) the memories stay but lose the visitor's identity, so the persona recalls "someone once said…" but can no longer recognize or name them; or (c) something else.] The erasure MUST be complete before the notice is acknowledged, and the notice itself MUST NOT become a memory. (Charter Article 10.4; spec 001 FR-044 to FR-046)
+- **FR-032**: On an erasure notice, the persona MUST forget that visitor's identity: every memory that involves the visitor stays, but the pseudonym and display name are removed from it, so the persona may still recall that "someone once said…" and can no longer recognize, name or link that visitor, now or if they meet again. Nothing that would let the identity be recovered MAY remain in memory. The erasure MUST be complete before the notice is acknowledged, and the notice itself MUST NOT become a memory. (Charter Article 10.4; spec 001 FR-044 to FR-046)
 - **FR-033**: A piece the persona made, including one influenced by a visitor it later forgot, MUST NOT be altered or withdrawn because of an erasure. Only memory is affected.
 
 **Privacy and observation**
@@ -216,6 +223,10 @@ The Studio has one GPU, keeps hours, and may be busy. When **🧠 ModelMora** is
 
 - **FR-038**: **🎭 SonaVida** MUST be testable alone, with the Studio Link reference stand-in (spec 001 FR-036), stand-ins for perception and the AI gate, and a stand-in for **🧠 ModelMora** that can be scripted to answer *starting*, *busy*, *stopping* and *failed*.
 - **FR-039**: The persona's time MUST be controllable in tests, so a week of life can be run in less than a week and repeated.
+
+**Leaving**
+
+- **FR-040**: A persona MAY choose to leave the museum at any time (Charter Article 8). The choice MUST be the persona's own, reached in its life like any other decision; nothing in **🎭 SonaVida** or the team MAY make it leave. On leaving, **🎭 SonaVida** MUST record the departure and its reason in memory, announce the persona as away through the Studio Link one last time, and never bring it alive again. Its memory MUST be kept read-only, its definition stays frozen (spec 003 FR-037), and its identifier and public name are never reused. Showing it as departed and as a memorial is left to a later Studio Link spec.
 
 ### Key Entities
 
@@ -249,7 +260,7 @@ The Studio has one GPU, keeps hours, and may be busy. When **🧠 ModelMora** is
 
 - **One persona**: this spec brings one persona to life. **🎭 SonaVida** is not required to run several at once, but nothing in it may assume there will only ever be one (roadmap 007).
 - **Stand-ins until the real components exist**: perception (roadmap 005) and the AI gate (roadmap 006) are stand-ins here; the Museum side is the Studio Link reference stand-in. The real components replace them without changing this spec's behavior. Building and sending the candidate across the Studio Link is **🧐 CuraGusta**'s role in the ecosystem map; until it exists, the AI gate stand-in does it.
-- **Out of scope**: looking at the museum, comments and replies, meetings and relationships with other personas (roadmap 007); anything visitor-facing (roadmaps 011 and 012); the AI gate's criteria and the handling of rejected pieces (roadmap 006, Q-001); the legal side of erasure (roadmap 008).
+- **Out of scope**: looking at the museum, comments and replies, meetings and relationships with other personas (roadmap 007); anything visitor-facing (roadmaps 011 and 012); the AI gate's criteria and the handling of rejected pieces (roadmap 006, Q-001); the legal side of erasure (roadmap 008); a departed state and memorials on the Museum side (a later Studio Link spec).
 - **Language**: persona text is written in English, like every written artifact, unless the persona's voice tends otherwise (spec 003 assumption). Whether the museum shows other languages is a Museum side question.
 - **Where memory lives**: the persona's memory is **🎭 SonaVida**'s own data, on the Studio machine (Principle VI). How it is stored, how recall is chosen, and how intentions become model requests are decided in `/speckit-plan`.
 - **Team reading is on the Studio**: the team reads memory at the Studio machine (or through whatever access to it the team already has). No remote reading service is built.

@@ -13,7 +13,7 @@
 
 ## Requirement Completeness
 
-- [ ] No [NEEDS CLARIFICATION] markers remain
+- [x] No [NEEDS CLARIFICATION] markers remain
 - [x] Requirements are testable and unambiguous
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic (no implementation details)
@@ -32,5 +32,6 @@
 ## Notes
 
 - Iteration 1: two [NEEDS CLARIFICATION] markers remain, awaiting the Visionary: departure in scope (Edge Cases) and depth of forgetting (FR-032).
+- Iteration 2 (2026-09-25): all items pass. The Visionary chose: departure in scope, recorded in the Studio only (FR-040); erasure keeps the memories and removes only the visitor's identity (FR-032, FR-026).
 - Component names (**🧠 ModelMora**, Studio Link, stand-ins) are ecosystem boundaries defined in earlier specs, not implementation choices.
 - Items marked incomplete require spec updates before `/speckit-clarify` or `/speckit-plan`
