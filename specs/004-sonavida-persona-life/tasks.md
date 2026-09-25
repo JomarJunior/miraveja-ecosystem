@@ -149,6 +149,7 @@
 - [ ] T050 [P] Record the spec 004 decisions in the hub's `docs/foundation/FOUNDATION-LOG.md`: departure recorded in the Studio; erasure removes identity, not memories; several personas each alone; labels suggested by the persona and decided by the gate; hybrid turns; SQLite with full-text recall
 - [ ] T051 Run every scenario in `quickstart.md` except the human reading trial and record the outcome in `specs/004-sonavida-persona-life/checklists/quickstart-run.md`
 - [ ] T052 Run the SC-002 reading trial with a team member who did not watch the run (needs a person) and record it in `specs/004-sonavida-persona-life/checklists/sc-002-trial.md`
+- [ ] T054 Implement `sonavida run --vault ROOT --dry-run` in `src/sonavida/cli.py` and `src/sonavida/runtime.py` per `contracts/cli.md`: real `ModelMoraClient` on loopback and `RealClock`, with the perception and gate stand-ins and the in-process Studio Link reference stand-in; write `tests/integration/test_dry_run.py` first, proving that with `--dry-run` no Studio Link call can reach anything but the in-process reference stand-in and that a missing **🧠 ModelMora** is lived as the studio not being ready, not as a crash (Principle III, R-9, FR-029)
 - [ ] T053 Run `/speckit-converge` and repeat implement and converge until it reports converged
 
 ---
