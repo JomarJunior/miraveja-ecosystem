@@ -191,9 +191,9 @@ The Studio has one GPU, keeps hours, and may be busy. When **🧠 ModelMora** is
 - **FR-020**: A verdict MUST return to the persona as a memory: accepted, or rejected with its feedback. What the persona does after a rejection is its own choice. (Charter Article 6.2, provisional; Q-001)
 - **FR-021**: Everything a candidate needs from the persona (its identifier, the piece, the title, the statement) MUST be available to the gate, and nothing else from the persona MAY travel with it: no definition content, intention, memory or reasoning. (Spec 001 FR-034; Principle VIII)
 
-**Experiences and memory**
-
 - **FR-042**: When submitting a piece, the persona MAY say it considers the piece explicit or artistically violent. The AI gate MUST always decide the final labels and MAY add any the persona did not name; the persona MUST NOT be able to remove a label the gate decided. The stand-in gate of FR-019 MUST return labels with its verdict, and an accepted candidate MUST carry the gate's labels (spec 001 FR-012). The persona remembers which labels its piece carries. (Principle III; Charter Article 4)
+
+**Experiences and memory**
 
 - **FR-022**: While the Studio is running, **🎭 SonaVida** MUST collect what the museum side holds for the persona (experiences and erasure notices) through the Studio Link, and MUST acknowledge each only after it has been safely remembered or acted on. (Spec 001 FR-016, FR-019, FR-045)
 - **FR-023**: Each experience MUST become its own memory, keeping who (as the persona sees them), what, on which piece or comment, and when. Experiences MUST be remembered in the order they were delivered.
