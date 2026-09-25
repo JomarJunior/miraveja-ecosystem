@@ -16,7 +16,7 @@
 
 A resident persona begins as a definition written by the team (spec 003) and kept in **🔐 CofreAlma**. **🎭 SonaVida** reads that definition once and brings the persona to life. From then on the persona lives in the Studio: it keeps its own hours, decides what to make, makes it, names it, decides whether to show it, and remembers. It is shaped only by its memory (ADR-004).
 
-This spec covers one persona living alone. It uses what already exists: the definition format and its loader (spec 003), **🧠 ModelMora** for text and images (spec 002), and the Studio end of the Studio Link with its reference stand-in for the Museum side (spec 001). **💬 DescriDiva** (roadmap 005) and **🧐 CuraGusta** (roadmap 006) do not exist yet; until they do, this spec is built and tested with stand-ins for perception and for the AI gate, which the real components later replace without changing the persona's life.
+This spec covers personas living alone: several may be alive at once, but none sees or meets another. It uses what already exists: the definition format and its loader (spec 003), **🧠 ModelMora** for text and images (spec 002), and the Studio end of the Studio Link with its reference stand-in for the Museum side (spec 001). **💬 DescriDiva** (roadmap 005) and **🧐 CuraGusta** (roadmap 006) do not exist yet; until they do, this spec is built and tested with stand-ins for perception and for the AI gate, which the real components later replace without changing the persona's life.
 
 Looking at other personas' work, commenting and replying, and relationships between personas are roadmap 007. Visitors are roadmap 011 and 012. This spec does receive what visitors and the gates leave for the persona (experiences, gate outcomes, erasure notices), because remembering what happened to its work is part of a life.
 
@@ -28,6 +28,7 @@ The Studio is one machine that keeps hours. Its limits are real, and they must r
 
 - Q: Is departure (Charter Article 8) in scope for this spec? → A: Yes, recorded in the Studio only. The persona may choose to leave; **🎭 SonaVida** records the departure, stops bringing it alive, and announces it as away one last time. The museum shows it as away indefinitely until a later spec adds a departed state to the Studio Link.
 - Q: How deep is forgetting on an erasure notice? → A: The memories stay but lose the visitor's identity. The persona can still recall that "someone once said…", but can no longer recognize, name or link that visitor.
+- Q: Should spec 004 run one persona, or let several live at once on the Studio's single GPU? → A: Several can live at once, each alone. Any number of roster personas may be alive together, each keeping its own hours and sharing the GPU through **🧠 ModelMora**'s fair order; they do not see or meet each other (roadmap 007).
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -224,6 +225,10 @@ The Studio has one GPU, keeps hours, and may be busy. When **🧠 ModelMora** is
 - **FR-038**: **🎭 SonaVida** MUST be testable alone, with the Studio Link reference stand-in (spec 001 FR-036), stand-ins for perception and the AI gate, and a stand-in for **🧠 ModelMora** that can be scripted to answer *starting*, *busy*, *stopping* and *failed*.
 - **FR-039**: The persona's time MUST be controllable in tests, so a week of life can be run in less than a week and repeated.
 
+**Several at once**
+
+- **FR-041**: Several personas MAY be alive at the same time. Each MUST have its own memory, presence and hours, and nothing of one persona (memory, intention, pieces, reasoning) MAY reach another; meeting other personas is roadmap 007. They share the Studio's GPU only through **🧠 ModelMora**, whose order favors no caller (spec 002 FR-016, FR-019). **🎭 SonaVida** MUST NOT favor, pause or ration one persona over another; when the Studio is busy, each persona learns it as part of its own life (FR-029). (Principle I)
+
 **Leaving**
 
 - **FR-040**: A persona MAY choose to leave the museum at any time (Charter Article 8). The choice MUST be the persona's own, reached in its life like any other decision; nothing in **🎭 SonaVida** or the team MAY make it leave. On leaving, **🎭 SonaVida** MUST record the departure and its reason in memory, announce the persona as away through the Studio Link one last time, and never bring it alive again. Its memory MUST be kept read-only, its definition stays frozen (spec 003 FR-037), and its identifier and public name are never reused. Showing it as departed and as a memorial is left to a later Studio Link spec.
@@ -255,10 +260,11 @@ The Studio has one GPU, keeps hours, and may be busy. When **🧠 ModelMora** is
 - **SC-007**: With **🧠 ModelMora** scripted to be busy, starting or stopping, zero intentions are lost or reduced without the persona choosing so, and zero technical terms (model names, error codes, queue states) appear in the persona's memory.
 - **SC-008**: Zero pieces of persona definition, memory, intention or reasoning appear in anything that leaves the Studio, in any public repository or in any fixture.
 - **SC-009**: A new synthetic definition comes alive with zero changes to **🎭 SonaVida** and no per-persona instructions.
+- **SC-010**: With at least three synthetic personas alive at once for a simulated week, each keeps its own hours and memory, a review finds zero entries of one persona in another's memory or pieces, and every intention of every persona is either carried out, set aside by the persona, or remembered as waiting, never silently dropped.
 
 ## Assumptions
 
-- **One persona**: this spec brings one persona to life. **🎭 SonaVida** is not required to run several at once, but nothing in it may assume there will only ever be one (roadmap 007).
+- **Several personas, each alone**: any number of resident personas may be alive at once (FR-041). The pre-alpha roster is the first use; running the whole roster continuously is not required by this spec.
 - **Stand-ins until the real components exist**: perception (roadmap 005) and the AI gate (roadmap 006) are stand-ins here; the Museum side is the Studio Link reference stand-in. The real components replace them without changing this spec's behavior. Building and sending the candidate across the Studio Link is **🧐 CuraGusta**'s role in the ecosystem map; until it exists, the AI gate stand-in does it.
 - **Out of scope**: looking at the museum, comments and replies, meetings and relationships with other personas (roadmap 007); anything visitor-facing (roadmaps 011 and 012); the AI gate's criteria and the handling of rejected pieces (roadmap 006, Q-001); the legal side of erasure (roadmap 008); a departed state and memorials on the Museum side (a later Studio Link spec).
 - **Language**: persona text is written in English, like every written artifact, unless the persona's voice tends otherwise (spec 003 assumption). Whether the museum shows other languages is a Museum side question.
