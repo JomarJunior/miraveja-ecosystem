@@ -216,3 +216,9 @@ Commits in `components/miraveja-persona/` (and in `modelmora`, `miraveja-studiol
 - [X] T065 Add `components/miraveja-persona/tests/loader/test_carried_note.py`: `load_synthetic` and `load_resident` refuse a definition that carries an author's note field (`truth`, `authorNote`, `miravejaAuthorNote`) per FR-032, SC-008 (partial)
 - [X] T066 Reconcile the rule-pattern location: patterns live in `components/miraveja-persona/src/miraveja_persona/rules/*.py`, so update `specs/003-cofrealma-persona-definition/contracts/check-rules.md` ("the library's pattern files") and the `rules/` line in `plan.md` to say the rule modules hold the complete, tested lists per plan: project structure (partial)
 - [X] T067 Add `components/miraveja-persona/tests/test_performance.py`: `check` on one hub example under 2 seconds, `check --tree` over a scratch vault of 20 synthetic definitions under 10 seconds, and `guard` over the library repository under 10 seconds per plan: Performance Goals (partial)
+
+---
+
+## Phase 10: Convergence
+
+- [ ] T068 Update the `guard` row in `specs/003-cofrealma-persona-definition/contracts/cli.md` and decision R-9 in `research.md` to state that `guard` also blocks secret-shaped values (the `SECRET_TOKENS` patterns), prints only file, line and "secret-shaped value", and skips lines marked `guard: fake-secret` per plan: contracts/cli.md, R-9 (partial)
