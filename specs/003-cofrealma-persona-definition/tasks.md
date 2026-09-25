@@ -62,7 +62,7 @@
 - [X] T015 [US1] Implement `components/miraveja-persona/src/miraveja_persona/scaffold.py` and the `new` command, with guidance lines modeled on the hub's `pellam-quist.persona.yaml` (R-11)
 - [X] T016 [P] [US1] Write `components/miraveja-persona/tests/cli/test_check_basic.py`: `check` on the examples exits 0; on a scaffold exits 1 naming each empty required part; unreadable file exits 2; `--format json` emits a list of Findings; output for a clean file is empty
 - [X] T017 [US1] Implement `components/miraveja-persona/src/miraveja_persona/check.py` and `cli.py` for `check PATH... [--format text|json]` with exit codes 0 valid, 1 certain finding, 3 undecided uncertain findings only, 2 usage (from `contracts/cli.md`), wiring structure validation and a rule registry that later phases fill
-- [ ] T018 [US1] Time SC-001 once with a team member who has not seen the format, writing a new synthetic persona from `new` and the hub example; record the time and any part that was unclear in `specs/003-cofrealma-persona-definition/checklists/sc-001-trial.md`, and fix unclear guidance in `scaffold.py`
+- [ ] T018 [US1] Time SC-001 once with a team member who has not seen the format, writing a new synthetic persona from `new` and the hub example; record the time and any part that was unclear in `specs/003-cofrealma-persona-definition/checklists/sc-001-trial.md`, and fix unclear guidance in `scaffold.py` — *Deferred by the Visionary (2026-09-25): run the trial later, with the next person who joins; spec 003 is otherwise closed.*
 
 **Checkpoint**: MVP. A definition can be written and structurally checked.
 
