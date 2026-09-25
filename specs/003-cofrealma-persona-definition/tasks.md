@@ -166,11 +166,11 @@
 
 ## Phase 8: Polish & Cross-Cutting
 
-- [ ] T058 [P] Add `docs/components/miraveja-persona.md` in the hub: boundaries (owns the format's tools; never owns persona content), consumers (**🎭 SonaVida**, **🔐 CofreAlma** CI, every public repository's guard), the rules that bite hardest (I, II, VIII), repository and specs
-- [ ] T059 [P] Add `miraveja-persona` to `docs/foundation/ECOSYSTEM-MAP.md` under shared assets and generic libraries, beside `miraveja-studiolink`
-- [ ] T060 [P] Add to `docs/foundation/GLOSSARY.md`: **Synthetic persona**, **Shared past**, **Author's note**, **Self-image**, **Birth ledger**, using the spec's definitions
-- [ ] T061 [P] Record the spec 003 decisions in `docs/foundation/FOUNDATION-LOG.md`: birth seed only; no model names; shared pasts as facts, never feelings; intended differences, lies as past acts and author's notes; a past held openly as an AI; optional self-image; definitions frozen for good; YAML with a closed schema; the `miraveja-persona` library
-- [ ] T062 Run every scenario in `specs/003-cofrealma-persona-definition/quickstart.md` against a scratch vault and record the outcome in `specs/003-cofrealma-persona-definition/checklists/quickstart-run.md`
+- [X] T058 [P] Add `docs/components/miraveja-persona.md` in the hub: boundaries (owns the format's tools; never owns persona content), consumers (**🎭 SonaVida**, **🔐 CofreAlma** CI, every public repository's guard), the rules that bite hardest (I, II, VIII), repository and specs
+- [X] T059 [P] Add `miraveja-persona` to `docs/foundation/ECOSYSTEM-MAP.md` under shared assets and generic libraries, beside `miraveja-studiolink`
+- [X] T060 [P] Add to `docs/foundation/GLOSSARY.md`: **Synthetic persona**, **Shared past**, **Author's note**, **Self-image**, **Birth ledger**, using the spec's definitions
+- [X] T061 [P] Record the spec 003 decisions in `docs/foundation/FOUNDATION-LOG.md`: birth seed only; no model names; shared pasts as facts, never feelings; intended differences, lies as past acts and author's notes; a past held openly as an AI; optional self-image; definitions frozen for good; YAML with a closed schema; the `miraveja-persona` library
+- [X] T062 Run every scenario in `specs/003-cofrealma-persona-definition/quickstart.md` against a scratch vault and record the outcome in `specs/003-cofrealma-persona-definition/checklists/quickstart-run.md`
 - [ ] T063 Run `/speckit-converge` and repeat implement and converge until it reports converged
 
 ---

@@ -52,7 +52,7 @@ miraveja-persona check --tree "$VAULT" "$VAULT"/personas/*/definition.persona.ya
 miraveja-persona pasts "$VAULT"
 ```
 
-Expected: exit 0. `pasts` lists `junior-regatta` as agreed with one version, and `lighthouse-mural` as an intended difference with two versions.
+Expected: exit 3, and the only findings are `vault.synthetic-in-vault`, which asks about each synthetic definition sitting in a vault (they are synthetic because this is a scratch vault). `pasts` lists `junior-regatta` as agreed with one version, and `lighthouse-mural` as an intended difference with two versions.
 
 Then, in the scratch vault:
 
@@ -66,7 +66,7 @@ Then, in the scratch vault:
 
 ## 5. Uncertain findings are decided, never passed silently (FR-017)
 
-Add the word "rivals" to a copy's shared past. `check` exits 3 with `past.feeling-ambiguous`. Run `miraveja-persona decide <fingerprint> --as accepted --by tester --tree "$VAULT"`. Expected: `check` exits 0 and still reports the finding as decided.
+Add "in a bitter race" to a copy's shared past, and mark it `intended-difference` in both definitions so the texts may differ. `check` exits 3 with `past.feeling-ambiguous`. ("Rivals" alone passes: a past rivalry is a fact, FR-025.) Run `miraveja-persona decide <fingerprint> --as accepted --by tester --tree "$VAULT"`. Expected: `check` exits 0 and still reports the finding as decided.
 
 ## 6. Birth, freezing and reuse (FR-018, FR-037)
 
