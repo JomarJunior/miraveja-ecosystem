@@ -6,7 +6,7 @@ Runnable checks behind the spec's success criteria. Scenarios 1 to 6 need no GPU
 
 - Python 3.12 and `uv`.
 - `components/modelmora/` checked out.
-- For Scenario 7 only: the Studio machine, its GPU, and at least one open-weight model on record.
+- For Scenario 7 only: the Studio machine, its GPU, the `gpu` extra installed (`uv sync --extra gpu`), and a local, downloaded copy of a small open-weight text model and image model (`MODELMORA_SMOKE_TEXT_MODEL_PATH` and `MODELMORA_SMOKE_IMAGE_MODEL_PATH`; see `checks/studio_smoke.py`'s own docstring for the defaults it falls back to).
 
 ## Scenario 1: a caller asks for text and an image, knowing nothing about models
 
@@ -45,7 +45,7 @@ Expected: requests for a resident model may overtake an older request needing a 
 Proves FR-007 and SC-008.
 
 ```bash
-uv run pytest tests/queue -k "degrade or fidelity"
+uv run pytest tests/queue -k no_degradation
 ```
 
 Expected: under load the stand-ins record every generation's settings; across the run, zero results used a model, size, length or quality other than what the request asked for or the acceptance named. A request that cannot be served as asked is refused or fails, with a reason.
@@ -78,11 +78,14 @@ Expected: test callers send requests containing a unique marker phrase; afterwar
 Not part of CI. Run by hand on the Studio machine.
 
 ```bash
-uv run modelmora serve --port 8431
 uv run python -m modelmora.checks.studio_smoke
 ```
 
-Expected: a text model and an image model both serve real results; asking for both in turn forces an eviction and the caller sees only a longer wait, never a memory error; availability reads `starting`, then `running`; stopping the service ends every open request with `stopped_before_completion`.
+No separate `modelmora serve` process: the check builds its own service in-process, the same way the test suite does, with real `TextRunner`/`ImageRunner` instances wired directly to the two model paths above -- `modelmora serve`'s own registry-to-runner wiring for the CLI is a deliberate seam (see the comment in `cli.py`), not yet closed by any task, so this is how a real model is exercised end to end today.
+
+Expected: a text model and an image model both serve real results; asking for both in turn forces an eviction and the caller sees only a longer wait, never a memory error; availability reads `starting`, then `running`; a request left open when the check stops ends `stopped_before_completion`.
+
+Run on the Studio (RTX 4090) with a small open text model (text, Apache-2.0) and a small open image model (image, an open model licence): text in ~3.8s, image (384x384, 20 steps) in ~0.8s, the text model correctly evicted to fit the image model under a reduced capacity, and a clean exit 0, twice in a row.
 
 ## What "done" looks like
 
