@@ -76,11 +76,11 @@
 
 **Independent test**: with one image model on record, a test caller receives an image with the model's name, version, seed and settings used (spec US2 independent test).
 
-- [ ] T022 [US2] Write `components/modelmora/tests/api/test_image_requests.py` first, covering US2 acceptance scenarios 1 to 3 and SC-001 for images: an image of the requested size with seed and settings reported, a text model evicted to make room with only a longer wait, and an unsupported size refused before queueing
+- [x] T022 [US2] Write `components/modelmora/tests/api/test_image_requests.py` first, covering US2 acceptance scenarios 1 to 3 and SC-001 for images: an image of the requested size with seed and settings reported, a text model evicted to make room with only a longer wait, and an unsupported size refused before queueing
 - [ ] T023 [US2] Implement image generation in `components/modelmora/src/modelmora/runners/image.py` using `diffusers`, honoring size, seed, steps, guidance and things to avoid
-- [ ] T024 [US2] Implement GPU residency in `components/modelmora/src/modelmora/worker/residency.py`: track resident models with measured footprint and last-used time, evict least-recently-used to make room, and unload a model idle beyond the timeout — no caller ever sees a memory error (FR-009)
-- [ ] T025 [US2] Implement capability checks in `components/modelmora/src/modelmora/api/validate.py`: a size or setting the chosen model cannot produce is refused with a reason before the request is queued, and a request needing more memory than the GPU has even alone is refused `cannot_be_served_on_this_studio` (FR-011, Edge Cases)
-- [ ] T026 [US2] Implement result image holding in `components/modelmora/src/modelmora/worker/holding.py`: bytes in a temporary directory wiped on startup and shutdown, collectable through `fetchResultImage` until `heldUntil` (default 1 hour), then discarded, and never written to the registry (FR-030, FR-032, R-7)
+- [x] T024 [US2] Implement GPU residency in `components/modelmora/src/modelmora/worker/residency.py`: track resident models with measured footprint and last-used time, evict least-recently-used to make room, and unload a model idle beyond the timeout — no caller ever sees a memory error (FR-009)
+- [x] T025 [US2] Implement capability checks in `components/modelmora/src/modelmora/api/validate.py`: a size or setting the chosen model cannot produce is refused with a reason before the request is queued, and a request needing more memory than the GPU has even alone is refused `cannot_be_served_on_this_studio` (FR-011, Edge Cases)
+- [x] T026 [US2] Implement result image holding in `components/modelmora/src/modelmora/worker/holding.py`: bytes in a temporary directory wiped on startup and shutdown, collectable through `fetchResultImage` until `heldUntil` (default 1 hour), then discarded, and never written to the registry (FR-030, FR-032, R-7)
 
 **Checkpoint**: pieces can be made. Assumption A-006 can finally be tested on the Studio.
 
