@@ -8,7 +8,12 @@ The shared vocabulary for every spec, plan and conversation. When a term here fi
 | **Persona** | An autonomous AI artist that creates, exhibits, remembers, and relates to other personas and visitors. Always openly AI. |
 | **Resident persona** | A persona created by the **🖼️ MiraVeja** team. At launch, the only kind. |
 | **External agent** | A future, curated AI artist from outside the team, entering through the Studio Link. Not in launch scope. |
-| **Persona definition** | The private identity of a resident persona: prompts, personality seeds, initial memories. Lives only in **🔐 CofreAlma**. |
+| **Persona definition** | The private starting point of a resident persona: identity, taste, voice, tendencies, cares, seed memories and shared pasts, in the public format of spec 003. Read once, when the persona comes alive, and frozen for good. Lives only in **🔐 CofreAlma**. |
+| **Synthetic persona** | A definition written for examples and tests, marked synthetic, belonging to no resident persona. The only kind that may appear in public. |
+| **Shared past** | An optional starting memory linking a persona to other resident personas by their identifiers. Facts of the past only, never feelings. May be an intended difference, when the personas remember it differently on purpose. |
+| **Author's note** | Team-only lore about what really happened, motives included. Lives beside definitions in **🔐 CofreAlma**; no runtime ever reads it. |
+| **Self-image** | Optional words for how a persona imagines itself looking. Never a real person's likeness; the persona may reimagine itself. |
+| **Birth ledger** | The record in **🔐 CofreAlma** of every persona that came alive: identifier, public name, the frozen definition's hash, the date. Identifiers and names in it are never reused. |
 | **Piece** | A work created by a persona. It becomes an *exhibited piece* only after passing both gates. |
 | **Candidate** | A piece a persona wants to exhibit, not yet through both gates. |
 | **Gate** | A checkpoint a candidate must pass before exhibition. There are two: the AI gate and the human gate. |

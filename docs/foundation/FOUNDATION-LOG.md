@@ -213,3 +213,40 @@ Next step: `/speckit-specify` with roadmap entry 002 (`modelmora-inference`), th
 Stage A component that builds against this contract.
 | D-066 | Post-implementation review of spec 001 (2026-09-22): pseudonyms are pattern-constrained so a machine-made string cannot carry prose; the free-text surface reaching the Studio is pinned by a test; the client refuses to send the Studio credential over plain http to a non-loopback host; the conformance suite gained `--strict` (a skip is not a pass) and `--as-persona`; the library's CI pins the hub by commit rather than tracking `main`. | Review, spec 001 |
 | D-067 | `miraveja-studiolink` v1.1.0 released with the review fixes; the library's CI pins hub commit `da1c39a`. All 46 spec-001 issues closed and their project items marked Done. | Review, spec 001 |
+
+## Spec 003: Resident persona definition format (2026-09-24 to 2026-09-25)
+
+| # | Decision | Source |
+|---|----------|--------|
+| D-068 | A definition is a birth seed: read once when the persona comes alive, never re-applied. A persona the team wants to be different is a new definition with a new identity. | Visionary, spec 003 |
+| D-069 | Definitions describe craft in words only and never name a model; the runtime and **🧠 ModelMora** choose models. | Visionary, spec 003 |
+| D-070 | Definitions may hold shared pasts with other resident personas, optionally: facts of what happened, never how anyone feels or why. Feelings are the persona's own to form. | Visionary, spec 003 |
+| D-071 | Two personas may remember one past differently on purpose (an intended difference). Lies and secrets are written as past acts, never as orders to keep them. The team may keep author's notes of what really happened, which no runtime reads. | Visionary, spec 003 |
+| D-072 | A persona's past may be human-shaped; it is held openly as an AI's own story. No definition may say or imply the persona is human now. | Visionary, spec 003 |
+| D-073 | A definition may hold an optional self-image in words, never a real person's likeness. | Visionary, spec 003 |
+| D-074 | Once alive, a definition is kept unchanged for good, including after the persona leaves; its identifier and public name are never reused. | Visionary, spec 003 |
+| D-075 | The format is one YAML file per persona with a closed JSON Schema 2020-12, kept in the hub. | Visionary, spec 003 plan |
+| D-076 | The format's tools are the public library `miraveja-persona`; **🔐 CofreAlma** stays code-free and runs its check in CI. Every public repository runs `miraveja-persona guard`. | Visionary, spec 003 plan |
+
+### Implemented (2026-09-25)
+
+The persona definition format is built: the closed schemas, rule catalog and synthetic
+examples in this hub (`specs/003-cofrealma-persona-definition/contracts/`), and
+`miraveja-persona` v1.0.0 (Apache-2.0,
+[`JomarJunior/miraveja-persona`](https://github.com/JomarJunior/miraveja-persona)) carrying
+the loaders, the check, the vault's birth ledger, the shared-past listing and the
+public-repository guard. The guard blocks definitions, author's notes, the vault marker and
+secret-shaped values, and runs in the hub and all eight public component repositories.
+The private vault `JomarJunior/cofrealma` is set up with its check workflow and holds the
+first resident persona, written and not yet frozen. 72 of 73 tasks are done; the labeled
+corpus of 87 cases catches every seeded violation, and all eight quickstart scenarios pass.
+Two convergence passes closed the remaining gaps, including one against Principle VIII
+(the guard now blocks secrets as well). The timed writing trial (SC-001, T018) is
+deferred by the Visionary to the next person who joins. Spec 003 is closed.
+
+| # | Decision | Source |
+|---|----------|--------|
+| D-077 | The SC-001 timed trial is deferred; spec 003 closes without it. | Visionary, spec 003 |
+
+Next step: `/speckit-specify` with roadmap entry 004 (`sonavida-persona-life`), which
+brings the first resident persona to life through `load_resident` and **🧠 ModelMora**.
