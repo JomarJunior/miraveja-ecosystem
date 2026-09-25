@@ -143,11 +143,11 @@
 
 ## Phase 10: Polish & Cross-Cutting
 
-- [ ] T047 [P] Write `tests/privacy/test_logs.py`: with a marker phrase in every prose field of a synthetic persona, a full simulated week writes the marker to no log line, error or file outside `$SONAVIDA_HOME` (FR-034, SC-008)
-- [ ] T048 [P] Write `tests/integration/test_week.py`: a seeded simulated week of the Pellam example finishes at least one piece and completes in under 5 minutes (SC-001 mechanics, plan performance goal); a second synthetic definition comes alive with no code change (SC-009)
+- [x] T047 [P] Write `tests/privacy/test_logs.py`: with a marker phrase in every prose field of a synthetic persona, a full simulated week writes the marker to no log line, error or file outside `$SONAVIDA_HOME` (FR-034, SC-008)
+- [x] T048 [P] Write `tests/integration/test_week.py`: a seeded simulated week of the Pellam example finishes at least one piece and completes in under 5 minutes (SC-001 mechanics, plan performance goal); a second synthetic definition comes alive with no code change (SC-009)
 - [X] T049 [P] Update `docs/components/sonavida.md` in the hub: the turn model, memory location, ports, and that resident personas must be frozen before they can come alive
 - [X] T050 [P] Record the spec 004 decisions in the hub's `docs/foundation/FOUNDATION-LOG.md`: departure recorded in the Studio; erasure removes identity, not memories; several personas each alone; labels suggested by the persona and decided by the gate; hybrid turns; SQLite with full-text recall
-- [ ] T051 Run every scenario in `quickstart.md` except the human reading trial and record the outcome in `specs/004-sonavida-persona-life/checklists/quickstart-run.md`
+- [x] T051 Run every scenario in `quickstart.md` except the human reading trial and record the outcome in `specs/004-sonavida-persona-life/checklists/quickstart-run.md`
 - [ ] T052 Run the SC-002 reading trial with a team member who did not watch the run (needs a person) and record it in `specs/004-sonavida-persona-life/checklists/sc-002-trial.md`
 - [x] T054 Implement `sonavida run --vault ROOT --dry-run` in `src/sonavida/cli.py` and `src/sonavida/runtime.py` per `contracts/cli.md`: real `ModelMoraClient` on loopback and `RealClock`, with the perception and gate stand-ins and the in-process Studio Link reference stand-in; write `tests/integration/test_dry_run.py` first, proving that with `--dry-run` no Studio Link call can reach anything but the in-process reference stand-in and that a missing **🧠 ModelMora** is lived as the studio not being ready, not as a crash (Principle III, R-9, FR-029)
 - [ ] T053 Run `/speckit-converge` and repeat implement and converge until it reports converged
