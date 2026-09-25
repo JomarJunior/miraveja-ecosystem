@@ -19,7 +19,7 @@ A generic library, not a museum component, so it follows the library naming conv
 
 - **I:** the `order.*` rules flag schedules, quotas and subject rules; tendencies pass. A definition is read once and frozen, so it cannot steer a living persona.
 - **II:** the `metric.*` rules block money and audience numbers anywhere in a definition.
-- **VIII:** the guard blocks definitions, author's notes and the vault marker in every public repository and never prints their content. Loader refusals carry a reason code, never prose. Every fixture is synthetic.
+- **VIII:** the guard blocks definitions, author's notes, the vault marker and secret-shaped values in every public repository, and never prints what it blocks. Loader refusals carry a reason code, never prose. Every fixture is synthetic.
 
 ## Repository
 

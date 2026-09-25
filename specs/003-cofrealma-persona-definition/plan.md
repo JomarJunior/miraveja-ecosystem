@@ -75,7 +75,7 @@ components/miraveja-persona/             new public repo, Apache-2.0
 │   ├── schema/        bundled copies of the hub schemas
 │   ├── load.py        safe YAML reading, load_resident, load_synthetic, refusals
 │   ├── model.py       the immutable Definition and AuthorNote models
-│   ├── rules/         one module per rule family, with its pattern files
+│   ├── rules/         one module per rule family; each holds its own complete pattern lists
 │   ├── check.py       runs rules, fingerprints findings, applies decisions
 │   ├── vault.py       --tree checks: ledger, reuse, cross-definition shared pasts
 │   ├── pasts.py       the shared-past listing

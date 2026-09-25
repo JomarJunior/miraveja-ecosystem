@@ -1,6 +1,6 @@
 # Check Rules, format version 1
 
-The catalog `miraveja-persona check` applies (R-4). Every finding names its rule, the part, the line, the triggering words and what it cites. **Certain** findings make a definition invalid until the words change. **Uncertain** findings must be decided by a team member (R-6). Patterns are English and case-insensitive; the lists below show the families, and the library's pattern files are the complete, tested lists.
+The catalog `miraveja-persona check` applies (R-4). Every finding names its rule, the part, the line, the triggering words and what it cites. **Certain** findings make a definition invalid until the words change. **Uncertain** findings must be decided by a team member (R-6). Patterns are English and case-insensitive; the lists below show the families, and the rule modules in the library (`src/miraveja_persona/rules/*.py`) hold the complete lists, measured by its labeled corpus.
 
 "Prose" means every prose field unless a rule says otherwise. "Tendency fields" are `tendencies.presence`, `tendencies.work`, `taste.*`, `craft` and `voice.*`.
 
