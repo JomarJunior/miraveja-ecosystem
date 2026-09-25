@@ -74,10 +74,10 @@
 
 **Independent test**: a synthetic persona's waking period with the models stand-in yields pieces each with intention, attempts, title and statement, all in memory (spec US2).
 
-- [ ] T025 [P] [US2] Write `tests/unit/test_creation_actions.py`: `form-intention`, `make-attempt`, `look-again`, `rework`, `finish` (requires a kept attempt, sets `title` and `statement`), `abandon`; each records its entry and reason; piece state moves only along the data-model transitions; every image request carries the persona's `ask` verbatim and adds only words from its own `craft` and `stylesAndMedia`, never subject, style or intent of the runtime's choosing (FR-011)
-- [ ] T026 [US2] Implement `src/sonavida/actions/creation.py` and the one general mapping from the persona's words and craft preferences to `Models` image requests (FR-010, FR-012, FR-014, FR-016), storing attempt images under the persona directory
-- [ ] T027 [P] [US2] Implement `src/sonavida/standins/perception.py`: the default stand-in asking `Models` for a neutral description of the image, and a scripted one for tests (R-9); the persona sees its work only through this port (FR-013)
-- [ ] T028 [US2] Write `tests/integration/test_making.py`: a simulated waking period produces finished pieces with intention, attempts and what was seen, a title and a statement, and an abandoned piece with its reason; choosing not to work is allowed and remembered (FR-015)
+- [x] T025 [P] [US2] Write `tests/unit/test_creation_actions.py`: `form-intention`, `make-attempt`, `look-again`, `rework`, `finish` (requires a kept attempt, sets `title` and `statement`), `abandon`; each records its entry and reason; piece state moves only along the data-model transitions; every image request carries the persona's `ask` verbatim and adds only words from its own `craft` and `stylesAndMedia`, never subject, style or intent of the runtime's choosing (FR-011)
+- [x] T026 [US2] Implement `src/sonavida/actions/creation.py` and the one general mapping from the persona's words and craft preferences to `Models` image requests (FR-010, FR-012, FR-014, FR-016), storing attempt images under the persona directory
+- [x] T027 [P] [US2] Implement `src/sonavida/standins/perception.py`: the default stand-in asking `Models` for a neutral description of the image, and a scripted one for tests (R-9); the persona sees its work only through this port (FR-013)
+- [x] T028 [US2] Write `tests/integration/test_making.py`: a simulated waking period produces finished pieces with intention, attempts and what was seen, a title and a statement, and an abandoned piece with its reason; choosing not to work is allowed and remembered (FR-015)
 
 ---
 
@@ -87,11 +87,11 @@
 
 **Independent test**: with the gate stand-in scripted, only submitted pieces reach it and only accepted ones reach the Studio Link stand-in, with the gate's labels (spec US3).
 
-- [ ] T029 [P] [US3] Write `tests/integration/test_showing_work.py` first: kept, abandoned and rejected pieces never reach the Studio Link stand-in; accepted ones arrive as candidates with title and statement unchanged and the gate's labels; the persona's suggested labels reach the gate; the gate may add labels and the persona cannot remove them; rejections return as `verdict` memories with feedback (SC-004, FR-018, FR-020, FR-042)
-- [ ] T030 [P] [US3] Write `tests/privacy/test_single_path.py`: a static check that the only code that calls `StudioLink.hand_over_candidate` is the `AiGate` stand-in, and that nothing from `self`, intentions, memory or reasoning is included in a candidate (FR-018, FR-021)
-- [ ] T030a [P] [US3] Write `tests/integration/test_no_bypass.py` first: `sonavida run` without `--simulate --standins` and without a configured real AI gate refuses to start with `gate_not_configured`, and the gate stand-in rejects any Studio Link target that is not the in-process reference stand-in (Principle III, R-9)
-- [ ] T031 [US3] Implement `src/sonavida/standins/gate.py`: accepted/rejected with reason, labels = persona suggestion plus scripted additions, feedback addressed to the persona on rejection, and hand-over of accepted candidates through `StudioLink` (R-9, FR-019); pre-alpha default accepts and keeps the persona's labels, clearly logged as a stand-in, and bound to the in-process reference stand-in only (R-9)
-- [ ] T032 [US3] Implement `src/sonavida/actions/showing.py`: `submit` with optional `suggestedLabels` (`explicit`, `violent`) and `keep`, each remembered with its reason (FR-017)
+- [x] T029 [P] [US3] Write `tests/integration/test_showing_work.py` first: kept, abandoned and rejected pieces never reach the Studio Link stand-in; accepted ones arrive as candidates with title and statement unchanged and the gate's labels; the persona's suggested labels reach the gate; the gate may add labels and the persona cannot remove them; rejections return as `verdict` memories with feedback (SC-004, FR-018, FR-020, FR-042)
+- [x] T030 [P] [US3] Write `tests/privacy/test_single_path.py`: a static check that the only code that calls `StudioLink.hand_over_candidate` is the `AiGate` stand-in, and that nothing from `self`, intentions, memory or reasoning is included in a candidate (FR-018, FR-021)
+- [x] T030a [P] [US3] Write `tests/integration/test_no_bypass.py` first: `sonavida run` without `--simulate --standins` and without a configured real AI gate refuses to start with `gate_not_configured`, and the gate stand-in rejects any Studio Link target that is not the in-process reference stand-in (Principle III, R-9)
+- [x] T031 [US3] Implement `src/sonavida/standins/gate.py`: accepted/rejected with reason, labels = persona suggestion plus scripted additions, feedback addressed to the persona on rejection, and hand-over of accepted candidates through `StudioLink` (R-9, FR-019); pre-alpha default accepts and keeps the persona's labels, clearly logged as a stand-in, and bound to the in-process reference stand-in only (R-9)
+- [x] T032 [US3] Implement `src/sonavida/actions/showing.py`: `submit` with optional `suggestedLabels` (`explicit`, `violent`) and `keep`, each remembered with its reason (FR-017)
 
 ---
 
@@ -101,12 +101,12 @@
 
 **Independent test**: scripted experiences and an erasure notice on the reference stand-in become memories once each, with no counts, and the erased visitor is forgotten (spec US4).
 
-- [ ] T033 [P] [US4] Write `tests/integration/test_experiences.py`: each scripted experience becomes one `experience` entry in delivery order, acknowledged only after it is stored, none lost or repeated across a restart (SC-005, FR-022, FR-023); a visitor met before is recognized by pseudonym and name (FR-024); a refused message leaves no trace (FR-028); a human-gate outcome moves the piece to `exhibited`, `declined` or `taken-down` and becomes a memory with the reason addressed to the persona where one exists (US4 scenario 5)
-- [ ] T034 [P] [US4] Write `tests/privacy/test_no_metrics.py`: with twenty reactions on one piece, no prompt or memory entry produced by **🎭 SonaVida** contains a count, total, average, rank, rating, trend, comparison or money (FR-027, SC-005)
-- [ ] T035 [P] [US4] Write `tests/privacy/test_erasure.py`: after an erasure notice, both visitor columns are cleared, every `⟨v:pseudonym⟩` token and any free-typed display name is replaced by "someone", the memories remain, the raw file bytes after `VACUUM` contain neither pseudonym nor name, the notice was acknowledged only after this, and the notice is not a memory; pieces are untouched (FR-032, FR-033, SC-006)
-- [ ] T036 [US4] Implement `src/sonavida/inbox.py`: collect and acknowledge experiences and erasure notices through `StudioLink`, store through the memory store, tokens for visitors (R-8), and piece state updates from human-gate outcomes
-- [ ] T037 [US4] Implement `src/sonavida/memory/erasure.py` per R-8
-- [ ] T038 [US4] Render recalled experiences in `src/sonavida/turns/prompt.py` strictly one by one, tokens to names, never aggregated (R-10)
+- [x] T033 [P] [US4] Write `tests/integration/test_experiences.py`: each scripted experience becomes one `experience` entry in delivery order, acknowledged only after it is stored, none lost or repeated across a restart (SC-005, FR-022, FR-023); a visitor met before is recognized by pseudonym and name (FR-024); a refused message leaves no trace (FR-028); a human-gate outcome moves the piece to `exhibited`, `declined` or `taken-down` and becomes a memory with the reason addressed to the persona where one exists (US4 scenario 5)
+- [x] T034 [P] [US4] Write `tests/privacy/test_no_metrics.py`: with twenty reactions on one piece, no prompt or memory entry produced by **🎭 SonaVida** contains a count, total, average, rank, rating, trend, comparison or money (FR-027, SC-005)
+- [x] T035 [P] [US4] Write `tests/privacy/test_erasure.py`: after an erasure notice, both visitor columns are cleared, every `⟨v:pseudonym⟩` token and any free-typed display name is replaced by "someone", the memories remain, the raw file bytes after `VACUUM` contain neither pseudonym nor name, the notice was acknowledged only after this, and the notice is not a memory; pieces are untouched (FR-032, FR-033, SC-006)
+- [x] T036 [US4] Implement `src/sonavida/inbox.py`: collect and acknowledge experiences and erasure notices through `StudioLink`, store through the memory store, tokens for visitors (R-8), and piece state updates from human-gate outcomes
+- [x] T037 [US4] Implement `src/sonavida/memory/erasure.py` per R-8
+- [x] T038 [US4] Render recalled experiences in `src/sonavida/turns/prompt.py` strictly one by one, tokens to names, never aggregated (R-10)
 
 ---
 
