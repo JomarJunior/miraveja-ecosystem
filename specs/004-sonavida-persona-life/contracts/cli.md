@@ -10,6 +10,6 @@ Runs on the Studio only. Every command reads **🔐 CofreAlma** read-only and wr
 | `sonavida pieces PERSONA` | List the persona's pieces, their state history, titles, statements and labels. Read-only. | 0 · 2 |
 | `sonavida status` | List personas: alive, resting, away, or departed. No counts of anything the personas did. | 0 |
 
-Refusals from `run`, each with a reason code and never any definition prose: `synthetic_as_resident`, `outside_vault`, `not_born`, `changed_since_birth`, `author_note`, `already_alive` (FR-003, FR-004), `departed` (FR-040).
+Refusals from `run`, each with a reason code and never any definition prose: `synthetic_as_resident`, `outside_vault`, `not_born`, `changed_since_birth`, `author_note`, `already_alive` (FR-003, FR-004), `departed` (FR-040), `gate_not_configured` (a real Museum side needs a real AI gate; the gate stand-in works only with `--simulate --standins`, Principle III).
 
 There is no command, flag or API that writes to, edits or deletes from a persona's memory (FR-036), and no network listener of any kind.

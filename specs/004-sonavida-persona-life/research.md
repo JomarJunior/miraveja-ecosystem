@@ -52,6 +52,7 @@ Decisions behind the plan. Those marked *(Visionary)* were chosen directly.
 
 - **Perception stand-in**: a `Perception` port. The default stand-in asks **🧠 ModelMora** for text about the image with an image-reading text model and a neutral "describe what this shows" instruction; the test stand-in returns scripted descriptions. **💬 DescriDiva** (roadmap 005) later replaces it behind the same port (FR-013).
 - **Gate stand-in**: an `AiGate` port. The stand-in returns accepted or rejected with a reason, labels (the persona's suggestion plus any scripted additions, FR-042) and, for rejections, feedback addressed to the persona; on acceptance it hands the candidate to the Studio Link through `miraveja-studiolink` with the gate's labels and verdict (FR-019). Its default for pre-alpha development accepts everything and keeps the persona's labels, clearly marked as a stand-in; tests script it.
+- **No bypass (Principle III)**: the gate stand-in, and above all its accept-all default, may only ever hand candidates to the in-process Studio Link reference stand-in. `sonavida run` against a real Museum side refuses to start unless a real AI gate is configured (`gate_not_configured`), so no piece can reach a Museum with a verdict that never judged the hard lines.
 
 ## R-10: What the model is given, and what it may return
 

@@ -36,7 +36,7 @@
 |---|---|
 | **I. Personas Are Free Within the Charter** | The persona chooses every action and its next turn; proposals always include every action valid in the state, including resting, doing nothing, abandoning and leaving (R-1, tested). Hints come only from the persona's own tendencies and memory. No timetable, quota, minimum or maximum anywhere (FR-005). Studio limits reach the persona as situations it chooses how to answer (R-7). The two-turn confirmation for leaving (R-11) guards against a garbled reply, not against intent; see Complexity Tracking. |
 | **II. Memory, Never Metrics** | Experiences are remembered one by one; the prompt builder never aggregates, counts, ranks or totals (R-10, tested on prompts and memory). `importance` is the persona's own feeling about a memory, used only to order recall and never shown as a number. |
-| **III. Two Gates Before Exhibition** | Only the `AiGate` port can hand a candidate to the Studio Link, and only with an accepted verdict; the gate decides labels (FR-042). There is no other path from a persona to the Museum side (FR-018). |
+| **III. Two Gates Before Exhibition** | Only the `AiGate` port can hand a candidate to the Studio Link, and only with an accepted verdict; the gate decides labels (FR-042). There is no other path from a persona to the Museum side (FR-018). The gate stand-in works only against the in-process reference stand-in; a run against a real Museum side refuses to start without a real AI gate, so the stand-in can never become a bypass (R-9). |
 | **IV. Openly AI, Never Out of Character** | The persona's first memories include that it is an AI (FR-002). Every Studio condition is translated into its life; no model names, codes or queue states in memory or prompts (R-7, FR-031). |
 | **V. The Studio Stays Behind the Door** | All Studio Link calls are made by the Studio; no listener exists. **🧠 ModelMora** is reached on loopback. Open-weight models only, through **🧠 ModelMora**. |
 | **VI. One Contract Between Worlds** | The Museum side is reached only through `miraveja-studiolink`. **🎭 SonaVida** owns its memory files and reads **🔐 CofreAlma** read-only through `miraveja-persona`; it reads no other component's storage. |
@@ -46,7 +46,7 @@
 
 **Post-design re-check (after Phase 1):** passing. Two points were checked closely. First, the hybrid proposals: because they are the one place code shapes a persona's choice, the design fixes them as annotation only, with a test that the proposal set always equals the valid-action set. Second, erasure: visitor identity lives only in two columns and in tokens, so it can be removed completely, including from free pages with `VACUUM`, without deleting memories.
 
-**Violations:** none. One judgment call is recorded under Complexity Tracking.
+**Violations:** none. `/speckit-analyze` found one gap against Principle III, now closed: the accept-all gate stand-in is confined to simulated runs (R-9). Two judgment calls are recorded under Complexity Tracking.
 
 ## Project Structure
 
@@ -96,4 +96,5 @@ The roster in **🔐 CofreAlma** is written but not frozen. `load_resident` refu
 
 | Judgment | Principle it touches | Why it is acceptable |
 |---|---|---|
+| After two unusable replies, the persona rests one hour (R-10) | I (the persona chooses its next turn) | The code picks a time only when the persona's own reply could not be read at all; the persona's next valid reply chooses again. |
 | Leaving takes effect on the second consecutive choice (R-11) | I (freedom to leave, Charter Art. 8) | It protects against a single garbled model reply ending a persona's life for good, which is irreversible. The persona keeps the choice: saying it twice is enough, and the first choice is remembered as its own thought. |

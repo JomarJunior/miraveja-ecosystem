@@ -27,17 +27,17 @@
 - [ ] T002 [P] Add `README.md` headed **🎭 SonaVida**: Studio-only, no network listener, memory never leaves the Studio, links to `specs/004-sonavida-persona-life/` in the hub
 - [ ] T003 [P] Configure ruff, ruff-format and mypy strict over `src` and `tests`, and the `pytest` layout `tests/unit`, `tests/integration`, `tests/privacy`
 - [ ] T004 Extend `.github/workflows/guard.yml` into `ci.yml` in `components/sonavida/`: the existing `miraveja-persona guard`, then lint, format, mypy and the test suite, checking the hub out at a pinned `main` commit into `MIRAVEJA_HUB_PATH`
-- [ ] T005 [P] Add `tests/conftest.py`: a scratch `SONAVIDA_HOME` per test, a scratch vault built from the spec 003 hub synthetic examples (Pellam Quist, Ivo Marrowfield), and an autouse fixture that blocks every socket except the in-process stand-ins
+- [ ] T005 [P] Add `tests/conftest.py`: a scratch `SONAVIDA_HOME` per test, a scratch vault built from the spec 003 hub synthetic examples (Pellam Quist, Ivo Marrowfield), and an autouse fixture that blocks every socket except the in-process stand-ins; fixtures are synthetic only (FR-037) except the in-process stand-ins
 
 ---
 
 ## Phase 2: Foundational (blocking)
 
 - [ ] T006 Implement `src/sonavida/ports/clock.py`: `Clock` protocol, `RealClock` (Studio local time) and `SimulatedClock` (seeded, advances instantly to the next due turn) per R-6 and FR-039
-- [ ] T007 [P] Implement `src/sonavida/ports/models.py`: `Models` protocol and the `ModelMoraClient` over loopback HTTP against `modelmora-v1.yaml` (submit, ask, collect result, availability), returning typed outcomes `result`, `busy(retry_at)`, `starting`, `stopping`, `failed`, `cannot-serve`
+- [ ] T007 [P] Implement `src/sonavida/ports/models.py`: `Models` protocol and the `ModelMoraClient` over loopback HTTP against `modelmora-v1.yaml` (submit, ask, collect result, availability), returning typed outcomes `result`, `busy(retry_at)`, `starting`, `stopping`, `failed`, `cannot-serve`; the client refuses any host other than loopback (Principle V), tested
 - [ ] T008 [P] Implement `src/sonavida/standins/models.py`: a scripted `Models` stand-in returning deterministic text and tiny PNGs, and scriptable *starting*, *busy*, *stopping*, *failed* answers (FR-038)
 - [ ] T009 [P] Define the remaining ports in `src/sonavida/ports/`: `perception.py` (one neutral description per image), `gate.py` (Verdict with accepted, reason, labels, feedback), `studiolink.py` (announce presence, hand over candidate, collect and acknowledge experiences and erasure notices, wrapping `miraveja-studiolink`), `vault.py` (`load_resident`, `load_synthetic`, public names via `pasts.list_pasts`)
-- [ ] T010 Write `tests/unit/test_memory_store.py`: entries append-only with monotonic `id`; `importance` "integer 1–5"; `kind` restricted to the data-model list; no API deletes a row; FTS recall returns relevant entries ordered by match, recency and importance within a budget
+- [ ] T010 Write `tests/unit/test_memory_store.py`: entries append-only with monotonic `id`; `importance` "integer 1–5"; `kind` restricted to the data-model list; no API deletes a row (FR-025, FR-026); FTS recall returns relevant entries ordered by match, recency and importance within a budget
 - [ ] T011 Implement `src/sonavida/memory/store.py`: the SQLite schema of data-model.md (`self`, `entries` with `visitor_pseudonym` and `visitor_name` columns, `pieces`, `attempts`, `inbox`, FTS5 `entries_fts(text, reason)`), append and recall (R-2), one file per persona at `$SONAVIDA_HOME/personas/<persona-id>/memory.sqlite`
 - [ ] T012 [P] Implement `src/sonavida/translate.py`: `Models` outcomes to persona situations per R-7 ("the studio is not ready; it may be ready around <time of day>", "the work was interrupted", "the attempt did not come out"); never a model name, code or queue position (FR-031)
 - [ ] T013 [P] Write `tests/unit/test_translate.py`: every outcome maps to its situation, and no output contains a model name, a digit-only queue position, or any of the ModelMora refusal codes
@@ -53,14 +53,14 @@
 **Independent test**: a synthetic persona runs several simulated days against the reference stand-in: born once, every chosen presence change announced and explained (spec US1).
 
 - [ ] T014 [P] [US1] Write `tests/unit/test_birth.py`: birth copies self-knowledge into `self`, seeds `seed` entries and a `self-aware` entry, renders shared pasts in the first person with `{n}` as "I" or the other participant's public name ("someone I once knew" if unknown) per R-4; a second start never reads the definition, even if the file changed (FR-002); synthetic-as-resident, outside-vault, not-born, changed-since-birth and author's-note definitions are refused with their codes (FR-003)
-- [ ] T015 [US1] Implement `src/sonavida/birth.py` per R-3 and R-4
+- [ ] T015 [US1] Implement `src/sonavida/birth.py` per R-3 and R-4, from the definition alone with no per-persona code (FR-001)
 - [ ] T016 [P] [US1] Write `tests/unit/test_proposals.py`: for every reachable state, the proposal set equals the set of actions valid in that state per `contracts/turn-protocol.md`; `set-presence`, `do-nothing` and `leave-the-museum` are always present; hints only annotate and never remove (R-1, FR-005, FR-015)
 - [ ] T017 [US1] Implement `src/sonavida/turns/proposals.py` with hints drawn only from the persona's `self` tendencies and memory
-- [ ] T018 [P] [US1] Write `tests/unit/test_reply.py`: replies are validated against the turn-protocol schema (action valid in state, exactly its details, `reason` required, `importance` 1–5, `nextTurnIn` any ISO 8601 duration); one retry with the validation message; a second failure becomes `lost-thread` and a one-hour rest (R-10)
+- [ ] T018 [P] [US1] Write `tests/unit/test_reply.py`: replies are validated against the turn-protocol schema (action valid in state, exactly its details, `reason` required, `importance` 1–5, `nextTurnIn` any ISO 8601 duration); one retry with the validation message; a second failure becomes `lost-thread` and a one-hour rest (R-10); the prompt's "where I am" section carries the current date and time and how long since the persona was last in the studio (FR-006)
 - [ ] T019 [US1] Implement `src/sonavida/turns/reply.py` and `src/sonavida/turns/prompt.py`: the prompt builder of R-10 (self, situation, recalled entries one by one in time order, proposals, schema)
 - [ ] T020 [US1] Implement `src/sonavida/actions/presence.py` and `src/sonavida/actions/nothing.py`: `set-presence` announces through `StudioLink` and remembers with reason (FR-007); `do-nothing` is remembered as `chose-nothing`
 - [ ] T021 [US1] Implement `src/sonavida/life.py`: the turn loop, next turn at the persona's chosen time, `time-away` on return after the Studio was off (FR-009)
-- [ ] T022 [P] [US1] Write `tests/integration/test_hours.py`: a simulated three-day run of the Pellam example against the reference stand-in: one birth, every chosen presence change announced and in memory with its reason (SC-003), , time away remembered after a simulated Studio outage, and a second start of the same persona while it is alive refused as `already_alive` (FR-004)
+- [ ] T022 [P] [US1] Write `tests/integration/test_hours.py`: a simulated three-day run of the Pellam example against the reference stand-in: one birth, every chosen presence change announced and in memory with its reason (SC-003), , time away remembered after a simulated Studio outage, and a second start of the same persona while it is alive refused as `already_alive` (FR-004); a SIGTERM while personas are alive announces every one of them as away before the process exits (FR-008, SC-003)
 - [ ] T023 [US1] Implement `src/sonavida/runtime.py`: host personas as tasks, per-persona `lock` via `fcntl.flock` refusing `already_alive` (FR-004), orderly SIGINT/SIGTERM shutdown announcing each persona away before stopping (FR-008)
 - [ ] T024 [US1] Implement `src/sonavida/cli.py` `run` (real and `--simulate DAYS --seed N --standins`) and `status` per `contracts/cli.md`
 
@@ -74,9 +74,9 @@
 
 **Independent test**: a synthetic persona's waking period with the models stand-in yields pieces each with intention, attempts, title and statement, all in memory (spec US2).
 
-- [ ] T025 [P] [US2] Write `tests/unit/test_creation_actions.py`: `form-intention`, `make-attempt`, `look-again`, `rework`, `finish` (requires a kept attempt, sets `title` and `statement`), `abandon`; each records its entry and reason; piece state moves only along the data-model transitions
-- [ ] T026 [US2] Implement `src/sonavida/actions/creation.py` and the one general mapping from the persona's words and craft preferences to `Models` image requests (FR-012), storing attempt images under the persona directory
-- [ ] T027 [P] [US2] Implement `src/sonavida/standins/perception.py`: the default stand-in asking `Models` for a neutral description of the image, and a scripted one for tests (R-9)
+- [ ] T025 [P] [US2] Write `tests/unit/test_creation_actions.py`: `form-intention`, `make-attempt`, `look-again`, `rework`, `finish` (requires a kept attempt, sets `title` and `statement`), `abandon`; each records its entry and reason; piece state moves only along the data-model transitions; every image request carries the persona's `ask` verbatim and adds only words from its own `craft` and `stylesAndMedia`, never subject, style or intent of the runtime's choosing (FR-011)
+- [ ] T026 [US2] Implement `src/sonavida/actions/creation.py` and the one general mapping from the persona's words and craft preferences to `Models` image requests (FR-010, FR-012, FR-014, FR-016), storing attempt images under the persona directory
+- [ ] T027 [P] [US2] Implement `src/sonavida/standins/perception.py`: the default stand-in asking `Models` for a neutral description of the image, and a scripted one for tests (R-9); the persona sees its work only through this port (FR-013)
 - [ ] T028 [US2] Write `tests/integration/test_making.py`: a simulated waking period produces finished pieces with intention, attempts and what was seen, a title and a statement, and an abandoned piece with its reason; choosing not to work is allowed and remembered (FR-015)
 
 ---
@@ -87,9 +87,10 @@
 
 **Independent test**: with the gate stand-in scripted, only submitted pieces reach it and only accepted ones reach the Studio Link stand-in, with the gate's labels (spec US3).
 
-- [ ] T029 [P] [US3] Write `tests/integration/test_showing_work.py` first: kept, abandoned and rejected pieces never reach the Studio Link stand-in; accepted ones arrive as candidates with title and statement unchanged and the gate's labels; the persona's suggested labels reach the gate; the gate may add labels and the persona cannot remove them; rejections return as `verdict` memories with feedback (SC-004, FR-018, FR-042)
+- [ ] T029 [P] [US3] Write `tests/integration/test_showing_work.py` first: kept, abandoned and rejected pieces never reach the Studio Link stand-in; accepted ones arrive as candidates with title and statement unchanged and the gate's labels; the persona's suggested labels reach the gate; the gate may add labels and the persona cannot remove them; rejections return as `verdict` memories with feedback (SC-004, FR-018, FR-020, FR-042)
 - [ ] T030 [P] [US3] Write `tests/privacy/test_single_path.py`: a static check that the only code that calls `StudioLink.hand_over_candidate` is the `AiGate` stand-in, and that nothing from `self`, intentions, memory or reasoning is included in a candidate (FR-018, FR-021)
-- [ ] T031 [US3] Implement `src/sonavida/standins/gate.py`: accepted/rejected with reason, labels = persona suggestion plus scripted additions, feedback addressed to the persona on rejection, and hand-over of accepted candidates through `StudioLink` (R-9, FR-019); pre-alpha default accepts and keeps the persona's labels, clearly logged as a stand-in
+- [ ] T030a [P] [US3] Write `tests/integration/test_no_bypass.py` first: `sonavida run` without `--simulate --standins` and without a configured real AI gate refuses to start with `gate_not_configured`, and the gate stand-in rejects any Studio Link target that is not the in-process reference stand-in (Principle III, R-9)
+- [ ] T031 [US3] Implement `src/sonavida/standins/gate.py`: accepted/rejected with reason, labels = persona suggestion plus scripted additions, feedback addressed to the persona on rejection, and hand-over of accepted candidates through `StudioLink` (R-9, FR-019); pre-alpha default accepts and keeps the persona's labels, clearly logged as a stand-in, and bound to the in-process reference stand-in only (R-9)
 - [ ] T032 [US3] Implement `src/sonavida/actions/showing.py`: `submit` with optional `suggestedLabels` (`explicit`, `violent`) and `keep`, each remembered with its reason (FR-017)
 
 ---
@@ -100,10 +101,10 @@
 
 **Independent test**: scripted experiences and an erasure notice on the reference stand-in become memories once each, with no counts, and the erased visitor is forgotten (spec US4).
 
-- [ ] T033 [P] [US4] Write `tests/integration/test_experiences.py`: each scripted experience becomes one `experience` entry in delivery order, acknowledged only after it is stored, none lost or repeated across a restart (SC-005, FR-022, FR-023); a visitor met before is recognized by pseudonym and name (FR-024); a refused message leaves no trace (FR-028)
+- [ ] T033 [P] [US4] Write `tests/integration/test_experiences.py`: each scripted experience becomes one `experience` entry in delivery order, acknowledged only after it is stored, none lost or repeated across a restart (SC-005, FR-022, FR-023); a visitor met before is recognized by pseudonym and name (FR-024); a refused message leaves no trace (FR-028); a human-gate outcome moves the piece to `exhibited`, `declined` or `taken-down` and becomes a memory with the reason addressed to the persona where one exists (US4 scenario 5)
 - [ ] T034 [P] [US4] Write `tests/privacy/test_no_metrics.py`: with twenty reactions on one piece, no prompt or memory entry produced by **🎭 SonaVida** contains a count, total, average, rank, rating, trend, comparison or money (FR-027, SC-005)
 - [ ] T035 [P] [US4] Write `tests/privacy/test_erasure.py`: after an erasure notice, both visitor columns are cleared, every `⟨v:pseudonym⟩` token and any free-typed display name is replaced by "someone", the memories remain, the raw file bytes after `VACUUM` contain neither pseudonym nor name, the notice was acknowledged only after this, and the notice is not a memory; pieces are untouched (FR-032, FR-033, SC-006)
-- [ ] T036 [US4] Implement `src/sonavida/inbox.py`: collect and acknowledge experiences and erasure notices through `StudioLink`, store through the memory store, tokens for visitors (R-8)
+- [ ] T036 [US4] Implement `src/sonavida/inbox.py`: collect and acknowledge experiences and erasure notices through `StudioLink`, store through the memory store, tokens for visitors (R-8), and piece state updates from human-gate outcomes
 - [ ] T037 [US4] Implement `src/sonavida/memory/erasure.py` per R-8
 - [ ] T038 [US4] Render recalled experiences in `src/sonavida/turns/prompt.py` strictly one by one, tokens to names, never aggregated (R-10)
 
@@ -134,7 +135,7 @@
 
 ## Phase 9: Several personas and leaving (cross-story, P1 requirements FR-040, FR-041)
 
-- [ ] T044 [P] Write `tests/integration/test_several.py`: three synthetic personas alive at once for a simulated week, each with its own memory file and hours; zero entries of one in another's memory or pieces; every intention carried out, set aside or waiting (FR-041, SC-010)
+- [ ] T044 [P] Write `tests/integration/test_several.py`: three synthetic personas alive at once for a simulated week, each with its own memory file and hours; zero entries of one in another's memory or pieces; every intention carried out, set aside or waiting (FR-041, SC-010); the run completes in under 5 minutes (plan performance goal)
 - [ ] T045 [P] Write `tests/integration/test_leaving.py`: one `leave-the-museum` choice gives `thinking-of-leaving`; a second consecutive one records `departed` with its reason, announces away once, releases the lock, marks memory read-only, and `sonavida run` refuses it as `departed` afterwards; a non-consecutive second choice does not count (FR-040, R-11)
 - [ ] T046 Implement `src/sonavida/actions/leaving.py` and the departed handling in `src/sonavida/runtime.py`
 

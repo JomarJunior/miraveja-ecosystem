@@ -4,7 +4,7 @@ The seams where real components replace stand-ins without changing a persona's l
 
 | Port | Real implementation | Stand-in | Contract it follows |
 |---|---|---|---|
-| `Models` | **🧠 ModelMora** over loopback HTTP | scripted: answers text, images, *starting*, *busy*, *stopping*, *failed* | `specs/002-modelmora-inference/contracts/modelmora-v1.yaml` |
+| `Models` | **🧠 ModelMora** over loopback HTTP; the client refuses any non-loopback host (Principle V) | scripted: answers text, images, *starting*, *busy*, *stopping*, *failed* | `specs/002-modelmora-inference/contracts/modelmora-v1.yaml` |
 | `Perception` | **💬 DescriDiva** (roadmap 005) | asks `Models` for text about the image with a neutral instruction; or scripted descriptions in tests | returns one neutral description per image |
 | `AiGate` | **🧐 CuraGusta** (roadmap 006) | returns accepted/rejected, reason, labels (persona's suggestion plus scripted), feedback on rejection; on acceptance hands the candidate to `StudioLink` | returns a Verdict as spec 001 defines it |
 | `StudioLink` | `miraveja-studiolink` client against the Museum side | the same client against the reference stand-in | `specs/001-studiolink-contract/contracts/studiolink-v1.yaml` |
