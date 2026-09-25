@@ -227,3 +227,26 @@ Stage A component that builds against this contract.
 | D-074 | Once alive, a definition is kept unchanged for good, including after the persona leaves; its identifier and public name are never reused. | Visionary, spec 003 |
 | D-075 | The format is one YAML file per persona with a closed JSON Schema 2020-12, kept in the hub. | Visionary, spec 003 plan |
 | D-076 | The format's tools are the public library `miraveja-persona`; **🔐 CofreAlma** stays code-free and runs its check in CI. Every public repository runs `miraveja-persona guard`. | Visionary, spec 003 plan |
+
+### Implemented (2026-09-25)
+
+The persona definition format is built: the closed schemas, rule catalog and synthetic
+examples in this hub (`specs/003-cofrealma-persona-definition/contracts/`), and
+`miraveja-persona` v1.0.0 (Apache-2.0,
+[`JomarJunior/miraveja-persona`](https://github.com/JomarJunior/miraveja-persona)) carrying
+the loaders, the check, the vault's birth ledger, the shared-past listing and the
+public-repository guard. The guard blocks definitions, author's notes, the vault marker and
+secret-shaped values, and runs in the hub and all eight public component repositories.
+The private vault `JomarJunior/cofrealma` is set up with its check workflow and holds the
+first resident persona, written and not yet frozen. 72 of 73 tasks are done; the labeled
+corpus of 87 cases catches every seeded violation, and all eight quickstart scenarios pass.
+Two convergence passes closed the remaining gaps, including one against Principle VIII
+(the guard now blocks secrets as well). The timed writing trial (SC-001, T018) is
+deferred by the Visionary to the next person who joins. Spec 003 is closed.
+
+| # | Decision | Source |
+|---|----------|--------|
+| D-077 | The SC-001 timed trial is deferred; spec 003 closes without it. | Visionary, spec 003 |
+
+Next step: `/speckit-specify` with roadmap entry 004 (`sonavida-persona-life`), which
+brings the first resident persona to life through `load_resident` and **🧠 ModelMora**.

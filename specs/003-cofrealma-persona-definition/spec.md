@@ -4,7 +4,7 @@
 
 **Created**: 2026-09-24
 
-**Status**: Draft
+**Status**: Implemented (2026-09-25) — `miraveja-persona` v1.0.0
 
 **Input**: User description: "Define what a resident persona definition contains so that a persona can come alive from it: identity and name, artistic taste and themes, voice and temperament, tendencies for when it likes to work and rest, what it cares about, and the seed memories it starts with. Nothing in the definition may prescribe cadence, volume or subject beyond the persona's own tendencies, and nothing may mention money or metrics. The definition must be private by design: the format is public, the content never is. Success: the team can write a new persona definition in under an hour, and a persona runtime can bring it to life without extra instructions."
 
