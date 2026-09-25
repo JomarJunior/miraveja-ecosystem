@@ -207,3 +207,12 @@ Phase 1 Setup ──► Phase 2 Foundational ──► US1 (MVP) ──► US2 �
 5. **Freedom check and polish**: US5, then Phase 8, then converge.
 
 Commits in `components/miraveja-persona/` (and in `modelmora`, `miraveja-studiolink`, `museumusa`, `portaguarda`, `curagusta`, `sonavida` and `descridiva` for T053 to T054e) reference spec 003. Pushing to `miraveja-persona` needs the Claude GitHub App installed on that repository.
+
+---
+
+## Phase 9: Convergence
+
+- [ ] T064 CRITICAL: extend `components/miraveja-persona/src/miraveja_persona/guard.py` so `guard` also blocks secrets in every scanned text file, reusing the `forbidden.secret` patterns from `rules/forbidden.py` and printing only file, line and "secret-shaped value" (never the value); add cases to `tests/guard/test_guard.py` and `tests/privacy/test_guard_output.py`; then bump the pinned `miraveja-persona` commit in the hub's `.github/workflows/guard.yml` and in the guard steps of `modelmora`, `miraveja-studiolink`, `museumusa`, `portaguarda`, `curagusta`, `sonavida` and `descridiva` per Constitution VIII (contradicts)
+- [ ] T065 Add `components/miraveja-persona/tests/loader/test_carried_note.py`: `load_synthetic` and `load_resident` refuse a definition that carries an author's note field (`truth`, `authorNote`, `miravejaAuthorNote`) per FR-032, SC-008 (partial)
+- [ ] T066 Reconcile the rule-pattern location: patterns live in `components/miraveja-persona/src/miraveja_persona/rules/*.py`, so update `specs/003-cofrealma-persona-definition/contracts/check-rules.md` ("the library's pattern files") and the `rules/` line in `plan.md` to say the rule modules hold the complete, tested lists per plan: project structure (partial)
+- [ ] T067 Add `components/miraveja-persona/tests/test_performance.py`: `check` on one hub example under 2 seconds, `check --tree` over a scratch vault of 20 synthetic definitions under 10 seconds, and `guard` over the library repository under 10 seconds per plan: Performance Goals (partial)
