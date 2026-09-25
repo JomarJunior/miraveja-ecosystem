@@ -5,24 +5,80 @@
   "description": "Team-only lore about what really happened. Lives beside definitions in the private vault; no runtime ever reads it (FR-031 to FR-033).",
   "type": "object",
   "additionalProperties": false,
-  "required": ["miravejaAuthorNote", "nature", "about", "truth", "writtenBy", "writtenOn"],
+  "required": [
+    "miravejaAuthorNote",
+    "nature",
+    "about",
+    "truth",
+    "writtenBy",
+    "writtenOn"
+  ],
   "properties": {
-    "miravejaAuthorNote": { "const": 1 },
-    "nature": { "enum": ["resident", "synthetic"] },
+    "miravejaAuthorNote": {
+      "const": 1,
+      "description": "Signature and version; the guard blocks it in public unless synthetic. FR-033, FR-021; Principle VIII."
+    },
+    "nature": {
+      "enum": [
+        "resident",
+        "synthetic"
+      ],
+      "description": "resident or synthetic, as for definitions. FR-033."
+    },
     "about": {
       "type": "object",
       "additionalProperties": false,
       "minProperties": 1,
       "properties": {
-        "persona": { "type": "string", "format": "uuid", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
-        "story": { "type": "string", "pattern": "^[a-z0-9-]{1,64}$" },
-        "seedMemory": { "type": "string", "pattern": "^[a-z0-9-]{1,64}$" }
+        "persona": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "story": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]{1,64}$"
+        },
+        "seedMemory": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]{1,64}$"
+        }
       },
-      "anyOf": [{ "required": ["persona"] }, { "required": ["story"] }],
-      "dependentRequired": { "seedMemory": ["persona"] }
+      "anyOf": [
+        {
+          "required": [
+            "persona"
+          ]
+        },
+        {
+          "required": [
+            "story"
+          ]
+        }
+      ],
+      "dependentRequired": {
+        "seedMemory": [
+          "persona"
+        ]
+      },
+      "description": "What the note concerns: a persona, a story or a seed memory. FR-031."
     },
-    "truth": { "type": "string", "minLength": 1, "maxLength": 8000 },
-    "writtenBy": { "type": "string", "minLength": 1, "maxLength": 80 },
-    "writtenOn": { "type": "string", "format": "date" }
+    "truth": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8000,
+      "description": "What really happened, motives and feelings included. No runtime ever reads it; the hard lines still apply. FR-031, FR-032, FR-033; Charter Art. 3."
+    },
+    "writtenBy": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "description": "The team member who wrote it. FR-031."
+    },
+    "writtenOn": {
+      "type": "string",
+      "format": "date",
+      "description": "When it was written. FR-031."
+    }
   }
 }

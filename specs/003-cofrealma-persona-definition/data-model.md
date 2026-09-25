@@ -66,7 +66,7 @@ A lore name MUST NOT be the name of a real person or living artist. Declaring it
 | All entries `agreed`, any of them differ | Uncertain finding: possible mistake. |
 | All entries `intended-difference` | Passes, listed as an intended difference. |
 | Mixed `agreed` and `intended-difference` | Certain finding: the markings disagree. |
-| Participant lists differ between entries | Certain finding, unless all are `intended-difference`. |
+| Participant lists differ between entries, all `agreed` | Uncertain finding: possible mistake (the same rule as a differing text). |
 
 ## Author's note (`*.note.yaml`)
 

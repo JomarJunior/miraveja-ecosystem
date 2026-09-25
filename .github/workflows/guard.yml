@@ -1,0 +1,25 @@
+name: guard
+
+# Blocks any persona definition, author's note or vault marker not marked synthetic
+# (Principle VIII, spec 003 FR-021). The guard never prints the content it blocks.
+
+on:
+  push:
+  pull_request:
+
+env:
+  # The miraveja-persona commit that guards this hub. Bump it deliberately.
+  PERSONA_COMMIT: 196a5326f6456518af5d13772ff1ef26d1233efa
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install miraveja-persona
+        run: pip install "git+https://github.com/JomarJunior/miraveja-persona@${PERSONA_COMMIT}"
+      - name: Guard
+        run: miraveja-persona guard

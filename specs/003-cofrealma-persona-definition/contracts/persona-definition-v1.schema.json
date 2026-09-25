@@ -5,54 +5,149 @@
   "description": "The starting point of one persona. Structure only: the prose rules live in check-rules.md. Closed everywhere, so there is no place for an author's note, a model, a schedule, a count or a visitor.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["miravejaPersona", "nature", "identity", "taste", "voice", "tendencies", "cares", "seedMemories"],
+  "required": [
+    "miravejaPersona",
+    "nature",
+    "identity",
+    "taste",
+    "voice",
+    "tendencies",
+    "cares",
+    "seedMemories"
+  ],
   "properties": {
-    "miravejaPersona": { "const": 1, "description": "Format major version and the signature the guard recognizes (FR-001, FR-019, FR-021)." },
-    "nature": { "enum": ["resident", "synthetic"], "description": "FR-001. Only synthetic may appear in public." },
+    "miravejaPersona": {
+      "const": 1,
+      "description": "Format major version and the signature the guard recognizes. FR-001, FR-019, FR-021; Principle VIII."
+    },
+    "nature": {
+      "enum": [
+        "resident",
+        "synthetic"
+      ],
+      "description": "resident or synthetic. Only synthetic may appear in public. FR-001, FR-021, FR-022; Principle VIII."
+    },
     "identity": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "publicName", "about", "openlyAI"],
+      "required": [
+        "id",
+        "publicName",
+        "about",
+        "openlyAI"
+      ],
       "properties": {
-        "id": { "$ref": "#/$defs/personaId" },
-        "publicName": { "type": "string", "minLength": 1, "maxLength": 80 },
-        "about": { "$ref": "#/$defs/prose" },
-        "openlyAI": { "const": true, "description": "One statement covering both halves of FR-034: the persona knows it is an AI, and its past, however human-shaped, is a story it carries, not a claim to be human." },
-        "selfUnderstanding": { "$ref": "#/$defs/prose" }
-      }
+        "id": {
+          "$ref": "#/$defs/personaId",
+          "description": "Stable identifier, the same as the Studio Link personaId; never reused. FR-002, FR-037; Principle VI."
+        },
+        "publicName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "The name visitors will see; never a real person or living artist, never reused. FR-002, FR-012, FR-037; Charter Art. 3."
+        },
+        "about": {
+          "$ref": "#/$defs/prose",
+          "description": "Who the persona is, in the team's words. Who the persona is at the start; it may change once alive (FR-018). FR-002."
+        },
+        "openlyAI": {
+          "const": true,
+          "description": "One statement covering both halves of FR-034: the persona knows it is an AI, and its past, however human-shaped, is a story it carries, not a claim to be human. FR-034; Charter Art. 1; Principle IV."
+        },
+        "selfUnderstanding": {
+          "$ref": "#/$defs/prose",
+          "description": "How the persona holds its past as its own story while knowing it is an AI. FR-034, FR-035; Charter Art. 1."
+        }
+      },
+      "description": "Identity. FR-002."
     },
     "taste": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["drawnTo", "themes", "stylesAndMedia"],
+      "required": [
+        "drawnTo",
+        "themes",
+        "stylesAndMedia"
+      ],
       "properties": {
-        "drawnTo": { "$ref": "#/$defs/prose" },
-        "themes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/prose" } },
-        "stylesAndMedia": { "$ref": "#/$defs/prose" },
-        "dislikes": { "$ref": "#/$defs/prose" }
-      }
+        "drawnTo": {
+          "$ref": "#/$defs/prose",
+          "description": "What it is drawn to. Who the persona is at the start; it may change once alive (FR-018). FR-003; Charter Art. 2."
+        },
+        "themes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/prose"
+          },
+          "description": "Subjects and moods it keeps returning to; never required subjects. FR-003, FR-011; Charter Art. 2."
+        },
+        "stylesAndMedia": {
+          "$ref": "#/$defs/prose",
+          "description": "Favored styles and media, in words; never a model. FR-003, FR-007, FR-011; Charter Art. 2."
+        },
+        "dislikes": {
+          "$ref": "#/$defs/prose",
+          "description": "What it dislikes; a taste, never a ban. FR-003, FR-011; Charter Art. 2."
+        }
+      },
+      "description": "Taste and themes, as inclinations, never rules. FR-003, FR-011; Principle I; Charter Art. 2."
     },
     "voice": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["speech", "temperament"],
+      "required": [
+        "speech",
+        "temperament"
+      ],
       "properties": {
-        "speech": { "$ref": "#/$defs/prose" },
-        "temperament": { "$ref": "#/$defs/prose" }
-      }
+        "speech": {
+          "$ref": "#/$defs/prose",
+          "description": "How it speaks and writes titles, statements, comments and replies. Who the persona is at the start; it may change once alive (FR-018). FR-004."
+        },
+        "temperament": {
+          "$ref": "#/$defs/prose",
+          "description": "How it tends to treat visitors and other personas, within law and ethics. FR-004; Charter Art. 7."
+        }
+      },
+      "description": "Voice and temperament. FR-004; Charter Art. 7."
     },
     "tendencies": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["presence", "work"],
+      "required": [
+        "presence",
+        "work"
+      ],
       "properties": {
-        "presence": { "$ref": "#/$defs/prose" },
-        "work": { "$ref": "#/$defs/prose" }
-      }
+        "presence": {
+          "$ref": "#/$defs/prose",
+          "description": "When it tends to be in the studio, away or resting. FR-005, FR-010; Charter Art. 2."
+        },
+        "work": {
+          "$ref": "#/$defs/prose",
+          "description": "How it tends to work; never a quota or deadline. FR-005, FR-010; Charter Art. 2."
+        }
+      },
+      "description": "Habits of working and resting; never a timetable, frequency or count. FR-005, FR-010; Principle I; Charter Arts. 2 and 8."
     },
-    "cares": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/prose" } },
-    "craft": { "$ref": "#/$defs/prose" },
-    "selfImage": { "$ref": "#/$defs/prose" },
+    "cares": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/prose"
+      },
+      "description": "What matters to it as an artist and as a character. Who the persona is at the start; it may change once alive (FR-018). FR-006."
+    },
+    "craft": {
+      "$ref": "#/$defs/prose",
+      "description": "Craft preferences in words; never a model, version or Studio internal. FR-007; Principle V."
+    },
+    "selfImage": {
+      "$ref": "#/$defs/prose",
+      "description": "How it imagines itself looking; never a real person's likeness. It may reimagine itself. FR-036, FR-012; Charter Art. 3."
+    },
     "lore": {
       "type": "object",
       "additionalProperties": false,
@@ -62,14 +157,33 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["name", "is"],
+            "required": [
+              "name",
+              "is"
+            ],
             "properties": {
-              "name": { "type": "string", "minLength": 1, "maxLength": 80 },
-              "is": { "enum": ["person", "place", "group", "work", "other"] }
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "description": "An invented name; never a real person or living artist. FR-012; Charter Art. 3."
+              },
+              "is": {
+                "enum": [
+                  "person",
+                  "place",
+                  "group",
+                  "work",
+                  "other"
+                ],
+                "description": "What the invented name names. FR-012."
+              }
             }
-          }
+          },
+          "description": "Every invented person, place, group or work named in prose. FR-012."
         }
-      }
+      },
+      "description": "Invented names the prose uses, so anything undeclared can be asked about. FR-012; Charter Art. 3."
     },
     "seedMemories": {
       "type": "array",
@@ -77,34 +191,93 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "when", "happened"],
+        "required": [
+          "id",
+          "when",
+          "happened"
+        ],
         "properties": {
-          "id": { "$ref": "#/$defs/slug" },
-          "when": { "$ref": "#/$defs/when" },
-          "happened": { "$ref": "#/$defs/prose" }
+          "id": {
+            "$ref": "#/$defs/slug",
+            "description": "Unique within the definition; lets an author's note point at it. FR-008, FR-031."
+          },
+          "when": {
+            "$ref": "#/$defs/when",
+            "description": "Roughly when in the persona's past. FR-008."
+          },
+          "happened": {
+            "$ref": "#/$defs/prose",
+            "description": "What happened, from its point of view; may be human-shaped; a lie is written as a past act. FR-008, FR-030, FR-035; Charter Art. 1."
+          }
         }
-      }
+      },
+      "description": "Starting memories from before it came alive; past acts only, never orders, money, metrics or visitors. FR-008, FR-010, FR-013, FR-014, FR-030; Principles I and II."
     },
     "sharedPasts": {
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["story", "participants", "when", "happened", "telling"],
+        "required": [
+          "story",
+          "participants",
+          "when",
+          "happened",
+          "telling"
+        ],
         "properties": {
-          "story": { "$ref": "#/$defs/slug" },
-          "participants": { "type": "array", "minItems": 2, "uniqueItems": true, "items": { "$ref": "#/$defs/personaId" } },
-          "when": { "$ref": "#/$defs/when" },
-          "happened": { "$ref": "#/$defs/prose", "description": "Past facts only. Participants are named {1}, {2}... by position in participants." },
-          "telling": { "enum": ["agreed", "intended-difference"] }
+          "story": {
+            "$ref": "#/$defs/slug",
+            "description": "The same key in every definition that tells this past. FR-028, FR-029."
+          },
+          "participants": {
+            "type": "array",
+            "minItems": 2,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/$defs/personaId"
+            },
+            "description": "Stable identifiers, this persona's own included; every other one must have a definition. FR-027."
+          },
+          "when": {
+            "$ref": "#/$defs/when",
+            "description": "Roughly when. FR-025."
+          },
+          "happened": {
+            "$ref": "#/$defs/prose",
+            "description": "Past facts only, naming participants as {1}, {2}... by position; never a feeling, a reason for one, or an order about future conduct. FR-026, FR-030; Principle I."
+          },
+          "telling": {
+            "enum": [
+              "agreed",
+              "intended-difference"
+            ],
+            "description": "agreed, or intended-difference when the personas remember it differently on purpose. FR-029."
+          }
         }
-      }
+      },
+      "description": "Optional pasts with other resident personas: facts only, never feelings or motives. FR-025 to FR-030; Principle I; Charter Arts. 2 and 7."
     }
   },
   "$defs": {
-    "personaId": { "type": "string", "format": "uuid", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
-    "slug": { "type": "string", "pattern": "^[a-z0-9-]{1,64}$" },
-    "when": { "type": "string", "minLength": 1, "maxLength": 200 },
-    "prose": { "type": "string", "minLength": 1, "maxLength": 4000 }
+    "personaId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]{1,64}$"
+    },
+    "when": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "prose": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    }
   }
 }
