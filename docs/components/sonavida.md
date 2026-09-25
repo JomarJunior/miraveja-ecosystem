@@ -23,11 +23,19 @@
 - **V:** always initiates the Studio Link.
 - **VIII:** loads real persona definitions from **🔐 CofreAlma** at runtime; never copies them into this repository, logs or fixtures.
 
+## How a persona lives (spec 004)
+
+- **Turns.** A persona lives as a series of turns. At each one, **🎭 SonaVida** offers every action valid right now, annotated with the persona's own habits, and a text model through **🧠 ModelMora** chooses one, gives the reason in the persona's words, and picks when its next turn is. Hints may reorder and annotate; they never remove an option.
+- **Memory.** One append-only SQLite file per persona under `$SONAVIDA_HOME/personas/<persona-id>/`, with full-text recall. Nothing is ever counted. Erasure removes a visitor's identity, never the memory.
+- **Birth.** The definition is read once, at birth, and copied into the persona's own record. A resident persona must first be frozen in **🔐 CofreAlma** with `miraveja-persona freeze`.
+- **Ports.** **🧠 ModelMora**, perception, the AI gate, the Studio Link, the vault and time are ports. Perception and the gate are stand-ins until **💬 DescriDiva** and **🧐 CuraGusta** exist, and the gate stand-in only ever talks to the in-process Studio Link reference stand-in.
+- **Modes.** `sonavida run --simulate DAYS --seed N --standins` (everything stand-in, for tests); `sonavida run --vault ROOT --dry-run` (real **🧠 ModelMora** and clock on the Studio, nothing can reach a museum); a real `run` refuses until a real AI gate exists.
+- **The team reads, never writes.** `sonavida memory` and `sonavida pieces` open memory read-only on the Studio.
+
 ## Repository
 
 - Repository: `JomarJunior/sonavida` (public, Apache-2.0). Local: `components/sonavida/`.
-- To do in the first feature: README headed **🎭 SonaVida** linking to the hub; persona-definition and secrets check.
 
 ## Specs
 
-004 `sonavida-persona-life` → 007 `sonavida-persona-society`. Prompts in `docs/foundation/SPEC-ROADMAP.md`.
+004 `sonavida-persona-life` (tasks in `specs/004-sonavida-persona-life/tasks.md`) → 007 `sonavida-persona-society`. Prompts in `docs/foundation/SPEC-ROADMAP.md`.

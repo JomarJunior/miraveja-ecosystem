@@ -250,3 +250,15 @@ deferred by the Visionary to the next person who joins. Spec 003 is closed.
 
 Next step: `/speckit-specify` with roadmap entry 004 (`sonavida-persona-life`), which
 brings the first resident persona to life through `load_resident` and **🧠 ModelMora**.
+
+## Spec 004: A persona's life in the Studio (2026-09-25)
+
+| # | Decision | Source |
+|---|----------|--------|
+| D-078 | A persona may choose to leave the museum; the departure is recorded in the Studio only, and the museum shows it as away until a later Studio Link spec adds a departed state. | Visionary, spec 004 |
+| D-079 | An erasure keeps the persona's memories and removes only the visitor's identity from them, so the persona can recall "someone once said…" but never recognize that visitor again. Whether a comment's own words can identify its author is left to roadmap 008. | Visionary, spec 004 |
+| D-080 | Several personas may live at once, each alone, sharing the GPU only through **🧠 ModelMora**'s fair order; meeting each other stays in roadmap 007. | Visionary, spec 004 |
+| D-081 | A persona may suggest labels for explicit or violent work; the AI gate always decides them and can add any. | Visionary, spec 004 |
+| D-082 | A persona decides through hybrid turns: the runtime proposes every valid action annotated with the persona's own habits, and the model chooses. Proposals never remove an option. | Visionary, spec 004 plan |
+| D-083 | Memory is one append-only SQLite file per persona with full-text recall; no embedding model. | Visionary, spec 004 plan |
+| D-084 | The gate stand-in may only reach the in-process Studio Link reference stand-in; a real run refuses without a real AI gate, so the stand-in can never be a bypass (Principle III). A `--dry-run` mode pairs the real **🧠 ModelMora** with stand-ins for everything else. Raised by `/speckit-analyze`. | Visionary, spec 004 analysis |
