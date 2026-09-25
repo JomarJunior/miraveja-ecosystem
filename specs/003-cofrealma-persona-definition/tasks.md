@@ -221,4 +221,4 @@ Commits in `components/miraveja-persona/` (and in `modelmora`, `miraveja-studiol
 
 ## Phase 10: Convergence
 
-- [ ] T068 Update the `guard` row in `specs/003-cofrealma-persona-definition/contracts/cli.md` and decision R-9 in `research.md` to state that `guard` also blocks secret-shaped values (the `SECRET_TOKENS` patterns), prints only file, line and "secret-shaped value", and skips lines marked `guard: fake-secret` per plan: contracts/cli.md, R-9 (partial)
+- [X] T068 Update the `guard` row in `specs/003-cofrealma-persona-definition/contracts/cli.md` and decision R-9 in `research.md` to state that `guard` also blocks secret-shaped values (the `SECRET_TOKENS` patterns), prints only file, line and "secret-shaped value", and skips lines marked `guard: fake-secret` per plan: contracts/cli.md, R-9 (partial)

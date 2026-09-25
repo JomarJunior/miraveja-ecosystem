@@ -11,7 +11,7 @@ The public surface of the library: a CLI for people and CI, and a Python API for
 | `miraveja-persona decide FINGERPRINT --as accepted\|not-an-issue --by NAME [--tree ROOT]` | Record a decision on an uncertain finding in the `decisions.yaml` beside its definition (R-6). Refuses certain findings. | 0 recorded · 1 refused · 2 usage |
 | `miraveja-persona pasts ROOT [--format text\|json]` | List every shared past in the vault: story, participants (UUID and public name), telling, and each definition's version (FR-028). Public names are shown because the listing only ever runs against the private vault. The baseline for spec 007. | 0 · 2 usage |
 | `miraveja-persona freeze PATH --tree ROOT` | Record a ready definition's birth in `ledger/births.yaml`: identifier, public name, path, SHA-256, date (R-8). Refuses a definition that does not pass `check --tree`, a synthetic one, or one already frozen. | 0 frozen · 1 refused · 2 usage |
-| `miraveja-persona guard [PATH...]` | For public repositories: block any definition, author's note or vault marker not marked synthetic (R-9). Defaults to every file tracked by git in the working directory. Prints file, line and reason only, **never content**. | 0 clean · 1 blocked · 2 usage |
+| `miraveja-persona guard [PATH...]` | For public repositories: block any definition, author's note or vault marker not marked synthetic, and any secret-shaped value such as a private key, an access token or a password in a URL (R-9, Constitution VIII). A line carrying `guard: fake-secret` holds a deliberate fake and is skipped. Defaults to every file tracked by git in the working directory. Prints file, line and reason only, **never content** and never the secret. | 0 clean · 1 blocked · 2 usage |
 
 `check` prints each finding as:
 
