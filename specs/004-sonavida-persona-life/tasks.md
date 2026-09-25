@@ -150,7 +150,7 @@
 - [x] T051 Run every scenario in `quickstart.md` except the human reading trial and record the outcome in `specs/004-sonavida-persona-life/checklists/quickstart-run.md`
 - [ ] T052 Run the SC-002 reading trial with a team member who did not watch the run (needs a person) and record it in `specs/004-sonavida-persona-life/checklists/sc-002-trial.md`
 - [x] T054 Implement `sonavida run --vault ROOT --dry-run` in `src/sonavida/cli.py` and `src/sonavida/runtime.py` per `contracts/cli.md`: real `ModelMoraClient` on loopback and `RealClock`, with the perception and gate stand-ins and the in-process Studio Link reference stand-in; write `tests/integration/test_dry_run.py` first, proving that with `--dry-run` no Studio Link call can reach anything but the in-process reference stand-in and that a missing **🧠 ModelMora** is lived as the studio not being ready, not as a crash (Principle III, R-9, FR-029)
-- [ ] T053 Run `/speckit-converge` and repeat implement and converge until it reports converged
+- [X] T053 Run `/speckit-converge` and repeat implement and converge until it reports converged
 
 ---
 
@@ -190,5 +190,7 @@ Commits in `components/sonavida/` reference spec 004.
 
 ## Phase 11: Convergence
 
-- [ ] T055 Apply the corrections recorded in `specs/004-sonavida-persona-life/checklists/quickstart-run.md` to `quickstart.md` (scenario 1 adds `--vault` with a scratch vault of synthetic definitions; `memory` and `pieces` name the persona by public name or identifier; scenario 6 uses the three synthetic personas that exist; scenario 2 points at `tests/integration/test_making.py` and `test_week.py`, since an unscripted stand-in run makes nothing), and state in `contracts/cli.md` that `PERSONA` is a persona's public name or identifier per plan: quickstart.md, contracts/cli.md (partial)
-- [ ] T056 Make `sonavida run --simulate` print "no personas to bring to life" on stderr when the vault holds none (or none was given), still exiting 0, with a test in `components/sonavida/tests/integration/test_cli_run.py` per contracts/cli.md (partial)
+- [X] T055 Apply the corrections recorded in `specs/004-sonavida-persona-life/checklists/quickstart-run.md` to `quickstart.md` (scenario 1 adds `--vault` with a scratch vault of synthetic definitions; `memory` and `pieces` name the persona by public name or identifier; scenario 6 uses the three synthetic personas that exist; scenario 2 points at `tests/integration/test_making.py` and `test_week.py`, since an unscripted stand-in run makes nothing), and state in `contracts/cli.md` that `PERSONA` is a persona's public name or identifier per plan: quickstart.md, contracts/cli.md (partial)
+- [X] T056 Make `sonavida run --simulate` print "no personas to bring to life" on stderr when the vault holds none (or none was given), still exiting 0, with a test in `components/sonavida/tests/integration/test_cli_run.py` per contracts/cli.md (partial)
+- [X] T057 Announce a persona where it already is on its first turn of a run, without a new memory entry, so the museum side knows it before it chooses any change and its inbox is not refused (`persona_not_recognized` on every turn of an unscripted `run --simulate`), with a test in `components/sonavida/tests/integration/test_hours.py` and a no-refusal check in `test_cli_run.py` per spec 001 FR-009, FR-007 (partial)
+- [X] T058 Make `sonavida memory PERSONA | head` exit 0 without a traceback when the reader closes the pipe early, with a test in `components/sonavida/tests/integration/test_cli_run.py` per quickstart.md scenario 1 (partial)

@@ -6,20 +6,28 @@ Runnable scenarios that prove spec 004 works. They use synthetic personas and st
 
 - Python 3.12 and `uv`; `components/sonavida/` installed with `uv sync --all-groups`.
 - A scratch `SONAVIDA_HOME`: `export SONAVIDA_HOME=$(mktemp -d)`.
-- A scratch vault of synthetic personas, built by the test fixtures from the spec 003 hub examples.
+- A scratch vault of synthetic personas: a plain directory holding the spec 003 hub examples.
+
+```bash
+VAULT=$(mktemp -d)
+EX=specs/003-cofrealma-persona-definition/contracts/examples   # in the hub
+cp "$EX/pellam-quist.persona.yaml" "$EX/ivo-marrowfield.persona.yaml" "$VAULT/"
+```
+
+`memory` and `pieces` name a persona by its public name or its identifier; `--persona` names a definition file by its slug.
 
 ## 1. A persona comes alive and keeps its hours (US1, SC-003)
 
 ```bash
-uv run sonavida run --simulate 7 --seed 1 --standins
-uv run sonavida memory pellam-quist | head -40
+uv run sonavida run --vault "$VAULT" --simulate 7 --seed 1 --standins --persona pellam-quist
+uv run sonavida memory "Pellam Quist" | head -40
 ```
 
-Expected: one birth; seed memories and shared pasts first, told in the first person; every presence change announced on the reference stand-in and explained in memory; the gap when the simulated Studio was off remembered as time away.
+Expected: one birth; the persona's awareness that it is an AI, its seed memories and its shared pasts first, told in the first person. Without a script, the models stand-in answers every turn with doing nothing, so this run shows birth and memory but no presence changes. `uv run pytest tests/integration/test_hours.py` scripts them: every presence change announced on the reference stand-in and explained in memory, and the gap when the simulated Studio was off remembered as time away.
 
 ## 2. It makes pieces and names them (US2)
 
-`uv run sonavida pieces pellam-quist`. Expected: each finished piece has an intention, attempts with what the persona saw, a title and a statement in its voice.
+`uv run pytest tests/integration/test_making.py tests/integration/test_week.py`. Expected: each finished piece has an intention, attempts with what the persona saw, a title and a statement in its voice. An unscripted stand-in run makes nothing, so `uv run sonavida pieces "Pellam Quist"` after scenario 1 lists no pieces; it is the command to read a scripted or real run.
 
 ## 3. It decides what to show (US3, SC-004)
 
@@ -36,10 +44,11 @@ Expected: one birth; seed memories and shared pasts first, told in the first per
 ## 6. Several personas, each alone (FR-041, SC-010)
 
 ```bash
-uv run sonavida run --simulate 7 --seed 2 --standins --persona pellam-quist --persona ivo-marrowfield --persona test-persona-nine
+uv run sonavida run --vault "$VAULT" --simulate 7 --seed 2 --standins --persona pellam-quist --persona ivo-marrowfield
+uv run pytest tests/integration/test_several.py
 ```
 
-Expected: three separate memory files; no entry of one in another; every intention carried out, set aside or waiting.
+Expected: the run leaves two separate memory files, with no entry of one in another. The test adds a third synthetic persona, Sable Quinn, and scripts a week of work for all three: three separate memory files, no entry of one in another, every intention carried out, set aside or waiting.
 
 ## 7. The team reads, never writes (US5, SC-002)
 

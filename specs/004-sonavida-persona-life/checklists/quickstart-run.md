@@ -193,3 +193,7 @@ refuses to start that persona again.
 
 No proposed correction above was applied to `quickstart.md` itself, per instruction;
 they are recorded here for whoever next revises that file.
+
+## Applied (T055)
+
+The corrections above were applied to `quickstart.md` and `contracts/cli.md`. Only two synthetic definitions exist as files (the spec 003 examples); Sable Quinn exists only inside `tests/integration/test_several.py`, so scenario 6 runs the two examples from the command line and points at that test for three personas. Rerunning the corrected scenarios found two defects, fixed as T057 (every inbox poll refused for a persona that had not yet changed presence) and T058 (`memory ... | head` ending in a traceback). After them, scenario 1 prints nothing on stderr and scenario 6 leaves two separate memory files.

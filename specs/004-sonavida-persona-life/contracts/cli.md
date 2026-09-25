@@ -13,4 +13,8 @@ Runs on the Studio only. Every command reads **🔐 CofreAlma** read-only and wr
 
 Refusals from `run`, each with a reason code and never any definition prose: `synthetic_as_resident`, `outside_vault`, `not_born`, `changed_since_birth`, `author_note`, `already_alive` (FR-003, FR-004), `departed` (FR-040), `gate_not_configured` (a real Museum side needs a real AI gate; the gate stand-in works only with `--simulate --standins`, Principle III).
 
+`PERSONA` is a persona's public name (quoted when it has spaces) or its identifier. `SLUG` is a definition file's name without `.persona.yaml`.
+
+When `run --simulate` finds no personas to bring to life (no `--vault`, or none matching), it says so on stderr and exits 0.
+
 There is no command, flag or API that writes to, edits or deletes from a persona's memory (FR-036), and no network listener of any kind.
