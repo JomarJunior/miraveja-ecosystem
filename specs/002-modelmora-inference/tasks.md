@@ -148,8 +148,8 @@
 - [x] T049 [P] Write `components/modelmora/src/modelmora/checks/studio_smoke.py`: the manual on-Studio check from quickstart Scenario 7 (real text and image models, a forced eviction, availability, shutdown), excluded from CI
 - [x] T050 [P] Write `components/modelmora/docs/usage.md`: how a Studio component submits, polls, withdraws and collects; how a team member adds and retires a model; and why model names must never reach visitors (Principle IV, spec Assumptions)
 - [x] T051 Walk every scenario in `specs/002-modelmora-inference/quickstart.md` on a clean checkout and correct anything that does not behave as written
-- [ ] T052 Release `components/modelmora/` v1.0.0: tag `v1.0.0` and publish a GitHub release from the tag
-- [ ] T053 Record in `docs/foundation/FOUNDATION-LOG.md` that spec 002 is implemented, and close it with a pointer to roadmap 003
+- [x] T052 Release `components/modelmora/` v1.0.0: tag `v1.0.0` and publish a GitHub release from the tag
+- [x] T053 Record in `docs/foundation/FOUNDATION-LOG.md` that spec 002 is implemented, and close it with a pointer to roadmap 003
 
 ---
 

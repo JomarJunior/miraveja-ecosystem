@@ -282,3 +282,46 @@ resident persona in **🔐 CofreAlma**.
 
 Next step: `/speckit-specify` with roadmap entry 005 (`descridiva-perception`), which
 replaces the perception stand-in behind the same port.
+
+## Spec 002: Model inference in the Studio (2026-09-23 to 2026-09-28)
+
+| # | Decision | Source |
+|---|----------|--------|
+| D-086 | **🧠 ModelMora** serves the Studio's own existing model collection, read in place and never changed. It downloads no model weights; the few small tool binaries and configuration files it needs are fetched once, by the team, never by a caller. | Visionary, spec 002 amendment |
+| D-087 | Which models the Studio serves, their sources and their licence records live in the Studio's registry, never in public text. Public text describes them by role (the Studio's text model, its image checkpoints) and names no other company. | Visionary, spec 002 release |
+| D-088 | An image checkpoint its source flags as explicit stays on record and servable, but is never a default. The Museum Charter allows labeled explicit work. | Visionary, spec 002 |
+
+### Implemented (2026-09-28)
+
+**🧠 ModelMora** v1.0.0 (Apache-2.0,
+[`JomarJunior/modelmora`](https://github.com/JomarJunior/modelmora)) is the Studio's one owner
+of its open-weight models. Callers reach it only over loopback and never load or place a
+model. Every request gets an immediate answer, and nothing is quietly made smaller to relieve
+load. It serves text, text about images and images on the Studio's one GPU. The Studio's
+GGUF text model runs through a managed `llama-server` built from prebuilt binaries, never
+compiled on the Studio, and reads images through its vision projector. Its SDXL checkpoints
+load fully offline. Eviction follows the real GPU's own capacity. Nothing is served without a
+complete, confirmed licence record, and every file is checked against its recorded digest
+before its first load.
+
+Development began without a GPU, so image generation and the Studio's hours waited until
+the work moved to the Studio. There the real hardware surfaced defects no stand-in could
+show, all fixed:
+- eviction was silently defeated for real models;
+- shutdown aborted the process;
+- a `llama-server` could outlive its parent while holding the GPU;
+- a load failure was reported as a generation failure;
+- a server without its CUDA runtime fell back to the CPU without a word.
+
+The Visionary then pointed **🧠 ModelMora** at the Studio's own collection (D-086), which the
+spec absorbed as an amendment to FR-020: a record now holds where its files and companions
+sit. Three convergence passes added fourteen tasks, all done, and a fourth came back clean.
+79 of 79 tasks are done, 162 tests pass without a GPU, and the on-Studio smoke check passes
+end to end. On the Studio it serves text in about 12s cold, and images at 832x1216 in about
+20s with a natural eviction of the text model. Before release, the public text and unpushed
+history were cleared of model identities and other companies' names (D-087). Spec 002 is
+closed. **🎭 SonaVida**'s real week on the Studio now waits only on freezing a resident
+persona in **🔐 CofreAlma**.
+
+Next step: `/speckit-specify` with roadmap entry 005 (`descridiva-perception`). It can use
+**🧠 ModelMora**'s image-reading text model directly.

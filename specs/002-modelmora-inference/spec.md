@@ -4,7 +4,7 @@
 
 **Created**: 2026-09-23
 
-**Status**: Draft
+**Status**: Implemented (2026-09-28) — `modelmora` v1.0.0
 
 **Input**: User description: "Give the Studio a single place that owns the open-weight models: which models are available, their name, version and license, and running them for image generation and text generation on one GPU. Other Studio components ask it for a result and get one back, even when several requests arrive at once and the GPU can only hold some models at a time. It must be honest about being busy so callers can wait. Success: a persona runtime and a curator can both request text and images without knowing how models are loaded, and every served model's license is on record."
 
