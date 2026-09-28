@@ -195,6 +195,12 @@
 
 ---
 
+## Phase 12: Convergence
+
+- [ ] T075 Document the `config` companion role (a single-file image checkpoint's pipeline config and tokenizer directory) and `modelmora model add-companion` in `specs/002-modelmora-inference/data-model.md`'s `companion_paths` row, the quickstart's Scenario 7 prerequisites, and `plan.md`'s runner summary, so a team member following the hub docs alone records it per FR-020, plan: data model (partial)
+
+---
+
 ## Dependencies
 
 - **Phase 1 → Phase 2 → everything else.**
