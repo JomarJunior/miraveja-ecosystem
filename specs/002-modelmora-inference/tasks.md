@@ -187,6 +187,14 @@
 
 ---
 
+## Phase 11: Convergence
+
+- [ ] T072 Report a model that cannot be loaded (runner startup error, missing binary, a pipeline that fails to load) as `model_unavailable` with the team's WARNING line, not `failed_during_generation`, and refuse further requests for that model before queueing until it loads again or `serve` restarts, tested first with a stand-in whose load fails per spec Edge Cases, FR-011, FR-022 (partial)
+- [ ] T073 Record the single-file SDXL pipeline config and tokenizer directory as a registry companion (`config`), covered by the companion digest check and set through `modelmora model add`, so `modelmora serve` loads image checkpoints offline from the registry alone, without `MODELMORA_SDXL_CONFIG_PATH` or `HF_HOME` in its environment per FR-028, FR-020, FR-025 (partial)
+- [ ] T074 Fail `LlamaCppTextRunner.load()` with a reason the team can act on when `llama-server` did not actually offload the model to the GPU (for example its CUDA runtime was not found), instead of silently serving from the CPU while residency counts GPU memory it does not use per FR-009, plan: GPU residency (partial)
+
+---
+
 ## Dependencies
 
 - **Phase 1 → Phase 2 → everything else.**
