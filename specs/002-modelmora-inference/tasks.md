@@ -172,6 +172,21 @@
 
 ---
 
+## Phase 10: Convergence
+
+- [ ] T062 Verify a model's files against its recorded digest before its first load in `modelmora serve` (not only in `modelmora model verify`), covering companion files such as a vision projector too; a mismatch refuses `model_unavailable` and logs the team's WARNING line, tested first against tiny synthetic files per FR-022, US4/AC3 (missing)
+- [ ] T063 Make GPU residency accounting match real use: take capacity from the actual GPU rather than a fixed 24 GiB, and count runtime overhead (SDXL activations at the requested size, the llama.cpp KV cache) in each runner's footprint, so a pair that would not truly fit is never loaded together per FR-009, US2/AC2 (partial)
+- [ ] T064 Load single-file SDXL checkpoints fully offline in `modelmora serve`: supply the pipeline config and tokenizer files locally (no Hub lookup at load time, no dependence on `HF_HOME` set only by `checks/studio_smoke.py`), and prove a load succeeds with networking disabled per FR-028 (partial)
+- [ ] T065 Refuse, before queueing, a text request whose conversation plus `maxLength` exceeds the `.gguf` model's context window (or size the context to the request), rather than accepting it and failing or truncating mid-generation per FR-007, FR-011 (partial)
+- [ ] T066 Declare the image runner's producible sizes (SDXL limits, width and height multiples of 8) through `max_image_dimensions` and the capability check, so an unproducible size is refused before queueing per US2/AC3 (partial)
+- [ ] T067 Make seeded requests to `LlamaCppTextRunner` reproducible (for example no prompt-cache reuse when a seed is given) and add a same-seed, same-output check to `checks/studio_smoke.py` per FR-006, US1/AC6 (partial)
+- [ ] T068 Stop returning a model's reasoning trace (`reasoning_content`) as the result in `runners/llamacpp.py`: disable thinking for requests, or end the request `failed_during_generation` with a reason when no answer was produced per FR-001, FR-007 (contradicts)
+- [ ] T069 Give each `LlamaCppTextRunner` its own free loopback port, confirm the answering `llama-server` is serving the expected model file before declaring it healthy, and make the subprocess die with its parent so a crash never leaves one holding the GPU per FR-007, FR-014 (partial)
+- [ ] T070 Validate `local_path` and every companion path on `model add` as existing, absolute paths on the Studio, rejecting URLs or Hub identifiers, tested first per FR-026, FR-028 (partial)
+- [ ] T071 Update `specs/002-modelmora-inference/plan.md` Summary and Technical Context to record the Phase 9 runners (`llama-server` for `.gguf` text, single-file SDXL) and the Studio-side `llama-server` binary requirement per plan: dependencies (partial)
+
+---
+
 ## Dependencies
 
 - **Phase 1 → Phase 2 → everything else.**
