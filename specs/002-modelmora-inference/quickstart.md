@@ -6,7 +6,7 @@ Runnable checks behind the spec's success criteria. Scenarios 1 to 6 need no GPU
 
 - Python 3.12 and `uv`.
 - `components/modelmora/` checked out.
-- For Scenario 7 only: the Studio machine, its GPU, the `gpu` extra installed (`uv sync --extra gpu`), a `llama-server` binary for the Studio's `.gguf` text model (see `docs/usage.md`), and the Studio's own model collection registered (`modelmora model add`, `docs/usage.md`) -- **🧠 ModelMora** never downloads models on its own.
+- For Scenario 7 only: the Studio machine, its GPU, the `gpu` extra installed (`uv sync --extra gpu`), a `llama-server` binary for the Studio's `.gguf` text model (see `docs/usage.md`), and the Studio's own model collection registered (`modelmora model add`, `docs/usage.md`), with each single-file image checkpoint's pipeline config and tokenizer directory recorded as its `config` companion (`--companion config=<dir>` at `model add`, or `modelmora model add-companion`) so it loads offline -- **🧠 ModelMora** never downloads models on its own.
 
 ## Scenario 1: a caller asks for text and an image, knowing nothing about models
 
