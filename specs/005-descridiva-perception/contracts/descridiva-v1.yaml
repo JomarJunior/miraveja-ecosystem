@@ -1,0 +1,234 @@
+openapi: 3.1.0
+info:
+  title: MiraVeja DescriDiva (Studio-local)
+  version: "1.0.0"
+  summary: Neutral descriptions of images for personas and the AI gate.
+  description: |
+    Reachable only from the Studio machine (FR-026). Not part of the Studio Link and never
+    spoken to by the Museum side. A caller hands in one image and gets back a neutral
+    description, or an honest reason why not (FR-020). Charter notes are returned only to
+    callers with the gate role (FR-019).
+
+    Source of truth: specs/005-descridiva-perception/contracts/descridiva-v1.yaml in the
+    miraveja-ecosystem hub.
+  license:
+    name: Apache-2.0
+    identifier: Apache-2.0
+
+servers:
+  - url: http://127.0.0.1:{port}
+    description: Loopback only. Binding any other interface is a defect (FR-026).
+    variables:
+      port:
+        default: "8432"
+
+security:
+  - callerToken: []
+
+tags:
+  - name: descriptions
+  - name: availability
+
+paths:
+  /descridiva/v1/descriptions:
+    post:
+      tags: [descriptions]
+      operationId: askForDescription
+      summary: Hand in one image.
+      description: |
+        Answers immediately: accepted, or refused with a reason. The image is checked before
+        any model request (FR-021). A viewer asking for Charter notes is refused as
+        not_permitted (FR-019). Nothing but the image may be sent (FR-004).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/DescriptionRequest" }
+      responses:
+        "202":
+          description: Accepted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Accepted" }
+        "400": { $ref: "#/components/responses/Refused" }
+        "401": { $ref: "#/components/responses/Refused" }
+        "403": { $ref: "#/components/responses/Refused" }
+        "415": { $ref: "#/components/responses/Refused" }
+        "503": { $ref: "#/components/responses/Refused" }
+
+  /descridiva/v1/descriptions/{descriptionId}:
+    parameters:
+      - name: descriptionId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [descriptions]
+      operationId: collectDescription
+      summary: Ask about a description, waiting up to waitSeconds for it to end.
+      description: Only the caller that asked may see it (R-2). Unknown and foreign ids both answer 404.
+      parameters:
+        - name: waitSeconds
+          in: query
+          required: false
+          schema: { type: integer, minimum: 0, maximum: 30, default: 0 }
+      responses:
+        "200":
+          description: Its current state, with the result when done or the reason when ended.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DescriptionStatus" }
+        "400": { $ref: "#/components/responses/Refused" }
+        "401": { $ref: "#/components/responses/Refused" }
+        "404": { $ref: "#/components/responses/Refused" }
+    delete:
+      tags: [descriptions]
+      operationId: withdrawDescription
+      summary: Withdraw a description no longer needed (FR-025).
+      description: Withdraws its model request too. Idempotent. Nothing is delivered afterwards.
+      responses:
+        "204": { description: Withdrawn, or already ended. }
+        "401": { $ref: "#/components/responses/Refused" }
+        "404": { $ref: "#/components/responses/Refused" }
+
+  /descridiva/v1/availability:
+    get:
+      tags: [availability]
+      operationId: availability
+      summary: Whether DescriDiva is up and whether the Studio's models answer.
+      responses:
+        "200":
+          description: Up.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [state]
+                properties:
+                  state: { enum: [ready, models_starting, models_stopping, models_unreachable] }
+        "401": { $ref: "#/components/responses/Refused" }
+
+components:
+  securitySchemes:
+    callerToken:
+      type: http
+      scheme: bearer
+      description: A local token naming the caller and its role, gate or viewer (R-2).
+
+  responses:
+    Refused:
+      description: Refused, with a distinct reason (FR-020).
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Refusal" }
+
+  schemas:
+    DescriptionRequest:
+      type: object
+      additionalProperties: false
+      required: [image]
+      properties:
+        image:
+          type: object
+          additionalProperties: false
+          required: [mediaType, base64]
+          properties:
+            mediaType: { enum: [image/png, image/jpeg, image/webp] }
+            base64: { type: string, minLength: 1 }
+        charterNotes:
+          type: boolean
+          default: false
+          description: Gate role only (FR-019). The description is the same either way (FR-005).
+
+    Accepted:
+      type: object
+      additionalProperties: false
+      required: [descriptionId]
+      properties:
+        descriptionId: { type: string, format: uuid }
+
+    DescriptionStatus:
+      type: object
+      additionalProperties: false
+      required: [descriptionId, state]
+      properties:
+        descriptionId: { type: string, format: uuid }
+        state: { enum: [accepted, looking, checking, done, ended, withdrawn] }
+        result: { $ref: "#/components/schemas/DescriptionResult" }
+        ended: { $ref: "#/components/schemas/Refusal" }
+
+    DescriptionResult:
+      type: object
+      additionalProperties: false
+      required: [description, provenance]
+      properties:
+        description:
+          type: string
+          minLength: 1
+          maxLength: 4000
+          description: |
+            The neutral description (FR-001 to FR-011). Fits the Studio Link's
+            neutralDescription as is (spec 001 FR-012).
+        charterNotes:
+          type: array
+          minItems: 6
+          maxItems: 6
+          description: Present only for gate callers that asked (FR-019).
+          items: { $ref: "#/components/schemas/CharterNote" }
+        provenance:
+          type: object
+          additionalProperties: false
+          required: [model, describedAt, briefVersion]
+          description: For Studio records only; never part of the description (FR-029).
+          properties:
+            model:
+              type: object
+              additionalProperties: false
+              required: [name, version]
+              properties:
+                name: { type: string }
+                version: { type: string }
+            describedAt: { type: string, format: date-time }
+            briefVersion: { type: string }
+
+    CharterNote:
+      type: object
+      additionalProperties: false
+      required: [concern, observed]
+      properties:
+        concern: { enum: [likeness, livingArtistStyle, minors, explicit, violence, existingWork] }
+        observed: { type: boolean, description: false means nothing observed. }
+        what: { type: [string, "null"], maxLength: 600 }
+        where: { type: [string, "null"], maxLength: 200 }
+        uncertain: { type: boolean, default: false }
+        artist:
+          type: [string, "null"]
+          maxLength: 120
+          description: Only on livingArtistStyle; an observation, not an attribution (FR-015).
+        raisedBy: { enum: [seen, reconciled], description: reconciled when code raised it (R-5). }
+
+    Refusal:
+      type: object
+      additionalProperties: false
+      required: [reason]
+      properties:
+        reason:
+          enum:
+            - invalid_request
+            - unsupported_format
+            - not_readable_image
+            - not_permitted
+            - busy
+            - starting
+            - stopping
+            - stopped_before_completion
+            - incomplete
+            - failed
+            - not_found
+        retryAfterSeconds: { type: [integer, "null"], minimum: 0 }
+        missing:
+          type: array
+          description: With incomplete, the aspects and notes still missing (FR-024).
+          items: { type: string }
+        detail: { type: [string, "null"], maxLength: 300, description: Plain words; never content. }
